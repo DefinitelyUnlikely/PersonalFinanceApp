@@ -13,13 +13,13 @@ namespace Finance.Model
         public double TransactionAmount { get; }
 
         public DateTime CreatedDate { get; }
-        public DateTime TransactionDate { get; }
+        public DateOnly TransactionDate { get; }
 
 
 
         // Vi behöver två olika constructors. En som vi använder i programmet
         // och en som vi använder när vi vill läsa in från fil (Då den kommer ha lite annorlunda CreatedDate osv.)
-        public Transaction(string name, double amount, DateTime transactionDate)
+        public Transaction(string name, double amount, DateOnly transactionDate)
         {
             TransactionId = ++transactionIdCounter;
 
@@ -29,7 +29,7 @@ namespace Finance.Model
 
         }
 
-        public Transaction(int id, string name, double amount, DateTime date, DateTime created)
+        public Transaction(int id, string name, double amount, DateOnly date, DateTime created)
         {
             TransactionId = id;
             TransactionName = name;
