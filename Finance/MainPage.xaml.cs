@@ -23,6 +23,31 @@ namespace Finance
             }
         }
 
+        private async void OnIncomeClicked(object sender, EventArgs e)
+        {
+            try
+            {
+                await Shell.Current.GoToAsync(nameof(IncomeView));
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("Navigation Error", ex.Message, "OK");
+            }
+        }
+
+        private async void OnExpenseClicked(object sender, EventArgs e)
+        {
+            try
+            {
+                await Shell.Current.GoToAsync(nameof(ExpenseView));
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("Navigation Error", ex.Message, "OK");
+            }
+        }
+
+
     }
 
 }
