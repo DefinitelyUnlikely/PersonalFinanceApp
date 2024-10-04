@@ -1,4 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
+using Finance.ViewModel;
+using Finance.View;
 
 namespace Finance
 {
@@ -14,6 +16,16 @@ namespace Finance
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 });
+
+            builder.Services.AddSingleton<MainPage>();
+            builder.Services.AddSingleton<MainViewModel>();
+
+            builder.Services.AddTransient<SortView>();
+
+            builder.Services.AddTransient<YearView>();
+            builder.Services.AddTransient<MonthView>();
+            builder.Services.AddTransient<WeekView>();
+            builder.Services.AddTransient<DayView>();
 
 #if DEBUG
             builder.Logging.AddDebug();

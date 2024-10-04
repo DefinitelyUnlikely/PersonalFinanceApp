@@ -1,7 +1,6 @@
 ﻿using System.Collections.ObjectModel;
-using System.Transactions;
 using CommunityToolkit.Mvvm.ComponentModel;
-using Finance.Model;
+
 
 
 namespace Finance.ViewModel
@@ -17,7 +16,7 @@ namespace Finance.ViewModel
 
         public MainViewModel()
         {
-            Transactions = new ObservableCollection<Transaction>(TransactionManager.GetTransactions());
+            Transactions = new ObservableCollection<Model.Transaction>(Model.TransactionManager.GetTransactions());
 
         }
 
