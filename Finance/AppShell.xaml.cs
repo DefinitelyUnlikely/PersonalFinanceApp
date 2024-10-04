@@ -14,7 +14,7 @@ namespace Finance
             Routing.RegisterRoute(nameof(IncomeView), typeof(IncomeView));
             Routing.RegisterRoute(nameof(ExpenseView), typeof(ExpenseView));
 
-            //Routes for detail and deleting
+            //Routes for detail
 
             // Routes for our Sort options
             Routing.RegisterRoute(nameof(YearView), typeof(YearView));

@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 
 
 
@@ -20,6 +21,17 @@ namespace Finance.ViewModel
             Transactions = new ObservableCollection<Model.Transaction>(Model.TransactionManager.GetTransactions());
 
 
+        }
+
+        [RelayCommand]
+        public void Delete(Model.Transaction transaction)
+        {
+
+            if (transaction != null)
+            {
+
+                Transactions.Remove(transaction);
+            }
         }
 
         public static void CreateTransactionsForTesting()
