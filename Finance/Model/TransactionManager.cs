@@ -31,5 +31,10 @@ namespace Finance.Model
 
             transactions.Remove(transaction);
         }
+
+        public static List<Model.Transaction> GetTransactions()
+        {
+            return transactions;
+        }
     }
 }
