@@ -15,28 +15,32 @@
             HorizontalOptions="Center"
             Margin="0,0,0,5"/>
         <Entry Placeholder="Enter name/description of your expense"
+               Text="{Binding TransactionName}"
                VerticalOptions="Center"
                HorizontalOptions="Center"
                Margin="0,0,0,5"/>
 
         <Label
-            Text="Size of the Expense"
+            Text="Size of the expense"
             VerticalOptions="Center"
             HorizontalOptions="Center"
             Margin="0,0,0,5"/>
         <Entry Placeholder="Enter the amount spent on the expense"
+               Text="{Binding Amount}"
                VerticalOptions="Center"
                HorizontalOptions="Center"
                Margin="0,0,0,5"/>
 
         <Label
-            Text="Date for the Expense"
+            Text="Date for the expense"
             VerticalOptions="Center"
             HorizontalOptions="Center"
             Margin="0,0,0,5"/>
-        <DatePicker VerticalOptions="Center"
+        <DatePicker Date="{Binding TransactionDate}"
+                    VerticalOptions="Center"
                     HorizontalOptions="Center"/>
         <Button Text="Add"
+                Command="{Binding SubmitTransactionCommand}"
                 VerticalOptions="Center"
                 HorizontalOptions="End"/>
     </VerticalStackLayout>

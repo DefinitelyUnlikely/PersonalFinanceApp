@@ -1,9 +1,12 @@
+using Finance.ViewModel;
+
 namespace Finance.View;
 
 public partial class ExpenseView : ContentPage
 {
-	public ExpenseView()
+	public ExpenseView(ExpenseViewModel vm)
 	{
 		InitializeComponent();
+		BindingContext = vm;
 	}
 }
