@@ -20,6 +20,12 @@ namespace Finance
             builder.Services.AddSingleton<MainPage>();
             builder.Services.AddSingleton<MainViewModel>();
 
+            builder.Services.AddTransient<IncomeView>();
+            builder.Services.AddTransient<IncomeViewModel>();
+
+            builder.Services.AddTransient<ExpenseView>();
+            builder.Services.AddTransient<ExpenseViewModel>();
+
             builder.Services.AddTransient<SortView>();
 
             builder.Services.AddTransient<YearView>();

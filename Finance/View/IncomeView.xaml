@@ -2,11 +2,42 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Finance.View.IncomeView"
+             xmlns:model="clr-namespace:Finance.Model"
+             xmlns:vm="clr-namespace:Finance.ViewModel"
+             x:DataType="vm:IncomeViewModel"
              Title="Add Income">
     <VerticalStackLayout>
         <Label
-            Text="Welcome to .NET MAUI!"
+            Text="Add an income"
             VerticalOptions="Center"
-            HorizontalOptions="Center"/>
+            HorizontalOptions="Center"
+            Margin="0,0,0,20"/>
+        <Label
+            Text="Name the income"
+            VerticalOptions="Center"
+            HorizontalOptions="Center"
+            Margin="0,0,0,5"/>
+        <Entry Placeholder="Enter name/description of your income"
+               VerticalOptions="Center"
+               HorizontalOptions="Center"
+               Margin="0,0,0,5"/>
+
+        <Label
+            Text="Size of the income"
+            VerticalOptions="Center"
+            HorizontalOptions="Center"
+            Margin="0,0,0,5"/>
+        <Entry Placeholder="Enter the amount spent on the income"
+               VerticalOptions="Center"
+               HorizontalOptions="Center"
+               Margin="0,0,0,5"/>
+
+        <Label
+            Text="Date for the income"
+            VerticalOptions="Center"
+            HorizontalOptions="Center"
+            Margin="0,0,0,5"/>
+        <DatePicker VerticalOptions="Center"
+                    HorizontalOptions="Center"/>
     </VerticalStackLayout>
 </ContentPage>

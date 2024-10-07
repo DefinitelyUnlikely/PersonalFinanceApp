@@ -3,8 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Finance.MainPage"
              xmlns:model="clr-namespace:Finance.Model"
-             xmlns:viewmodel="clr-namespace:Finance.ViewModel"
-             x:DataType="viewmodel:MainViewModel"
+             xmlns:vm="clr-namespace:Finance.ViewModel"
+             x:DataType="vm:MainViewModel"
              Shell.NavBarIsVisible="False">
 
         <Grid RowDefinitions="100, *, Auto, Auto"
@@ -61,7 +61,7 @@
                                                                 <Button Text="Details"
                                                                         Margin="10,0,0,0"/>
                                                                 <Button Text="Remove"
-                                                                        Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:MainViewModel}}, Path=DeleteCommand}"
+                                                                        Command="{Binding Source={RelativeSource AncestorType={x:Type vm:MainViewModel}}, Path=DeleteCommand}"
                                                                         CommandParameter="{Binding .}"
                                                                         Margin="10,0,0,0"/>
                                                         </HorizontalStackLayout>
@@ -76,13 +76,15 @@
                         Grid.Row="2"
                         Grid.Column="0"
                         Grid.ColumnSpan="2"
-                        Margin="0,2,0,0"/>
+                        Margin="0,2,0,0"
+                        Clicked="OnIncomeClicked"/>
 
                 <Button Text="Add Expense"
                         Grid.Row="2"
                         Grid.Column="2"
                         Grid.ColumnSpan="2"
-                        Margin="0,2,0,0"/>
+                        Margin="0,2,0,0"
+                        Clicked="OnExpenseClicked"/>
 
                 <Button Text="Sort"
                         Grid.Row="3"
