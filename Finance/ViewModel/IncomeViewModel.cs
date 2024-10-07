@@ -7,11 +7,11 @@ namespace Finance.ViewModel;
 public partial class IncomeViewModel : ObservableObject
 {
 
-    private readonly MainViewModel _mainViewModel;
+    private readonly MainViewModel mainViewModel;
 
     public IncomeViewModel(MainViewModel mainViewModel)
     {
-        _mainViewModel = mainViewModel;
+        this.mainViewModel = mainViewModel;
     }
 
     [ObservableProperty]
@@ -28,7 +28,7 @@ public partial class IncomeViewModel : ObservableObject
     {
         try
         {
-            _mainViewModel.AddTransaction(new(TransactionName, Amount, TransactionDate));
+            mainViewModel.AddTransaction(new(TransactionName, Amount, TransactionDate));
 
             TransactionName = string.Empty;
             Amount = 0;

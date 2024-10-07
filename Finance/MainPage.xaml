@@ -15,7 +15,7 @@
                        Grid.Row="0"
                        Margin="10,0,0,0"/>
                 <!-- Genom att vara smart med min margin kan jag ha dem i samma kolumn -->
-                <Label Text="Placeholder"
+                <Label Text="{Binding Balance, StringFormat='{0:C}'}"
                        Grid.Column="0"
                        Grid.Row="0"
                        Margin="80,0,0,0"/>

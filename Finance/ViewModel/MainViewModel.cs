@@ -8,7 +8,10 @@ namespace Finance.ViewModel
     {
 
         [ObservableProperty]
-        public static ObservableCollection<Model.Transaction> transactions;
+        ObservableCollection<Model.Transaction> transactions;
+
+        [ObservableProperty]
+        double balance;
 
         [ObservableProperty]
         Model.Transaction selectedTransaction;
@@ -18,12 +21,18 @@ namespace Finance.ViewModel
 
             CreateTransactionsForTesting();
             Transactions = new ObservableCollection<Model.Transaction>(Model.TransactionManager.GetTransactions());
+            foreach (Model.Transaction x in Transactions)
+            {
+                Balance += x.TransactionAmount;
+            }
         }
 
         public void AddTransaction(Model.Transaction transaction)
         {
             Transactions.Add(transaction);
+            Balance += transaction.TransactionAmount;
         }
+
 
         [RelayCommand]
         public void Delete(Model.Transaction transaction)
@@ -33,6 +42,7 @@ namespace Finance.ViewModel
             {
 
                 Transactions.Remove(transaction);
+                Balance -= transaction.TransactionAmount;
             }
         }
 
