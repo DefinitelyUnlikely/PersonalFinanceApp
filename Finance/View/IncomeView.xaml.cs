@@ -4,9 +4,11 @@ namespace Finance.View;
 
 public partial class IncomeView : ContentPage
 {
-	public IncomeView()
+	public IncomeView(IncomeViewModel vm)
 	{
 		InitializeComponent();
-		BindingContext = new IncomeViewModel();
+		BindingContext = vm;
 	}
+
+
 }

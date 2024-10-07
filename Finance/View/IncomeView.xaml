@@ -18,16 +18,18 @@
             HorizontalOptions="Center"
             Margin="0,0,0,5"/>
         <Entry Placeholder="Enter name/description of your income"
+               Text="{Binding TransactionName}"
                VerticalOptions="Center"
                HorizontalOptions="Center"
                Margin="0,0,0,5"/>
 
         <Label
-            Text="Size of the income"
+            Text="Income Amount"
             VerticalOptions="Center"
             HorizontalOptions="Center"
             Margin="0,0,0,5"/>
         <Entry Placeholder="Enter the amount spent on the income"
+               Text="{Binding Amount}"
                VerticalOptions="Center"
                HorizontalOptions="Center"
                Margin="0,0,0,5"/>
@@ -37,7 +39,13 @@
             VerticalOptions="Center"
             HorizontalOptions="Center"
             Margin="0,0,0,5"/>
-        <DatePicker VerticalOptions="Center"
+        <DatePicker Date="{Binding TransactionDate}"
+                    VerticalOptions="Center"
                     HorizontalOptions="Center"/>
+
+        <Button Text="Submit Income"
+                Command="{Binding SubmitTransactionCommand}"
+                VerticalOptions="Center"
+                HorizontalOptions="End"/>
     </VerticalStackLayout>
 </ContentPage>

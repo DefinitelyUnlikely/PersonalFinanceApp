@@ -5,10 +5,10 @@ namespace Finance
 {
     public partial class MainPage : ContentPage
     {
-        public MainPage()
+        public MainPage(MainViewModel vm)
         {
             InitializeComponent();
-            BindingContext = new MainViewModel();
+            BindingContext = vm;
         }
 
         private async void OnSortClicked(object sender, EventArgs e)

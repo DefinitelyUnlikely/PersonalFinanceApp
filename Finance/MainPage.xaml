@@ -55,7 +55,7 @@
                                                                        Margin="10,0,0,0"/>
                                                                 <Label Text="{Binding TransactionAmount, StringFormat='{0:C}'}"
                                                                        Margin="10,0,0,0"/>
-                                                                <Label Text="{Binding TransactionDate}"
+                                                                <Label Text="{Binding TransactionDate, StringFormat='{0:d}'}"
                                                                        Margin="10,0,0,0"/>
 
                                                                 <Button Text="Details"

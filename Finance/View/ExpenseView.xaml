@@ -36,5 +36,8 @@
             Margin="0,0,0,5"/>
         <DatePicker VerticalOptions="Center"
                     HorizontalOptions="Center"/>
+        <Button Text="Add"
+                VerticalOptions="Center"
+                HorizontalOptions="End"/>
     </VerticalStackLayout>
 </ContentPage>
