@@ -28,11 +28,6 @@ namespace Finance
 
             builder.Services.AddTransient<SortView>();
 
-            builder.Services.AddTransient<YearView>();
-            builder.Services.AddTransient<MonthView>();
-            builder.Services.AddTransient<WeekView>();
-            builder.Services.AddTransient<DayView>();
-
 #if DEBUG
             builder.Logging.AddDebug();
 #endif

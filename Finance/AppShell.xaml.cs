@@ -16,11 +16,6 @@ namespace Finance
 
             //Routes for detail
 
-            // Routes for our Sort options
-            Routing.RegisterRoute(nameof(YearView), typeof(YearView));
-            Routing.RegisterRoute(nameof(MonthView), typeof(MonthView));
-            Routing.RegisterRoute(nameof(WeekView), typeof(WeekView));
-            Routing.RegisterRoute(nameof(DayView), typeof(DayView));
         }
     }
 }

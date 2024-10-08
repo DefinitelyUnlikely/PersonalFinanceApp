@@ -5,13 +5,9 @@
              Title="Sort By">
         <VerticalStackLayout Margin="10,0,10,0">
                 <Label Text="Sort by"/>
-                <Button Text="Year"
-                        Clicked="OnYearClicked"/>
-                <Button Text="Month"
-                        Clicked="OnMonthClicked"/>
-                <Button Text="Week"
-                        Clicked="OnWeekClicked"/>
-                <Button Text="Day"
-                        Clicked="OnDayClicked"/>
+                <Button Text="Year"/>
+                <Button Text="Month"/>
+                <Button Text="Week"/>
+                <Button Text="Day"/>
         </VerticalStackLayout>
 </ContentPage>
