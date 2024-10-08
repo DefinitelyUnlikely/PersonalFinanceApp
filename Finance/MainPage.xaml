@@ -7,7 +7,7 @@
              x:DataType="vm:MainViewModel"
              Shell.NavBarIsVisible="False">
 
-        <Grid RowDefinitions="100, *, Auto, Auto"
+        <Grid RowDefinitions="50, *, Auto, Auto"
               ColumnDefinitions=".25*, .25*, .25*, .25*">
 
                 <Label Text="Balance:"
