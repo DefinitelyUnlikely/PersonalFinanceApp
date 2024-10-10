@@ -27,6 +27,7 @@ namespace Finance
             builder.Services.AddTransient<ExpenseViewModel>();
 
             builder.Services.AddTransient<SortView>();
+            builder.Services.AddTransient<SortViewModel>();
 
 #if DEBUG
             builder.Logging.AddDebug();
