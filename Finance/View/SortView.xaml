@@ -27,20 +27,20 @@
                         Grid.Column="2"
                         Command="{Binding DayCommand}"/>
 
-                <CollectionView ItemsSource="{Binding SelectedSort}">
+                <CollectionView ItemsSource="{Binding SelectedDict}">
                         <CollectionView.ItemTemplate>
                                 <DataTemplate>
                                         <VerticalStackLayout Padding="10">
                                                 <!-- Key (Category) Header -->
-                                                <Label Text="{Binding SelectedSort[2023]}"
+                                                <Label Text="{Binding .}"
                                                        FontSize="20"
                                                        FontAttributes="Bold"
                                                        Margin="0,10"/>
 
                                                 <!-- Nested CollectionView for Transactions -->
-                                                <CollectionView ItemsSource="{Binding .}">
+                                                <!-- <CollectionView ItemsSource="{Binding Value}">
                                                         <CollectionView.ItemTemplate>
-                                                                <DataTemplate>
+                                                                <DataTemplate x:DataType="model:Transaction">
                                                                         <Grid Padding="10,5"
                                                                               ColumnSpacing="10">
                                                                                 <Grid.ColumnDefinitions>
@@ -49,21 +49,14 @@
                                                                                         <ColumnDefinition Width="Auto"/>
                                                                                 </Grid.ColumnDefinitions>
 
-                                                                                <!-- <Label Text="{Binding Description}"
+                                                                                <Label Text="{Binding .}"
                                                                                        Grid.Column="0"
                                                                                        VerticalOptions="Center"/>
 
-                                                                                <Label Text="{Binding Amount, StringFormat='${0:N2}'}"
-                                                                                       Grid.Column="1"
-                                                                                       VerticalOptions="Center"/>
-
-                                                                                <Label Text="{Binding Date, StringFormat='{0:MM/dd/yyyy}'}"
-                                                                                       Grid.Column="2"
-                                                                                       VerticalOptions="Center"/> -->
                                                                         </Grid>
                                                                 </DataTemplate>
                                                         </CollectionView.ItemTemplate>
-                                                </CollectionView>
+                                                </CollectionView> -->
 
                                                 <BoxView HeightRequest="1"
                                                          BackgroundColor="Gray"
