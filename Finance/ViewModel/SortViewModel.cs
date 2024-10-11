@@ -29,48 +29,60 @@ public partial class SortViewModel : ObservableObject
 
         dictionaries = DateKey.CreateTransactionDicts(Transactions);
 
-        Console.WriteLine("Before creating the list");
-        foreach (KeyValuePair<string, List<Model.Transaction>> kvp in dictionaries[0])
-        {
-            mediatorList.Add(new DictionaryItem(kvp.Key, kvp.Value));
-
-        }
-        Console.WriteLine("After the list");
-        DisplayList = new ObservableCollection<DictionaryItem>(mediatorList);
-
     }
 
 
     [RelayCommand]
     async Task Year()
     {
-
+        Console.WriteLine("Before creating the list");
+        foreach (KeyValuePair<string, List<Model.Transaction>> kvp in dictionaries[0])
+        {
+            mediatorList.Add(new DictionaryItem(kvp.Key, kvp.Value));
+        }
+        Console.WriteLine("After the list");
+        DisplayList = new ObservableCollection<DictionaryItem>(mediatorList);
+        mediatorList = [];
     }
 
     [RelayCommand]
     async Task Month()
     {
+        Console.WriteLine("Before creating the list");
         foreach (KeyValuePair<string, List<Model.Transaction>> kvp in dictionaries[1])
         {
-            DisplayList.Add(new DictionaryItem(kvp.Key, kvp.Value));
+            mediatorList.Add(new DictionaryItem(kvp.Key, kvp.Value));
         }
+        Console.WriteLine("After the list");
+        DisplayList = new ObservableCollection<DictionaryItem>(mediatorList);
+        mediatorList = [];
     }
+
 
     [RelayCommand]
     async Task Week()
     {
+        Console.WriteLine("Before creating the list");
         foreach (KeyValuePair<string, List<Model.Transaction>> kvp in dictionaries[2])
         {
-            DisplayList.Add(new DictionaryItem(kvp.Key, kvp.Value));
+            mediatorList.Add(new DictionaryItem(kvp.Key, kvp.Value));
         }
+        Console.WriteLine("After the list");
+        DisplayList = new ObservableCollection<DictionaryItem>(mediatorList);
+        mediatorList = [];
     }
+
 
     [RelayCommand]
     async Task Day()
     {
+        Console.WriteLine("Before creating the list");
         foreach (KeyValuePair<string, List<Model.Transaction>> kvp in dictionaries[3])
         {
-            DisplayList.Add(new DictionaryItem(kvp.Key, kvp.Value));
+            mediatorList.Add(new DictionaryItem(kvp.Key, kvp.Value));
         }
+        Console.WriteLine("After the list");
+        DisplayList = new ObservableCollection<DictionaryItem>(mediatorList);
+        mediatorList = [];
     }
 }
