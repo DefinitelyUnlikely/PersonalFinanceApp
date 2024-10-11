@@ -9,21 +9,34 @@ public partial class SortViewModel : ObservableObject
 {
     private readonly MainViewModel mainViewModel;
 
-    public List<Model.Transaction> Transactions;
-    List<Dictionary<string, ObservableCollection<Transaction>>> listOfDicts;
+    // Denna binder vi sedan till transaktionerna i vår MainViewModel.
+    // Så vi kan lösa vår dictionary.
+    private List<Model.Transaction> Transactions;
+
+    // Denna behöver vi bara för att spara våra dictionaries.
+    private List<Dictionary<string, List<Model.Transaction>>> dictionaries;
 
     [ObservableProperty]
-    public ObservableCollection<KeyValuePair<string, ObservableCollection<Transaction>>> selectedDict;
+    ObservableCollection<DictionaryItem> displayList;
+
+    List<DictionaryItem> mediatorList = [];
+
 
     public SortViewModel(MainViewModel mainViewModel)
     {
         this.mainViewModel = mainViewModel;
         Transactions = new List<Model.Transaction>(mainViewModel.Transactions);
 
-        listOfDicts = DateKey.CreateTransactionDicts(Transactions);
+        dictionaries = DateKey.CreateTransactionDicts(Transactions);
 
-        // se till att det finns värden till att börja med.
-        SelectedDict = new ObservableCollection<KeyValuePair<string, ObservableCollection<Transaction>>>(listOfDicts[0]);
+        Console.WriteLine("Before creating the list");
+        foreach (KeyValuePair<string, List<Model.Transaction>> kvp in dictionaries[0])
+        {
+            mediatorList.Add(new DictionaryItem(kvp.Key, kvp.Value));
+
+        }
+        Console.WriteLine("After the list");
+        DisplayList = new ObservableCollection<DictionaryItem>(mediatorList);
 
     }
 
@@ -31,26 +44,33 @@ public partial class SortViewModel : ObservableObject
     [RelayCommand]
     async Task Year()
     {
-        SelectedDict = new ObservableCollection<KeyValuePair<string, ObservableCollection<Transaction>>>(listOfDicts[0]);
+
     }
 
     [RelayCommand]
     async Task Month()
     {
-        SelectedDict = new ObservableCollection<KeyValuePair<string, ObservableCollection<Transaction>>>(listOfDicts[1]);
+        foreach (KeyValuePair<string, List<Model.Transaction>> kvp in dictionaries[1])
+        {
+            DisplayList.Add(new DictionaryItem(kvp.Key, kvp.Value));
+        }
     }
 
     [RelayCommand]
     async Task Week()
     {
-        SelectedDict = new ObservableCollection<KeyValuePair<string, ObservableCollection<Transaction>>>(listOfDicts[2]);
+        foreach (KeyValuePair<string, List<Model.Transaction>> kvp in dictionaries[2])
+        {
+            DisplayList.Add(new DictionaryItem(kvp.Key, kvp.Value));
+        }
     }
 
     [RelayCommand]
     async Task Day()
     {
-        SelectedDict = new ObservableCollection<KeyValuePair<string, ObservableCollection<Transaction>>>(listOfDicts[3]);
+        foreach (KeyValuePair<string, List<Model.Transaction>> kvp in dictionaries[3])
+        {
+            DisplayList.Add(new DictionaryItem(kvp.Key, kvp.Value));
+        }
     }
 }
-
-

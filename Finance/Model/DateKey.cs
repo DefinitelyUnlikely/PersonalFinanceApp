@@ -26,12 +26,12 @@ public class DateKey
         return $"Year: {date.Year} Month: {date.Month} Week: {ISOWeek.GetWeekOfYear(date)} Day of Month: {date.Day}";
     }
 
-    public static List<Dictionary<string, ObservableCollection<Transaction>>> CreateTransactionDicts(List<Model.Transaction> transactions)
+    public static List<Dictionary<string, List<Model.Transaction>>> CreateTransactionDicts(List<Model.Transaction> transactions)
     {
-        Dictionary<string, ObservableCollection<Model.Transaction>> yearDict = [];
-        Dictionary<string, ObservableCollection<Model.Transaction>> monthDict = [];
-        Dictionary<string, ObservableCollection<Model.Transaction>> weekDict = [];
-        Dictionary<string, ObservableCollection<Model.Transaction>> dayDict = [];
+        Dictionary<string, List<Model.Transaction>> yearDict = [];
+        Dictionary<string, List<Model.Transaction>> monthDict = [];
+        Dictionary<string, List<Model.Transaction>> weekDict = [];
+        Dictionary<string, List<Model.Transaction>> dayDict = [];
 
         foreach (Model.Transaction tn in transactions)
         {
