@@ -19,6 +19,9 @@ public partial class SortViewModel : ObservableObject
     [ObservableProperty]
     ObservableCollection<DictionaryItem> displayList;
 
+    // Fick köra en mellanhand, då om man försökte tömma och fylla på 
+    // vår displayList direkt så crashade programmet av någon anledning. 
+    // Är det för att den är Observable och därmed uppdaterar vår view vid varje add? 
     List<DictionaryItem> mediatorList = [];
 
 

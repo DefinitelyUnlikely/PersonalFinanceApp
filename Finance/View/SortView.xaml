@@ -34,22 +34,36 @@
                         <CollectionView.ItemTemplate>
                                 <DataTemplate x:DataType="model:DictionaryItem">
                                         <StackLayout Padding="10">
+
                                                 <Label Text="{Binding Key}"
                                                        FontSize="24"
                                                        FontAttributes="Bold"/>
-                                                <CollectionView ItemsSource="{Binding Value}">
+                                                <HorizontalStackLayout>
+                                                        <Label Text="Total: "
+                                                               Margin="10,0,0,0"/>
+                                                        <Label Text="{Binding Total, StringFormat='{0:C}'}"
+                                                               Margin="10,0,0,0"/>
+                                                        <Label Text="Income: "
+                                                               Margin="10,0,0,0"/>
+                                                        <Label Text="{Binding Income, StringFormat='{0:C}'}"
+                                                               Margin="10,0,0,0"/>
+                                                        <Label Text="Expense: "
+                                                               Margin="10,0,0,0"/>
+                                                        <Label Text="{Binding Expense, StringFormat='{0:C}'}"
+                                                               Margin="10,0,0,0"/>
+                                                </HorizontalStackLayout>
+                                                <CollectionView ItemsSource="{Binding AllTransactions}">
                                                         <CollectionView.ItemTemplate>
-                                                                <DataTemplate>
-                                                                        <Frame Margin="5"
-                                                                               BorderColor="Gray"
-                                                                               CornerRadius="5">
-                                                                                <Grid ColumnDefinitions="*, Auto"
-                                                                                      RowDefinitions="Auto, Auto">
-                                                                                        <Label Grid.Column="0"
-                                                                                               Grid.Row="0"
-                                                                                               Text="{Binding .}"
-                                                                                               FontAttributes="Bold"/>
-                                                                                </Grid>
+                                                                <DataTemplate x:DataType="model:Transaction">
+                                                                        <Frame Margin="5">
+                                                                                <HorizontalStackLayout HorizontalOptions="Center">
+                                                                                        <Label Text="{Binding TransactionName}"
+                                                                                               Margin="10,0,0,0"/>
+                                                                                        <Label Text="{Binding TransactionDate}"
+                                                                                               Margin="10,0,0,0"/>
+                                                                                        <Label Text="{Binding TransactionAmount, StringFormat='{0:C}'}"
+                                                                                               Margin="10,0,0,0"/>
+                                                                                </HorizontalStackLayout>
                                                                         </Frame>
                                                                 </DataTemplate>
                                                         </CollectionView.ItemTemplate>
