@@ -21,7 +21,7 @@ public partial class SortViewModel : ObservableObject
 
     // Fick köra en mellanhand, då om man försökte tömma och fylla på 
     // vår displayList direkt så crashade programmet av någon anledning. 
-    // Är det för att den är Observable och därmed uppdaterar vår view vid varje add? 
+    // Mycket möjligt att det blir för mycket async saker på en gång? 
     List<DictionaryItem> mediatorList = [];
 
 
