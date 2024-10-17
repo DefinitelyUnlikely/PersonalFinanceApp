@@ -36,7 +36,7 @@ public partial class SortViewModel : ObservableObject
 
 
     [RelayCommand]
-    async Task Year()
+    void Year()
     {
         Console.WriteLine("Before creating the list");
         foreach (KeyValuePair<string, List<Model.Transaction>> kvp in dictionaries[0])
@@ -53,7 +53,7 @@ public partial class SortViewModel : ObservableObject
     }
 
     [RelayCommand]
-    async Task Month()
+    void Month()
     {
         Console.WriteLine("Before creating the list");
         foreach (KeyValuePair<string, List<Model.Transaction>> kvp in dictionaries[1])
@@ -68,7 +68,7 @@ public partial class SortViewModel : ObservableObject
 
 
     [RelayCommand]
-    async Task Week()
+    void Week()
     {
         Console.WriteLine("Before creating the list");
         foreach (KeyValuePair<string, List<Model.Transaction>> kvp in dictionaries[2])
@@ -83,7 +83,7 @@ public partial class SortViewModel : ObservableObject
 
 
     [RelayCommand]
-    async Task Day()
+    void Day()
     {
         Console.WriteLine("Before creating the list");
         foreach (KeyValuePair<string, List<Model.Transaction>> kvp in dictionaries[3])
