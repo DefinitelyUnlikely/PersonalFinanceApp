@@ -28,10 +28,6 @@ public partial class ExpenseViewModel : ObservableObject
         {
             mainViewModel.AddTransaction(new(TransactionName, -Amount, TransactionDate));
 
-            TransactionName = string.Empty;
-            Amount = 0;
-            TransactionDate = DateTime.Now;
-
         }
         catch (Exception ex)
         {
