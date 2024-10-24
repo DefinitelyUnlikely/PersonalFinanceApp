@@ -1,6 +1,6 @@
 ﻿namespace Finance.Model;
 
-public class DictionaryItem
+public class DisplayItem
 {
     public string Key { get; }
     public List<Model.Transaction> AllTransactions { get; }
@@ -8,7 +8,7 @@ public class DictionaryItem
     public double Expense { get; }
     public double Total { get; }
 
-    public DictionaryItem(string key, List<Model.Transaction> value)
+    public DisplayItem(string key, List<Model.Transaction> value)
     {
         Key = key;
         AllTransactions = value;

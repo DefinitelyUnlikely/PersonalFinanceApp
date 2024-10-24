@@ -1,5 +1,3 @@
-using System.Transactions;
-
 namespace Finance.Model
 {
     public class TransactionManager
