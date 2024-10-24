@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using Finance.ViewModel;
 using Finance.View;
+using Finance.Data;
 
 namespace Finance
 {
@@ -19,6 +20,7 @@ namespace Finance
 
             builder.Services.AddSingleton<MainPage>();
             builder.Services.AddSingleton<MainViewModel>();
+            builder.Services.AddSingleton<TransactionDatabase>();
 
             builder.Services.AddTransient<IncomeView>();
             builder.Services.AddTransient<IncomeViewModel>();

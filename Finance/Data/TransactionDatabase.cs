@@ -1,0 +1,36 @@
+using SQLite;
+
+
+namespace Finance.Data;
+
+public class TransactionDatabase
+{
+    SQLiteAsyncConnection Database;
+
+    public TransactionDatabase()
+    {
+        Database = new SQLiteAsyncConnection(Constants.DatabasePath, Constants.Flags);
+        Database.CreateTableAsync<Model.Transaction>().Wait();
+    }
+
+    public async Task<Model.Transaction> GetItemAsync(int id)
+    {
+        return await Database.Table<Model.Transaction>()
+            .Where(i => i.TransactionId == id)
+            .FirstOrDefaultAsync();
+    }
+
+    public async Task<int> SaveItemAsync(Model.Transaction item)
+    {
+        if (item.TransactionId == 0)
+        {
+            return await Database.InsertAsync(item);
+        }
+        return await Database.UpdateAsync(item);
+    }
+
+    public async Task<int> DeleteItemAsync(Model.Transaction item)
+    {
+        return await Database.DeleteAsync(item);
+    }
+}
