@@ -58,8 +58,6 @@
                                                                 <Label Text="{Binding TransactionDate, StringFormat='{0:d}'}"
                                                                        Margin="10,0,0,0"/>
 
-                                                                <Button Text="Details"
-                                                                        Margin="10,0,0,0"/>
                                                                 <Button Text="Remove"
                                                                         Command="{Binding Source={RelativeSource AncestorType={x:Type vm:MainViewModel}}, Path=DeleteCommand}"
                                                                         CommandParameter="{Binding .}"

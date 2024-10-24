@@ -33,17 +33,17 @@ namespace Finance.ViewModel
             Balance += transaction.TransactionAmount;
         }
 
-
         [RelayCommand]
         public void Delete(Model.Transaction transaction)
         {
 
-            if (transaction != null)
+            if (transaction == null)
             {
-
-                Transactions.Remove(transaction);
-                Balance -= transaction.TransactionAmount;
+                return;
             }
+
+            Transactions.Remove(transaction);
+            Balance -= transaction.TransactionAmount;
         }
 
     }
