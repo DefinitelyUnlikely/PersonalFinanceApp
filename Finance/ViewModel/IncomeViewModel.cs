@@ -27,12 +27,7 @@ public partial class IncomeViewModel : ObservableObject
     {
         try
         {
-            mainViewModel.AddTransaction(new(TransactionName, Amount, TransactionDate));
-
-            TransactionName = string.Empty;
-            Amount = 0;
-            TransactionDate = DateTime.Now;
-
+            await mainViewModel.AddTransaction(new(TransactionName, Amount, TransactionDate));
         }
         catch (Exception ex)
         {

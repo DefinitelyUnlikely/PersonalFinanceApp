@@ -8,12 +8,12 @@ namespace Finance.Model
         [PrimaryKey, AutoIncrement]
         public int TransactionId { get; set; }
 
-        public string TransactionName { get; }
+        public string TransactionName { get; set; }
 
-        public double TransactionAmount { get; }
+        public double TransactionAmount { get; set; }
 
-        public DateTime CreatedDate { get; }
-        public DateTime TransactionDate { get; }
+        public DateTime CreatedDate { get; set; }
+        public DateTime TransactionDate { get; set; }
 
         public Transaction() { }
 

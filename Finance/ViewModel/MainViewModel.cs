@@ -1,11 +1,13 @@
 ﻿using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Finance.Data;
 
 namespace Finance.ViewModel
 {
     public partial class MainViewModel : ObservableObject
     {
+        TransactionDatabase transactionDatabase;
 
         [ObservableProperty]
         ObservableCollection<Model.Transaction> transactions;
@@ -16,25 +18,30 @@ namespace Finance.ViewModel
         [ObservableProperty]
         Model.Transaction selectedTransaction;
 
-        public MainViewModel()
+        public MainViewModel(TransactionDatabase transactionDatabase)
         {
 
-            Model.TransactionManager.CreateTransactionsForTesting();
-            Transactions = new ObservableCollection<Model.Transaction>(Model.TransactionManager.GetTransactions());
-            foreach (Model.Transaction x in Transactions)
-            {
-                Balance += x.TransactionAmount;
-            }
+            this.transactionDatabase = transactionDatabase;
+            Transactions = new ObservableCollection<Model.Transaction>();
+            LoadItemsAsync().ConfigureAwait(false);
         }
 
-        public void AddTransaction(Model.Transaction transaction)
+        private async Task LoadItemsAsync()
         {
+            var items = await transactionDatabase.GetItemsAsync();
+            Transactions = new ObservableCollection<Model.Transaction>(items);
+        }
+
+        public async Task AddTransaction(Model.Transaction transaction)
+        {
+
+            await transactionDatabase.SaveItemAsync(transaction);
             Transactions.Add(transaction);
             Balance += transaction.TransactionAmount;
         }
 
         [RelayCommand]
-        public void Delete(Model.Transaction transaction)
+        public async Task Delete(Model.Transaction transaction)
         {
 
             if (transaction == null)
@@ -42,6 +49,7 @@ namespace Finance.ViewModel
                 return;
             }
 
+            await transactionDatabase.DeleteItemAsync(transaction);
             Transactions.Remove(transaction);
             Balance -= transaction.TransactionAmount;
         }

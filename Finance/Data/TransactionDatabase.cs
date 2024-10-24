@@ -9,8 +9,14 @@ public class TransactionDatabase
 
     public TransactionDatabase()
     {
+        Console.WriteLine(Constants.DatabasePath);
         Database = new SQLiteAsyncConnection(Constants.DatabasePath, Constants.Flags);
         Database.CreateTableAsync<Model.Transaction>().Wait();
+    }
+
+    public async Task<List<Model.Transaction>> GetItemsAsync()
+    {
+        return await Database.Table<Model.Transaction>().ToListAsync();
     }
 
     public async Task<Model.Transaction> GetItemAsync(int id)
