@@ -17,12 +17,12 @@ public partial class SortViewModel : ObservableObject
     private List<Dictionary<string, List<Model.Transaction>>> dictionaries;
 
     [ObservableProperty]
-    ObservableCollection<DictionaryItem> displayList;
+    ObservableCollection<DisplayItem> displayList;
 
     // Fick köra en mellanhand, då om man försökte tömma och fylla på 
     // vår displayList direkt så crashade programmet av någon anledning. 
     // Mycket möjligt att det blir för mycket async saker på en gång? 
-    List<DictionaryItem> mediatorList = [];
+    List<DisplayItem> mediatorList = [];
 
 
     public SortViewModel(MainViewModel mainViewModel)
@@ -41,14 +41,14 @@ public partial class SortViewModel : ObservableObject
         Console.WriteLine("Before creating the list");
         foreach (KeyValuePair<string, List<Model.Transaction>> kvp in dictionaries[0])
         {
-            mediatorList.Add(new DictionaryItem(kvp.Key, kvp.Value));
+            mediatorList.Add(new DisplayItem(kvp.Key, kvp.Value));
         }
         //Jag vill sortera. Hur löser jag det? Då det nu är strings jag använder som
         // key kommer Month: 1 hamna efter Month: 11 då 1 kommer före whitespace...
         // Jag kanske bara får acceptera det?
         Console.WriteLine("After the list");
         mediatorList.Sort((x, y) => x.Key.CompareTo(y.Key));
-        DisplayList = new ObservableCollection<DictionaryItem>(mediatorList);
+        DisplayList = new ObservableCollection<DisplayItem>(mediatorList);
         mediatorList = [];
     }
 
@@ -58,11 +58,11 @@ public partial class SortViewModel : ObservableObject
         Console.WriteLine("Before creating the list");
         foreach (KeyValuePair<string, List<Model.Transaction>> kvp in dictionaries[1])
         {
-            mediatorList.Add(new DictionaryItem(kvp.Key, kvp.Value));
+            mediatorList.Add(new DisplayItem(kvp.Key, kvp.Value));
         }
         Console.WriteLine("After the list");
         mediatorList.Sort((x, y) => x.Key.CompareTo(y.Key));
-        DisplayList = new ObservableCollection<DictionaryItem>(mediatorList);
+        DisplayList = new ObservableCollection<DisplayItem>(mediatorList);
         mediatorList = [];
     }
 
@@ -73,11 +73,11 @@ public partial class SortViewModel : ObservableObject
         Console.WriteLine("Before creating the list");
         foreach (KeyValuePair<string, List<Model.Transaction>> kvp in dictionaries[2])
         {
-            mediatorList.Add(new DictionaryItem(kvp.Key, kvp.Value));
+            mediatorList.Add(new DisplayItem(kvp.Key, kvp.Value));
         }
         Console.WriteLine("After the list");
         mediatorList.Sort((x, y) => x.Key.CompareTo(y.Key));
-        DisplayList = new ObservableCollection<DictionaryItem>(mediatorList);
+        DisplayList = new ObservableCollection<DisplayItem>(mediatorList);
         mediatorList = [];
     }
 
@@ -88,11 +88,11 @@ public partial class SortViewModel : ObservableObject
         Console.WriteLine("Before creating the list");
         foreach (KeyValuePair<string, List<Model.Transaction>> kvp in dictionaries[3])
         {
-            mediatorList.Add(new DictionaryItem(kvp.Key, kvp.Value));
+            mediatorList.Add(new DisplayItem(kvp.Key, kvp.Value));
         }
         Console.WriteLine("After the list");
         mediatorList.Sort((x, y) => x.Key.CompareTo(y.Key));
-        DisplayList = new ObservableCollection<DictionaryItem>(mediatorList);
+        DisplayList = new ObservableCollection<DisplayItem>(mediatorList);
         mediatorList = [];
     }
 }
