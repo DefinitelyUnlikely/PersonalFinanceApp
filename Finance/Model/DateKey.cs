@@ -12,17 +12,22 @@ public class DateKey
 
     public static string GetMonthKey(DateTime date)
     {
-        return $"Year: {date.Year} Month: {date.Month}";
+        string month = date.Month < 10 ? $"0{date.Month}" : $"{date.Month}";
+        return $"Year: {date.Year} Month: {month}";
     }
 
     public static string GetWeekKey(DateTime date)
     {
-        return $"Year: {date.Year} Month: {date.Month} Week: {ISOWeek.GetWeekOfYear(date)}";
+        string month = date.Month < 10 ? $"0{date.Month}" : $"{date.Month}";
+        string week = ISOWeek.GetWeekOfYear(date) < 10 ? $"0{ISOWeek.GetWeekOfYear(date)}" : $"{ISOWeek.GetWeekOfYear(date)}";
+        return $"Year: {date.Year} Month: {month} Week: {week}";
     }
 
     public static string GetDayKey(DateTime date)
     {
-        return $"Year: {date.Year} Month: {date.Month} Week: {ISOWeek.GetWeekOfYear(date)} Day of Month: {date.Day}";
+        string month = date.Month < 10 ? $"0{date.Month}" : $"{date.Month}";
+        string week = ISOWeek.GetWeekOfYear(date) < 10 ? $"0{ISOWeek.GetWeekOfYear(date)}" : $"{ISOWeek.GetWeekOfYear(date)}";
+        return $"Year: {date.Year} Month: {month} Week: {week} Day of Month: {date.Day}";
     }
 
     public static List<Dictionary<string, List<Model.Transaction>>> CreateTransactionDicts(List<Model.Transaction> transactions)
