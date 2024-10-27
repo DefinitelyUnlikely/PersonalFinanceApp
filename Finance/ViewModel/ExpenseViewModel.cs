@@ -31,6 +31,7 @@ public partial class ExpenseViewModel : ObservableObject
                 throw new Exception("Input required");
             }
             await mainViewModel.AddTransaction(new(TransactionName, -Amount, TransactionDate));
+
         }
         catch (Exception ex)
         {
