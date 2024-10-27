@@ -40,36 +40,36 @@ public class DateKey
         foreach (Model.Transaction tn in transactions)
         {
             // År
-            if (!yearDict.ContainsKey(DateKeyMaker.GetYearKey(tn.TransactionDate)))
+            if (!yearDict.ContainsKey(GetYearKey(tn.TransactionDate)))
             {
-                yearDict[DateKeyMaker.GetYearKey(tn.TransactionDate)] = [];
+                yearDict[GetYearKey(tn.TransactionDate)] = [];
             }
 
-            yearDict[DateKeyMaker.GetYearKey(tn.TransactionDate)].Add(tn);
+            yearDict[GetYearKey(tn.TransactionDate)].Add(tn);
 
             // Månad
-            if (!monthDict.ContainsKey(DateKeyMaker.GetMonthKey(tn.TransactionDate)))
+            if (!monthDict.ContainsKey(GetMonthKey(tn.TransactionDate)))
             {
-                monthDict[DateKeyMaker.GetMonthKey(tn.TransactionDate)] = [];
+                monthDict[GetMonthKey(tn.TransactionDate)] = [];
             }
 
-            monthDict[DateKeyMaker.GetMonthKey(tn.TransactionDate)].Add(tn);
+            monthDict[GetMonthKey(tn.TransactionDate)].Add(tn);
 
             // Vecka
-            if (!weekDict.ContainsKey(DateKeyMaker.GetWeekKey(tn.TransactionDate)))
+            if (!weekDict.ContainsKey(GetWeekKey(tn.TransactionDate)))
             {
-                weekDict[DateKeyMaker.GetWeekKey(tn.TransactionDate)] = [];
+                weekDict[GetWeekKey(tn.TransactionDate)] = [];
             }
 
-            weekDict[DateKeyMaker.GetWeekKey(tn.TransactionDate)].Add(tn);
+            weekDict[GetWeekKey(tn.TransactionDate)].Add(tn);
 
             // Dag
-            if (!dayDict.ContainsKey(DateKeyMaker.GetDayKey(tn.TransactionDate)))
+            if (!dayDict.ContainsKey(GetDayKey(tn.TransactionDate)))
             {
-                dayDict[DateKeyMaker.GetDayKey(tn.TransactionDate)] = [];
+                dayDict[GetDayKey(tn.TransactionDate)] = [];
             }
 
-            dayDict[DateKeyMaker.GetDayKey(tn.TransactionDate)].Add(tn);
+            dayDict[GetDayKey(tn.TransactionDate)].Add(tn);
         }
 
         return [yearDict, monthDict, weekDict, dayDict];
