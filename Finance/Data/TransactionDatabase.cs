@@ -39,4 +39,10 @@ public class TransactionDatabase
     {
         return await Database.DeleteAsync(item);
     }
+
+    public async Task<double> GetBalanceAsync()
+    {
+        List<Model.Transaction> transactions = await GetItemsAsync();
+        return transactions.Sum(x => x.TransactionAmount);
+    }
 }

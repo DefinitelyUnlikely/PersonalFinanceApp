@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using SQLite;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Finance.Data;
@@ -16,24 +17,28 @@ namespace Finance.ViewModel
         double balance;
 
         [ObservableProperty]
-        Model.Transaction selectedTransaction;
+        Model.Transaction? selectedTransaction;
 
         public MainViewModel(TransactionDatabase transactionDatabase)
         {
 
             this.transactionDatabase = transactionDatabase;
-            Transactions = new ObservableCollection<Model.Transaction>();
-            LoadItemsAsync().ConfigureAwait(false);
-            foreach (Model.Transaction trans in Transactions)
-            {
-                Balance += trans.TransactionAmount;
-            }
+            Transactions = [];
+            LoadItems().ConfigureAwait(false);
+            LoadBalance().ConfigureAwait(false);
+
         }
 
-        private async Task LoadItemsAsync()
+        private async Task LoadItems()
         {
-            var items = await transactionDatabase.GetItemsAsync();
+            List<Model.Transaction> items = await transactionDatabase.GetItemsAsync();
             Transactions = new ObservableCollection<Model.Transaction>(items);
+        }
+
+        private async Task LoadBalance()
+        {
+            Balance = await transactionDatabase.GetBalanceAsync();
+            Console.WriteLine();
         }
 
         public async Task AddTransaction(Model.Transaction transaction)
