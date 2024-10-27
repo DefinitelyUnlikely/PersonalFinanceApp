@@ -24,6 +24,10 @@ namespace Finance.ViewModel
             this.transactionDatabase = transactionDatabase;
             Transactions = new ObservableCollection<Model.Transaction>();
             LoadItemsAsync().ConfigureAwait(false);
+            foreach (Model.Transaction trans in Transactions)
+            {
+                Balance += trans.TransactionAmount;
+            }
         }
 
         private async Task LoadItemsAsync()
