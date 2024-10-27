@@ -13,7 +13,7 @@ public partial class ExpenseViewModel : ObservableObject
     }
 
     [ObservableProperty]
-    string transactionName = string.Empty;
+    string? transactionName;
 
     [ObservableProperty]
     double amount;
@@ -26,6 +26,10 @@ public partial class ExpenseViewModel : ObservableObject
     {
         try
         {
+            if (TransactionName is null)
+            {
+                throw new Exception("Input required");
+            }
             await mainViewModel.AddTransaction(new(TransactionName, -Amount, TransactionDate));
         }
         catch (Exception ex)
