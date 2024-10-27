@@ -1,23 +1,25 @@
+using SQLite;
+
 namespace Finance.Model
 {
     public class Transaction
     {
 
-        private static int transactionIdCounter = 0;
-        public int TransactionId { get; }
+        [PrimaryKey, AutoIncrement]
+        public int TransactionId { get; set; }
 
-        public string TransactionName { get; }
+        public string TransactionName { get; set; }
 
-        public double TransactionAmount { get; }
+        public double TransactionAmount { get; set; }
 
-        public DateTime CreatedDate { get; }
-        public DateTime TransactionDate { get; }
+        public DateTime CreatedDate { get; set; }
+        public DateTime TransactionDate { get; set; }
+
+        public Transaction() { }
 
 
         public Transaction(string name, double amount, DateTime transactionDate)
         {
-            TransactionId = ++transactionIdCounter;
-
             TransactionName = name;
             TransactionAmount = amount;
             TransactionDate = transactionDate;
