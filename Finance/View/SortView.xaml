@@ -7,24 +7,28 @@
              x:DataType="vm:SortViewModel"
              Title="Sort By">
 
-        <Grid RowDefinitions="25, 25, *"
+        <Grid RowDefinitions="35, 35, *"
               ColumnDefinitions=".25*, .25*, .25*, .25*">
                 <Button Text="Year"
                         Grid.Row="0"
                         Grid.Column="1"
-                        Command="{Binding YearCommand}"/>
+                        Command="{Binding YearCommand}"
+                        Margin="0,0,1,1"/>
                 <Button Text="Month"
                         Grid.Row="1"
                         Grid.Column="1"
-                        Command="{Binding MonthCommand}"/>
+                        Command="{Binding MonthCommand}"
+                        Margin="0,1,1,0"/>
                 <Button Text="Week"
                         Grid.Row="0"
                         Grid.Column="2"
-                        Command="{Binding WeekCommand}"/>
+                        Command="{Binding WeekCommand}"
+                        Margin="1,0,0,1"/>
                 <Button Text="Day"
                         Grid.Row="1"
                         Grid.Column="2"
-                        Command="{Binding DayCommand}"/>
+                        Command="{Binding DayCommand}"
+                        Margin="1,1,0,0"/>
 
                 <CollectionView ItemsSource="{Binding DisplayList}"
                                 Grid.Row="2"

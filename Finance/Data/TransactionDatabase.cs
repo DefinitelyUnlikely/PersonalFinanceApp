@@ -1,4 +1,5 @@
 using SQLite;
+using System.Diagnostics;
 
 
 namespace Finance.Data;
@@ -10,6 +11,7 @@ public class TransactionDatabase
     public TransactionDatabase()
     {
         Console.WriteLine(Constants.DatabasePath);
+        Debug.WriteLine(Constants.DatabasePath);
         Database = new SQLiteAsyncConnection(Constants.DatabasePath, Constants.Flags);
         Database.CreateTableAsync<Model.Transaction>().Wait();
     }

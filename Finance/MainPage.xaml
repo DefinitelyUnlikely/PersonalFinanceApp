@@ -13,11 +13,13 @@
                 <Label Text="Balance:"
                        Grid.Column="0"
                        Grid.Row="0"
+                       Grid.ColumnSpan="2"
                        Margin="10,0,0,0"/>
                 <!-- Genom att vara smart med min margin kan jag ha dem i samma kolumn -->
                 <Label Text="{Binding Balance, StringFormat='{0:C}'}"
                        Grid.Column="0"
                        Grid.Row="0"
+                       Grid.ColumnSpan="2"
                        Margin="80,0,0,0"/>
 
                 <ScrollView
@@ -71,20 +73,20 @@
                         Grid.Row="2"
                         Grid.Column="0"
                         Grid.ColumnSpan="2"
-                        Margin="0,2,0,0"
+                        Margin="1,2,1,0"
                         Clicked="OnIncomeClicked"/>
 
                 <Button Text="Add Expense"
                         Grid.Row="2"
                         Grid.Column="2"
                         Grid.ColumnSpan="2"
-                        Margin="0,2,0,0"
+                        Margin="1,2,1,1"
                         Clicked="OnExpenseClicked"/>
 
                 <Button Text="Sort"
                         Grid.Row="3"
                         Grid.ColumnSpan="4"
-                        Margin="0,5,0,0"
+                        Margin="1,1,1,1"
                         Clicked="OnSortClicked"/>
         </Grid>
 </ContentPage>
