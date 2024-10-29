@@ -14,8 +14,6 @@ namespace Finance
             Routing.RegisterRoute(nameof(IncomeView), typeof(IncomeView));
             Routing.RegisterRoute(nameof(ExpenseView), typeof(ExpenseView));
 
-            //Routes for detail
-
         }
     }
 }

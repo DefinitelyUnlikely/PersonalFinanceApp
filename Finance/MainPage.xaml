@@ -15,7 +15,7 @@
                        Grid.Row="0"
                        Grid.ColumnSpan="2"
                        Margin="10,0,0,0"/>
-                <!-- Genom att vara smart med min margin kan jag ha dem i samma kolumn -->
+                <!-- By using the margin in a clever way, we keep these labels in the same column with a better looking distance between them. -->
                 <Label Text="{Binding Balance, StringFormat='{0:C}'}"
                        Grid.Column="0"
                        Grid.Row="0"
@@ -35,7 +35,6 @@
                                 <CollectionView.ItemTemplate>
                                         <DataTemplate x:DataType="model:Transaction">
                                                 <Frame>
-                                                        <!-- Om det visar sig att jag vill återanvända detta, flytta in det i vår app.xaml dict -->
                                                         <VisualStateManager.VisualStateGroups>
                                                                 <VisualStateGroup Name="CommonStates">
                                                                         <VisualState Name="Normal"/>

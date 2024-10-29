@@ -11,14 +11,13 @@ public partial class SortViewModel : ObservableObject
 
     private List<Model.Transaction> Transactions;
 
-    // Denna behöver vi bara för att spara våra dictionaries.
     private List<Dictionary<string, List<Model.Transaction>>> dictionaries;
 
     [ObservableProperty]
     ObservableCollection<DisplayItem> displayList;
 
-    // Fick köra en mellanhand, då om man försökte tömma och fylla på 
-    // vår displayList direkt så crashade programmet.
+    // A mediator is used, as the program would crash if one tried to sort
+    // and observableCollection. 
     List<DisplayItem> mediatorList = [];
 
 
