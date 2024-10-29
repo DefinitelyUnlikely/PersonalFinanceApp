@@ -25,7 +25,8 @@ public partial class ExpenseViewModel : ObservableObject
     async Task SubmitTransaction()
     {
         try
-        {
+        {    
+            // Note: Only checking for null on name is an active choice - i.e. I'm allowing transactions with a 0+ amount.
             if (TransactionName is null)
             {
                 throw new Exception("Input required");
