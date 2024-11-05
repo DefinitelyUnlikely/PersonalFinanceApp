@@ -1,49 +1,45 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Finance.View.IncomeView"
-             xmlns:model="clr-namespace:Finance.Model"
-             xmlns:vm="clr-namespace:Finance.ViewModel"
-             x:DataType="vm:IncomeViewModel"
-             Title="Add Income">
+             x:Class="Finance.Views.ExpenseView"
+             Title="Add Expense">
     <VerticalStackLayout>
         <Label
-            Text="Add an income"
+            Text="Add an expense"
             VerticalOptions="Center"
             HorizontalOptions="Center"
             Margin="0,0,0,20"/>
         <Label
-            Text="Name the income"
+            Text="Name the expense"
             VerticalOptions="Center"
             HorizontalOptions="Center"
             Margin="0,0,0,5"/>
-        <Entry Placeholder="Enter name/description of your income"
+        <Entry Placeholder="Enter name/description of your expense"
                Text="{Binding TransactionName}"
                VerticalOptions="Center"
                HorizontalOptions="Center"
                Margin="0,0,0,5"/>
 
         <Label
-            Text="Income Amount"
+            Text="Size of the expense"
             VerticalOptions="Center"
             HorizontalOptions="Center"
             Margin="0,0,0,5"/>
-        <Entry Placeholder="Enter the amount spent on the income"
+        <Entry Placeholder="Enter the amount spent on the expense"
                Text="{Binding Amount}"
                VerticalOptions="Center"
                HorizontalOptions="Center"
                Margin="0,0,0,5"/>
 
         <Label
-            Text="Date for the income"
+            Text="Date for the expense"
             VerticalOptions="Center"
             HorizontalOptions="Center"
             Margin="0,0,0,5"/>
         <DatePicker Date="{Binding TransactionDate}"
                     VerticalOptions="Center"
                     HorizontalOptions="Center"/>
-
-        <Button Text="Submit Income"
+        <Button Text="Add"
                 Command="{Binding SubmitTransactionCommand}"
                 VerticalOptions="Center"
                 HorizontalOptions="End"/>

@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Finance.MainPage"
-             xmlns:model="clr-namespace:Finance.Model"
-             xmlns:vm="clr-namespace:Finance.ViewModel"
+             x:Class="Finance.Views.MainPage"
+             xmlns:model="clr-namespace:Finance.Models"
+             xmlns:vm="clr-namespace:Finance.ViewModels"
              x:DataType="vm:MainViewModel"
              Shell.NavBarIsVisible="False">
 
@@ -47,11 +47,11 @@
                                                                 </VisualStateGroup>
                                                         </VisualStateManager.VisualStateGroups>
                                                         <HorizontalStackLayout HorizontalOptions="Center">
-                                                                <Label Text="{Binding TransactionName}"
+                                                                <Label Text="{Binding Name}"
                                                                        Margin="10,0,0,0"/>
-                                                                <Label Text="{Binding TransactionAmount, StringFormat='{0:C}'}"
+                                                                <Label Text="{Binding Amount, StringFormat='{0:C}'}"
                                                                        Margin="10,0,0,0"/>
-                                                                <Label Text="{Binding TransactionDate, StringFormat='{0:d}'}"
+                                                                <Label Text="{Binding Date, StringFormat='{0:d}'}"
                                                                        Margin="10,0,0,0"/>
 
                                                                 <ImageButton Source="trash.png"

@@ -1,6 +1,6 @@
-using Finance.ViewModel;
+using Finance.ViewModels;
 
-namespace Finance.View;
+namespace Finance.Views;
 
 public partial class IncomeView : ContentPage
 {

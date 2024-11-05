@@ -1,6 +1,7 @@
 ﻿using System.Globalization;
+using Finance.Models;
 
-namespace Finance.Model;
+namespace Finance.Utilites;
 
 public class DateKey
 {
@@ -30,46 +31,46 @@ public class DateKey
         return $"Year: {date.Year} Month: {month} Week: {week} Day of Month: {date.Day}";
     }
 
-    public static List<Dictionary<string, List<Model.Transaction>>> CreateTransactionDicts(List<Model.Transaction> transactions)
+    public static List<Dictionary<string, List<Transaction>>> CreateTransactionDicts(List<Transaction> transactions)
     {
-        Dictionary<string, List<Model.Transaction>> yearDict = [];
-        Dictionary<string, List<Model.Transaction>> monthDict = [];
-        Dictionary<string, List<Model.Transaction>> weekDict = [];
-        Dictionary<string, List<Model.Transaction>> dayDict = [];
+        Dictionary<string, List<Transaction>> yearDict = [];
+        Dictionary<string, List<Transaction>> monthDict = [];
+        Dictionary<string, List<Transaction>> weekDict = [];
+        Dictionary<string, List<Transaction>> dayDict = [];
 
-        foreach (Model.Transaction tn in transactions)
+        foreach (Transaction transaction in transactions)
         {
             // År
-            if (!yearDict.ContainsKey(GetYearKey(tn.TransactionDate)))
+            if (!yearDict.ContainsKey(GetYearKey(transaction.Date)))
             {
-                yearDict[GetYearKey(tn.TransactionDate)] = [];
+                yearDict[GetYearKey(transaction.Date)] = [];
             }
 
-            yearDict[GetYearKey(tn.TransactionDate)].Add(tn);
+            yearDict[GetYearKey(transaction.Date)].Add(transaction);
 
             // Månad
-            if (!monthDict.ContainsKey(GetMonthKey(tn.TransactionDate)))
+            if (!monthDict.ContainsKey(GetMonthKey(transaction.Date)))
             {
-                monthDict[GetMonthKey(tn.TransactionDate)] = [];
+                monthDict[GetMonthKey(transaction.Date)] = [];
             }
 
-            monthDict[GetMonthKey(tn.TransactionDate)].Add(tn);
+            monthDict[GetMonthKey(transaction.Date)].Add(transaction);
 
             // Vecka
-            if (!weekDict.ContainsKey(GetWeekKey(tn.TransactionDate)))
+            if (!weekDict.ContainsKey(GetWeekKey(transaction.Date)))
             {
-                weekDict[GetWeekKey(tn.TransactionDate)] = [];
+                weekDict[GetWeekKey(transaction.Date)] = [];
             }
 
-            weekDict[GetWeekKey(tn.TransactionDate)].Add(tn);
+            weekDict[GetWeekKey(transaction.Date)].Add(transaction);
 
             // Dag
-            if (!dayDict.ContainsKey(GetDayKey(tn.TransactionDate)))
+            if (!dayDict.ContainsKey(GetDayKey(transaction.Date)))
             {
-                dayDict[GetDayKey(tn.TransactionDate)] = [];
+                dayDict[GetDayKey(transaction.Date)] = [];
             }
 
-            dayDict[GetDayKey(tn.TransactionDate)].Add(tn);
+            dayDict[GetDayKey(transaction.Date)].Add(transaction);
         }
 
         return [yearDict, monthDict, weekDict, dayDict];

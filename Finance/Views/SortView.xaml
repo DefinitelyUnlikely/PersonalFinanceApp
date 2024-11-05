@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Finance.View.SortView"
-             xmlns:model="clr-namespace:Finance.Model"
-             xmlns:vm="clr-namespace:Finance.ViewModel"
+             x:Class="Finance.Views.SortView"
+             xmlns:model="clr-namespace:Finance.Models"
+             xmlns:vm="clr-namespace:Finance.ViewModels"
              x:DataType="vm:SortViewModel"
              Title="Sort By">
 
@@ -61,11 +61,11 @@
                                                                 <DataTemplate x:DataType="model:Transaction">
                                                                         <Frame Margin="5">
                                                                                 <HorizontalStackLayout HorizontalOptions="Center">
-                                                                                        <Label Text="{Binding TransactionName}"
+                                                                                        <Label Text="{Binding Name}"
                                                                                                Margin="10,0,0,0"/>
-                                                                                        <Label Text="{Binding TransactionDate}"
+                                                                                        <Label Text="{Binding Date}"
                                                                                                Margin="10,0,0,0"/>
-                                                                                        <Label Text="{Binding TransactionAmount, StringFormat='{0:C}'}"
+                                                                                        <Label Text="{Binding Amount, StringFormat='{0:C}'}"
                                                                                                Margin="10,0,0,0"/>
                                                                                 </HorizontalStackLayout>
                                                                         </Frame>

@@ -1,7 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
-namespace Finance.ViewModel;
+namespace Finance.ViewModels;
 
 public partial class ExpenseViewModel : ObservableObject
 {
