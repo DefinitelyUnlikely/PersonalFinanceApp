@@ -24,6 +24,8 @@ public class TransactionManager
         transactions.Remove(transaction);
     }
 
+
+    // After switcing to database usage, this isn't really used. 
     public static List<Transaction> GetTransactions()
     {
         // according to VSCode this is equal to transactions.ToList();
