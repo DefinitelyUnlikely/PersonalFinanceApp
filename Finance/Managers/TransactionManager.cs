@@ -26,7 +26,8 @@ public class TransactionManager
 
     public static List<Transaction> GetTransactions()
     {
-        return transactions;
+        // according to VSCode this is equal to transactions.ToList();
+        return [.. transactions];
     }
 
 }
