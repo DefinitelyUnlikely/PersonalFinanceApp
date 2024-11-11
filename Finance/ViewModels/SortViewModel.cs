@@ -8,7 +8,7 @@ namespace Finance.ViewModels;
 
 public partial class SortViewModel : ObservableObject
 {
-    private readonly MainViewModel mainViewModel;
+    private readonly TransactionViewModel transactionViewModel;
 
     private List<Models.Transaction> Transactions;
 
@@ -22,10 +22,10 @@ public partial class SortViewModel : ObservableObject
     List<DisplayItem> mediatorList = [];
 
 
-    public SortViewModel(MainViewModel mainViewModel)
+    public SortViewModel(TransactionViewModel transactionViewModel)
     {
-        this.mainViewModel = mainViewModel;
-        Transactions = new List<Transaction>(mainViewModel.Transactions);
+        this.transactionViewModel = transactionViewModel;
+        Transactions = new List<Transaction>(transactionViewModel.Transactions);
 
         dictionaries = DateKey.CreateTransactionDicts(Transactions);
 

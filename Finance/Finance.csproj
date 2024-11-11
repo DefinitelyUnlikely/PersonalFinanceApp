@@ -74,4 +74,10 @@
 		<PackageReference Include="SQLitePCLRaw.bundle_green" Version="2.1.10" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Compile Update="Views\TransactionView.xaml.cs">
+	    <DependentUpon>TransactionView.xaml</DependentUpon>
+	  </Compile>
+	</ItemGroup>
+
 </Project>

@@ -18,8 +18,10 @@ namespace Finance
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 });
 
-            builder.Services.AddSingleton<MainPage>();
-            builder.Services.AddSingleton<MainViewModel>();
+            builder.Services.AddSingleton<MainView>();
+
+
+            builder.Services.AddSingleton<TransactionViewModel>();
             builder.Services.AddSingleton<TransactionDatabase>();
 
             builder.Services.AddTransient<IncomeView>();

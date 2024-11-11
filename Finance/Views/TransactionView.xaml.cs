@@ -2,9 +2,9 @@
 
 namespace Finance.Views;
 
-public partial class MainPage : ContentPage
+public partial class TransactionView : ContentPage
 {
-    public MainPage(MainViewModel vm)
+    public TransactionView(TransactionViewModel vm)
     {
         InitializeComponent();
         BindingContext = vm;

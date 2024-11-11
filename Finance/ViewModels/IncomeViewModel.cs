@@ -6,11 +6,11 @@ namespace Finance.ViewModels;
 public partial class IncomeViewModel : ObservableObject
 {
 
-    private readonly MainViewModel mainViewModel;
+    private readonly TransactionViewModel transactionViewModel;
 
-    public IncomeViewModel(MainViewModel mainViewModel)
+    public IncomeViewModel(TransactionViewModel transactionViewModel)
     {
-        this.mainViewModel = mainViewModel;
+        this.transactionViewModel = transactionViewModel;
     }
 
     [ObservableProperty]
@@ -32,7 +32,7 @@ public partial class IncomeViewModel : ObservableObject
             {
                 throw new Exception("Input required");
             }
-            await mainViewModel.AddTransaction(new(TransactionName, Amount, TransactionDate));
+            await transactionViewModel.AddTransaction(new(TransactionName, Amount, TransactionDate));
         }
         catch (Exception ex)
         {
