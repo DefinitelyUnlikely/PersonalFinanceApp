@@ -1,27 +1,27 @@
-﻿namespace Finance.Model;
+﻿namespace Finance.Models;
 
 public class DisplayItem
 {
     public string Key { get; }
-    public List<Model.Transaction> AllTransactions { get; }
+    public List<Transaction> AllTransactions { get; }
     public double Income { get; }
     public double Expense { get; }
     public double Total { get; }
 
-    public DisplayItem(string key, List<Model.Transaction> value)
+    public DisplayItem(string key, List<Transaction> value)
     {
         Key = key;
         AllTransactions = value;
 
         foreach (Transaction transaction in AllTransactions)
         {
-            if (transaction.TransactionAmount >= 0)
+            if (transaction.Amount >= 0)
             {
-                Income += transaction.TransactionAmount;
+                Income += transaction.Amount;
             }
             else
             {
-                Expense += transaction.TransactionAmount;
+                Expense += transaction.Amount;
             }
         }
 

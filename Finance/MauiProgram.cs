@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
-using Finance.ViewModel;
-using Finance.View;
+using Finance.ViewModels;
+using Finance.Views;
 using Finance.Data;
 
 namespace Finance

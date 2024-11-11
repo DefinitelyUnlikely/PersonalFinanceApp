@@ -3,21 +3,22 @@ using SQLite;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Finance.Data;
+using Finance.Models;
 
-namespace Finance.ViewModel
+namespace Finance.ViewModels
 {
     public partial class MainViewModel : ObservableObject
     {
         TransactionDatabase transactionDatabase;
 
         [ObservableProperty]
-        ObservableCollection<Model.Transaction> transactions;
+        ObservableCollection<Transaction> transactions;
 
         [ObservableProperty]
         double balance;
 
         [ObservableProperty]
-        Model.Transaction? selectedTransaction;
+        Transaction? selectedTransaction;
 
         public MainViewModel(TransactionDatabase transactionDatabase)
         {
@@ -31,8 +32,8 @@ namespace Finance.ViewModel
 
         private async Task LoadItems()
         {
-            List<Model.Transaction> items = await transactionDatabase.GetItemsAsync();
-            Transactions = new ObservableCollection<Model.Transaction>(items);
+            List<Transaction> items = await transactionDatabase.GetItemsAsync();
+            Transactions = new ObservableCollection<Transaction>(items);
         }
 
         private async Task LoadBalance()
@@ -41,16 +42,16 @@ namespace Finance.ViewModel
             Console.WriteLine();
         }
 
-        public async Task AddTransaction(Model.Transaction transaction)
+        public async Task AddTransaction(Transaction transaction)
         {
 
             await transactionDatabase.SaveItemAsync(transaction);
             Transactions.Add(transaction);
-            Balance += transaction.TransactionAmount;
+            Balance += transaction.Amount;
         }
 
         [RelayCommand]
-        public async Task Delete(Model.Transaction transaction)
+        public async Task Delete(Transaction transaction)
         {
 
             if (transaction == null)
@@ -60,7 +61,7 @@ namespace Finance.ViewModel
 
             await transactionDatabase.DeleteItemAsync(transaction);
             Transactions.Remove(transaction);
-            Balance -= transaction.TransactionAmount;
+            Balance -= transaction.Amount;
         }
 
     }

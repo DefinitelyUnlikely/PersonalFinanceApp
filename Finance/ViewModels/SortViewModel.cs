@@ -1,17 +1,18 @@
 ﻿using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Finance.Model;
+using Finance.Models;
+using Finance.Utilites;
 
-namespace Finance.ViewModel;
+namespace Finance.ViewModels;
 
 public partial class SortViewModel : ObservableObject
 {
     private readonly MainViewModel mainViewModel;
 
-    private List<Model.Transaction> Transactions;
+    private List<Models.Transaction> Transactions;
 
-    private List<Dictionary<string, List<Model.Transaction>>> dictionaries;
+    private List<Dictionary<string, List<Models.Transaction>>> dictionaries;
 
     [ObservableProperty]
     ObservableCollection<DisplayItem> displayList;
@@ -24,7 +25,7 @@ public partial class SortViewModel : ObservableObject
     public SortViewModel(MainViewModel mainViewModel)
     {
         this.mainViewModel = mainViewModel;
-        Transactions = new List<Model.Transaction>(mainViewModel.Transactions);
+        Transactions = new List<Transaction>(mainViewModel.Transactions);
 
         dictionaries = DateKey.CreateTransactionDicts(Transactions);
 
@@ -34,7 +35,7 @@ public partial class SortViewModel : ObservableObject
     [RelayCommand]
     void Year()
     {
-        foreach (KeyValuePair<string, List<Model.Transaction>> kvp in dictionaries[0])
+        foreach (KeyValuePair<string, List<Transaction>> kvp in dictionaries[0])
         {
             mediatorList.Add(new DisplayItem(kvp.Key, kvp.Value));
         }
@@ -46,7 +47,7 @@ public partial class SortViewModel : ObservableObject
     [RelayCommand]
     void Month()
     {
-        foreach (KeyValuePair<string, List<Model.Transaction>> kvp in dictionaries[1])
+        foreach (KeyValuePair<string, List<Transaction>> kvp in dictionaries[1])
         {
             mediatorList.Add(new DisplayItem(kvp.Key, kvp.Value));
         }
@@ -59,7 +60,7 @@ public partial class SortViewModel : ObservableObject
     [RelayCommand]
     void Week()
     {
-        foreach (KeyValuePair<string, List<Model.Transaction>> kvp in dictionaries[2])
+        foreach (KeyValuePair<string, List<Transaction>> kvp in dictionaries[2])
         {
             mediatorList.Add(new DisplayItem(kvp.Key, kvp.Value));
         }
@@ -72,7 +73,7 @@ public partial class SortViewModel : ObservableObject
     [RelayCommand]
     void Day()
     {
-        foreach (KeyValuePair<string, List<Model.Transaction>> kvp in dictionaries[3])
+        foreach (KeyValuePair<string, List<Transaction>> kvp in dictionaries[3])
         {
             mediatorList.Add(new DisplayItem(kvp.Key, kvp.Value));
         }
