@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations.Schema;
 using SQLite;
 
 namespace Finance.Models
@@ -7,6 +8,11 @@ namespace Finance.Models
 
         [PrimaryKey, AutoIncrement]
         public int Id { get; set; }
+
+        // Don't matter, as we are switching to PostgreSQL. 
+        // But adding it as a placeholder.
+        [ForeignKey("AccountId")]
+        public int AccountId { get; set; }
 
         public string Name { get; set; }
 
