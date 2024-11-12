@@ -1,3 +1,4 @@
+using System.Windows.Input;
 using Finance.ViewModels;
 
 namespace Finance.Views;

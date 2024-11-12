@@ -38,5 +38,15 @@
 
               </Grid>
 
+              <Label Text="Forgot password?"
+                     TextColor="Blue"
+                     TextDecorations="Underline">
+                     <Label.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding ForgotCommand}"
+                                                  CommandParameter="https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExbmc3YXN6MjlnbGc5ZnNqdHUyZmRrMzVvYnVxaXpsMWRlZjFoMDBmaiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/JWKYnoKa2T5uzXd9lm/giphy.gif"/>
+                     </Label.GestureRecognizers>
+
+              </Label>
+
        </VerticalStackLayout>
 </ContentPage>

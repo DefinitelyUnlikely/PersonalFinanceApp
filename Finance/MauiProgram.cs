@@ -24,8 +24,8 @@ namespace Finance
             builder.Services.AddTransient<CreateAccView>();
             builder.Services.AddTransient<CreateAccViewModel>();
 
-            builder.Services.AddTransient<TransactionView>();
-            builder.Services.AddTransient<TransactionViewModel>();
+            builder.Services.AddSingleton<TransactionView>();
+            builder.Services.AddSingleton<TransactionViewModel>();
             builder.Services.AddSingleton<TransactionDatabase>();
 
             builder.Services.AddTransient<IncomeView>();
