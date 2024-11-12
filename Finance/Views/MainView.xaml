@@ -2,11 +2,41 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Finance.Views.MainView"
-             Title="MainView">
-    <VerticalStackLayout>
-        <Label
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center"
-            HorizontalOptions="Center"/>
-    </VerticalStackLayout>
+             xmlns:model="clr-namespace:Finance.Models"
+             xmlns:vm="clr-namespace:Finance.ViewModels"
+             Title="Login Page"
+             Shell.NavBarIsVisible="False">
+
+       <VerticalStackLayout Margin="20">
+
+
+
+              <Label Text="Login page"
+                     FontSize="24"/>
+
+              <Label Text="Account name"/>
+
+              <Entry Placeholder="Enter Account Name"/>
+
+              <Label Text="Password"/>
+              <Entry Placeholder="Password"
+                     IsPassword="True"/>
+
+
+
+              <Grid RowDefinitions="50"
+                    ColumnDefinitions=".50*, .50*">
+
+                     <Button Text="Create Account"
+                             Clicked="OnCreateClicked"
+                             Grid.Row="5"
+                             Grid.Column="0"/>
+                     <Button Text="Login"
+                             Clicked="OnLoginClicked"
+                             Grid.Row="5"
+                             Grid.Column="1"/>
+
+              </Grid>
+
+       </VerticalStackLayout>
 </ContentPage>
