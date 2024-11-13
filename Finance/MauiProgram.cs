@@ -26,7 +26,7 @@ namespace Finance
 
             builder.Services.AddSingleton<TransactionView>();
             builder.Services.AddSingleton<TransactionViewModel>();
-            builder.Services.AddSingleton<TransactionDatabase>();
+            builder.Services.AddSingleton<FinanceDatabase>();
 
             builder.Services.AddTransient<IncomeView>();
             builder.Services.AddTransient<IncomeViewModel>();

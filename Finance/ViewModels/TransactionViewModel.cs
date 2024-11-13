@@ -1,15 +1,14 @@
 ﻿using System.Collections.ObjectModel;
-using SQLite;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Finance.Data;
 using Finance.Models;
+using Finance.Managers;
 
 namespace Finance.ViewModels
 {
     public partial class TransactionViewModel : ObservableObject
     {
-        FinanceDatabase financeDatabase;
 
         [ObservableProperty]
         ObservableCollection<Transaction> transactions;
@@ -23,35 +22,27 @@ namespace Finance.ViewModels
         public TransactionViewModel(FinanceDatabase financeDatabase)
         {
 
-            this.financeDatabase = financeDatabase;
-            Transactions = [];
-            LoadItems().ConfigureAwait(false);
-            LoadBalance().ConfigureAwait(false);
-
+            LoadItems();
         }
 
-        private async Task LoadItems()
+        private void LoadItems()
         {
-            List<Transaction> items = await financeDatabase.GetItemsAsync();
-            Transactions = new ObservableCollection<Transaction>(items);
+            Transactions = new ObservableCollection<Transaction>(TransactionManager.GetTransactions());
         }
 
-        private async Task LoadBalance()
+        private void LoadBalance()
         {
-            Balance = await financeDatabase.GetBalanceAsync();
             Console.WriteLine();
         }
 
-        public async Task AddTransaction(Transaction transaction)
+        public void AddTransaction(Transaction transaction)
         {
-
-            await financeDatabase.SaveItemAsync(transaction);
             Transactions.Add(transaction);
             Balance += transaction.Amount;
         }
 
         [RelayCommand]
-        public async Task Delete(Transaction transaction)
+        public void Delete(Transaction transaction)
         {
 
             if (transaction == null)
@@ -59,7 +50,6 @@ namespace Finance.ViewModels
                 return;
             }
 
-            await financeDatabase.DeleteItemAsync(transaction);
             Transactions.Remove(transaction);
             Balance -= transaction.Amount;
         }
