@@ -1,6 +1,6 @@
 namespace Finance.Managers;
 
-public class AccountManager
+public class UserManager
 {
 
 }

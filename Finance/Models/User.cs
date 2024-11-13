@@ -2,11 +2,12 @@ namespace Finance.Models;
 
 // All getters and setters are placeholder, until I've fixed PostreSQL 
 // and know what settings they need for the database to able to use them.
-public class Account
+public class User
 {
     public Guid Id { get; set; }
 
     public string Name { get; set; }
+    public string Email { get; set; }
 
     // Do we save hashed passwords as strings? What else would they be saved as?
     public string Password { get; set; }

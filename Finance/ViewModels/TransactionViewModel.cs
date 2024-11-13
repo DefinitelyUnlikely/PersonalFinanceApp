@@ -9,7 +9,7 @@ namespace Finance.ViewModels
 {
     public partial class TransactionViewModel : ObservableObject
     {
-        TransactionDatabase transactionDatabase;
+        FinanceDatabase financeDatabase;
 
         [ObservableProperty]
         ObservableCollection<Transaction> transactions;
@@ -20,10 +20,10 @@ namespace Finance.ViewModels
         [ObservableProperty]
         Transaction? selectedTransaction;
 
-        public TransactionViewModel(TransactionDatabase transactionDatabase)
+        public TransactionViewModel(FinanceDatabase financeDatabase)
         {
 
-            this.transactionDatabase = transactionDatabase;
+            this.financeDatabase = financeDatabase;
             Transactions = [];
             LoadItems().ConfigureAwait(false);
             LoadBalance().ConfigureAwait(false);
@@ -32,20 +32,20 @@ namespace Finance.ViewModels
 
         private async Task LoadItems()
         {
-            List<Transaction> items = await transactionDatabase.GetItemsAsync();
+            List<Transaction> items = await financeDatabase.GetItemsAsync();
             Transactions = new ObservableCollection<Transaction>(items);
         }
 
         private async Task LoadBalance()
         {
-            Balance = await transactionDatabase.GetBalanceAsync();
+            Balance = await financeDatabase.GetBalanceAsync();
             Console.WriteLine();
         }
 
         public async Task AddTransaction(Transaction transaction)
         {
 
-            await transactionDatabase.SaveItemAsync(transaction);
+            await financeDatabase.SaveItemAsync(transaction);
             Transactions.Add(transaction);
             Balance += transaction.Amount;
         }
@@ -59,7 +59,7 @@ namespace Finance.ViewModels
                 return;
             }
 
-            await transactionDatabase.DeleteItemAsync(transaction);
+            await financeDatabase.DeleteItemAsync(transaction);
             Transactions.Remove(transaction);
             Balance -= transaction.Amount;
         }
