@@ -1,4 +1,7 @@
-﻿using Finance.ViewModels;
+﻿using Finance.Managers;
+using Finance.Models;
+using Finance.ViewModels;
+using Windows.Graphics.Display;
 
 namespace Finance.Views;
 
@@ -45,6 +48,15 @@ public partial class TransactionView : ContentPage
             await DisplayAlert("Navigation Error", ex.Message, "OK");
         }
     }
+
+    protected override bool OnBackButtonPressed()
+    {
+        UserManager.CurrentUser = null;
+        Console.WriteLine("did we do it?");
+        // return true if we want to handle the navigation ourselves.
+        return false;
+    }
+
 
 }
 

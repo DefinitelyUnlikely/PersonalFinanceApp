@@ -2,7 +2,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Finance.Models;
-using Finance.Utilites;
+using Finance.Utilities;
 
 namespace Finance.ViewModels;
 

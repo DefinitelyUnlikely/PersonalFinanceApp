@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Finance.Views.CreateAccView">
+             x:Class="Finance.Views.CreateAccView"
+             xmlns:vm="clr-namespace:Finance.ViewModels"
+             x:DataType="vm:CreateAccViewModel">
+
     <VerticalStackLayout Margin="20">
 
         <Label Text="Create Account"
@@ -11,27 +14,34 @@
             Text="Enter email"
             VerticalOptions="Center"
             HorizontalOptions="Start"/>
-        <Entry Placeholder="Email@Email.com"/>
+        <Entry Placeholder="Email@Email.com"
+               Text="{Binding Email}"/>
 
         <Label
             Text="Enter new account name"
             VerticalOptions="Center"
             HorizontalOptions="Start"/>
-        <Entry Placeholder="Account Name"/>
+        <Entry Placeholder="Account Name"
+               Text="{Binding Name}"/>
 
         <Label
             Text="Enter password"
             VerticalOptions="Center"
             HorizontalOptions="Start"/>
         <Entry Placeholder="Password"
-               IsPassword="True"/>
+               IsPassword="True"
+               Text="{Binding Password}"/>
 
         <Label
             Text="Re-enter password"
             VerticalOptions="Center"
             HorizontalOptions="Start"/>
         <Entry Placeholder="Type Password Again"
-               IsPassword="True"/>
+               IsPassword="True"
+               Text="{Binding RePassword}"/>
+
+        <Button Text="Create Account"
+                Command="{Binding CreateAccountCommand}"/>
 
     </VerticalStackLayout>
 </ContentPage>

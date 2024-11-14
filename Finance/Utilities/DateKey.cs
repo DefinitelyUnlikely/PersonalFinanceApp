@@ -1,7 +1,7 @@
 ﻿using System.Globalization;
 using Finance.Models;
 
-namespace Finance.Utilites;
+namespace Finance.Utilities;
 
 public class DateKey
 {
@@ -40,7 +40,7 @@ public class DateKey
 
         foreach (Transaction transaction in transactions)
         {
-            // År
+
             if (!yearDict.ContainsKey(GetYearKey(transaction.Date)))
             {
                 yearDict[GetYearKey(transaction.Date)] = [];
@@ -48,7 +48,6 @@ public class DateKey
 
             yearDict[GetYearKey(transaction.Date)].Add(transaction);
 
-            // Månad
             if (!monthDict.ContainsKey(GetMonthKey(transaction.Date)))
             {
                 monthDict[GetMonthKey(transaction.Date)] = [];
@@ -56,7 +55,6 @@ public class DateKey
 
             monthDict[GetMonthKey(transaction.Date)].Add(transaction);
 
-            // Vecka
             if (!weekDict.ContainsKey(GetWeekKey(transaction.Date)))
             {
                 weekDict[GetWeekKey(transaction.Date)] = [];
@@ -64,7 +62,6 @@ public class DateKey
 
             weekDict[GetWeekKey(transaction.Date)].Add(transaction);
 
-            // Dag
             if (!dayDict.ContainsKey(GetDayKey(transaction.Date)))
             {
                 dayDict[GetDayKey(transaction.Date)] = [];
