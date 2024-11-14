@@ -28,8 +28,6 @@ public partial class CreateAccViewModel : ObservableObject
     [RelayCommand]
     public async Task CreateAccount()
     {
-        // null check
-        // Add functionallity telling you that a field is missing (and is required)?
         if (Email is "" || Name is "" || Password is "" || RePassword is "")
         {
             await Shell.Current.DisplayAlert("Missing fields", "All fields are required", "OK");
@@ -51,7 +49,6 @@ public partial class CreateAccViewModel : ObservableObject
         {
 
             await Shell.Current.DisplayAlert("Password", "Passwords much match", "OK");
-            // reset all fields
             Password = string.Empty;
             RePassword = string.Empty;
             return;

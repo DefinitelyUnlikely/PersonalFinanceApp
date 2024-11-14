@@ -34,8 +34,5 @@ public class User
         Name = name;
 
         (Salt, PasswordHash) = password.SaltAndHash();
-        Console.WriteLine(Salt);
-        Console.WriteLine(PasswordHash);
-
     }
 }
