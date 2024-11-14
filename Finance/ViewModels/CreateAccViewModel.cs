@@ -5,6 +5,7 @@ using Finance.Models;
 using Finance.Managers;
 using Finance.Utilities;
 using CommunityToolkit.Mvvm.Input;
+using Finance.Views;
 
 
 namespace Finance.ViewModels;
@@ -41,6 +42,8 @@ public partial class CreateAccViewModel : ObservableObject
         if (!ValidationUtilities.IsValidEmail(Email))
         {
             await Shell.Current.DisplayAlert("Email", "Please enter a valid email", "OK");
+            Password = string.Empty;
+            RePassword = string.Empty;
             return;
         }
 
@@ -74,6 +77,15 @@ public partial class CreateAccViewModel : ObservableObject
         Name = string.Empty;
         Password = string.Empty;
         RePassword = string.Empty;
+
+        try
+        {
+            await Shell.Current.GoToAsync($"///{nameof(MainView)}");
+        }
+        catch (Exception ex)
+        {
+            await Shell.Current.DisplayAlert("Navigation Error", ex.Message, "OK");
+        }
 
     }
 }

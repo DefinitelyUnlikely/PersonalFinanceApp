@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using CommunityToolkit.Maui;
 using Finance.ViewModels;
 using Finance.Views;
 using Finance.Data;
@@ -16,7 +17,8 @@ namespace Finance
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
-                });
+                })
+                .UseMauiCommunityToolkit();
 
             builder.Services.AddSingleton<MainView>();
             builder.Services.AddSingleton<MainViewModel>();
@@ -36,6 +38,8 @@ namespace Finance
 
             builder.Services.AddTransient<SortView>();
             builder.Services.AddTransient<SortViewModel>();
+
+            builder.Services.AddTransientPopup<PasswordPopup, PasswordPopupViewModel>();
 
 #if DEBUG
             builder.Logging.AddDebug();

@@ -4,8 +4,18 @@
              x:Class="Finance.Views.TransactionView"
              xmlns:model="clr-namespace:Finance.Models"
              xmlns:vm="clr-namespace:Finance.ViewModels"
-             x:DataType="vm:TransactionViewModel"
-             Shell.NavBarIsVisible="False">
+             x:DataType="vm:TransactionViewModel">
+
+        <ContentPage.MenuBarItems>
+
+                <MenuBarItem Text="User Settings">
+                        <MenuFlyoutItem Text="{Binding Username}"/>
+                        <MenuFlyoutSeparator/>
+                        <MenuFlyoutItem Text="Change Username"/>
+                        <MenuFlyoutItem Text="Change Password"
+                                        Command="{Binding ChangePasswordCommand}"/>
+                </MenuBarItem>
+        </ContentPage.MenuBarItems>
 
         <Grid RowDefinitions="50, *, Auto, Auto"
               ColumnDefinitions=".25*, .25*, .25*, .25*">

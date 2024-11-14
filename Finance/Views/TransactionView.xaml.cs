@@ -1,7 +1,6 @@
 ﻿using Finance.Managers;
 using Finance.Models;
 using Finance.ViewModels;
-using Windows.Graphics.Display;
 
 namespace Finance.Views;
 
