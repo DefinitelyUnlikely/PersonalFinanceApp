@@ -51,9 +51,8 @@ public partial class TransactionView : ContentPage
 
     protected override bool OnBackButtonPressed()
     {
+        // Reset user when going back from transaction page
         UserManager.CurrentUser = null;
-        Console.WriteLine("did we do it?");
-        // return true if we want to handle the navigation ourselves.
         return false;
     }
 

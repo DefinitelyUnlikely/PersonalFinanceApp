@@ -15,7 +15,7 @@ public partial class SortViewModel : ObservableObject
     private List<Dictionary<string, List<Models.Transaction>>> dictionaries;
 
     [ObservableProperty]
-    ObservableCollection<DisplayItem> displayList;
+    ObservableCollection<DisplayItem> displayList = [];
 
     // A mediator is used, as the program would crash if one tried to sort
     // and observableCollection. 

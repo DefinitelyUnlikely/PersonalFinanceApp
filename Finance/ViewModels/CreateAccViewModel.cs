@@ -51,12 +51,11 @@ public partial class CreateAccViewModel : ObservableObject
             return;
         }
 
-        string hashedPassword = "";
 
         // Hopefully npgsql gives returns if inserts don't work, so once
         // this is replaced by the SQL variant - we can try to add the user
         // and if email or name isn't unique, we catch that.
-        UserManager.AddUser(new User(Email, Name, hashedPassword));
+        UserManager.AddUser(new User(Email, Name, Password));
 
         Email = null;
         Name = null;

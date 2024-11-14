@@ -1,3 +1,5 @@
+using Finance.Utilities;
+
 namespace Finance.Models;
 
 // All getters and setters are placeholder, until I've fixed PostreSQL 
@@ -25,11 +27,15 @@ public class User
     // we get an item from the database the first time that section. 
     // So hashing should be done in the ViewModel or the constructor used by
     // the ViewModel. (SQLite used an empty constructor, and then set each field)
-    public User(string name, string email, string hashedPassword)
+    public User(string name, string email, string password)
     {
         Id = new Guid();
         Email = email;
         Name = name;
-        HashedPassword = hashedPassword;
+
+        (Salt, HashedPassword) = password.SaltAndHash();
+        Console.WriteLine(Salt);
+        Console.WriteLine(HashedPassword);
+
     }
 }

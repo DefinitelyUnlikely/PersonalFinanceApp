@@ -11,7 +11,7 @@ namespace Finance.ViewModels
     {
 
         [ObservableProperty]
-        ObservableCollection<Transaction> transactions;
+        ObservableCollection<Transaction> transactions = [];
 
         [ObservableProperty]
         double balance;
