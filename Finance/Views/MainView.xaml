@@ -4,6 +4,7 @@
              x:Class="Finance.Views.MainView"
              xmlns:model="clr-namespace:Finance.Models"
              xmlns:vm="clr-namespace:Finance.ViewModels"
+             x:DataType="vm:MainViewModel"
              Title="Login Page"
              Shell.NavBarIsVisible="False">
 
@@ -16,13 +17,13 @@
 
               <Label Text="Account name"/>
 
-              <Entry Placeholder="Enter Account Name"/>
+              <Entry Placeholder="Enter Username"
+                     Text="{Binding Name}"/>
 
               <Label Text="Password"/>
               <Entry Placeholder="Password"
-                     IsPassword="True"/>
-
-
+                     IsPassword="True"
+                     Text="{Binding Password}"/>
 
               <Grid RowDefinitions="50"
                     ColumnDefinitions=".50*, .50*">
@@ -32,7 +33,7 @@
                              Grid.Row="5"
                              Grid.Column="0"/>
                      <Button Text="Login"
-                             Clicked="OnLoginClicked"
+                             Command="{Binding TryLoginCommand}"
                              Grid.Row="5"
                              Grid.Column="1"/>
 
@@ -40,7 +41,8 @@
 
               <Label Text="Forgot password?"
                      TextColor="Blue"
-                     TextDecorations="Underline">
+                     TextDecorations="Underline"
+                     Margin="0,10,0,0">
                      <Label.GestureRecognizers>
                             <TapGestureRecognizer Command="{Binding ForgotCommand}"
                                                   CommandParameter="https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExbmc3YXN6MjlnbGc5ZnNqdHUyZmRrMzVvYnVxaXpsMWRlZjFoMDBmaiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/JWKYnoKa2T5uzXd9lm/giphy.gif"/>

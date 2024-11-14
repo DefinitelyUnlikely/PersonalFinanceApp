@@ -28,7 +28,7 @@
             Text="Enter password"
             VerticalOptions="Center"
             HorizontalOptions="Start"/>
-        <Entry Placeholder="Password"
+        <Entry Placeholder="Password (at least 8 characters)"
                IsPassword="True"
                Text="{Binding Password}"/>
 
@@ -36,7 +36,7 @@
             Text="Re-enter password"
             VerticalOptions="Center"
             HorizontalOptions="Start"/>
-        <Entry Placeholder="Type Password Again"
+        <Entry Placeholder="Enter Password Again"
                IsPassword="True"
                Text="{Binding RePassword}"/>
 

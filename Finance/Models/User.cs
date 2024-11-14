@@ -15,7 +15,7 @@ public class User
 
     // Do we save hashed passwords as strings? What else would they be saved as?
     public string Salt { get; set; }
-    public string HashedPassword { get; set; }
+    public string PasswordHash { get; set; }
 
     // As we are going to be using a SQL database, I do not need a transactions field
     // or similar to get all the transactions for one account. It is simpler to just use 
@@ -27,15 +27,15 @@ public class User
     // we get an item from the database the first time that section. 
     // So hashing should be done in the ViewModel or the constructor used by
     // the ViewModel. (SQLite used an empty constructor, and then set each field)
-    public User(string name, string email, string password)
+    public User(string email, string name, string password)
     {
         Id = new Guid();
         Email = email;
         Name = name;
 
-        (Salt, HashedPassword) = password.SaltAndHash();
+        (Salt, PasswordHash) = password.SaltAndHash();
         Console.WriteLine(Salt);
-        Console.WriteLine(HashedPassword);
+        Console.WriteLine(PasswordHash);
 
     }
 }

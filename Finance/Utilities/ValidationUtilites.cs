@@ -25,7 +25,7 @@ public class ValidationUtilities
         }
     }
 
-    public static bool VerifyPassword(string password)
+    public static bool IsValidPassword(string password)
     {
         return true;
     }

@@ -13,33 +13,38 @@ public partial class CreateAccViewModel : ObservableObject
 {
 
     [ObservableProperty]
-    string? email;
+    string email = string.Empty;
 
     [ObservableProperty]
-    string? name;
+    string name = string.Empty;
 
     [ObservableProperty]
-    string? password;
+    string password = string.Empty;
 
     [ObservableProperty]
-    string? rePassword;
+    string rePassword = string.Empty;
 
 
     [RelayCommand]
-    public void CreateAccount()
+    public async Task CreateAccount()
     {
         // null check
         // Add functionallity telling you that a field is missing (and is required)?
-        if (Email is null || Name is null || Password is null || RePassword is null) return;
+        if (Email is "" || Name is "" || Password is "" || RePassword is "")
+        {
+            await Shell.Current.DisplayAlert("Missing fields", "All fields are required", "OK");
+            Password = string.Empty;
+            RePassword = string.Empty;
+            return;
+        }
 
         if (!Password.Equals(RePassword))
         {
 
+            await Shell.Current.DisplayAlert("Password", "Passwords much match", "OK");
             // reset all fields
-            Email = null;
-            Name = null;
-            Password = null;
-            RePassword = null;
+            Password = string.Empty;
+            RePassword = string.Empty;
             return;
         }
 
@@ -47,7 +52,7 @@ public partial class CreateAccViewModel : ObservableObject
         // to check if the email actually exists. We won't.
         if (!ValidationUtilities.IsValidEmail(Email))
         {
-            Email = "ENTER A VALID EMAIL!";
+            await Shell.Current.DisplayAlert("Email", "Please enter a valid email", "OK");
             return;
         }
 
@@ -56,11 +61,12 @@ public partial class CreateAccViewModel : ObservableObject
         // this is replaced by the SQL variant - we can try to add the user
         // and if email or name isn't unique, we catch that.
         UserManager.AddUser(new User(Email, Name, Password));
+        await Shell.Current.DisplayAlert("Success", $"User {Name} has been created", "OK");
 
-        Email = null;
-        Name = null;
-        Password = null;
-        RePassword = null;
+        Email = string.Empty;
+        Name = string.Empty;
+        Password = string.Empty;
+        RePassword = string.Empty;
 
     }
 }

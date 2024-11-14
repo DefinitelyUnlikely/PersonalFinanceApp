@@ -8,7 +8,7 @@ namespace Finance.Managers;
 // part of that functionality will be in the ViewModels, but they could call on this manager. 
 public class UserManager
 {
-    private static List<User> Users { get; } = [];
+    private static Dictionary<string, User> Users { get; } = [];
 
     public static User? CurrentUser { get; set; }
 
@@ -16,7 +16,7 @@ public class UserManager
     {
         try
         {
-            Users.Add(user);
+            Users.Add(user.Name.ToLower(), user);
             return true;
         }
         catch (Exception e)
@@ -28,7 +28,22 @@ public class UserManager
 
     public static bool RemoveUser(User user)
     {
-        return Users.Remove(user);
+        return Users.Remove(user.Name.ToLower());
+    }
+
+    public static bool UserExists(string name)
+    {
+        return Users.ContainsKey(name.ToLower());
+    }
+
+    public static void SetUser(string name)
+    {
+        CurrentUser = Users[name.ToLower()];
+    }
+
+    public static User GetUser(string name)
+    {
+        return Users[name.ToLower()];
     }
 
 }
