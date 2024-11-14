@@ -27,7 +27,9 @@ public class ValidationUtilities
 
     public static bool IsValidPassword(string password)
     {
-        return true;
+        if (password.Length > 7) return true;
+
+        return false;
     }
 }
 

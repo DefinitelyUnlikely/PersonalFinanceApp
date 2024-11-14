@@ -1,6 +1,7 @@
 using System;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Finance.Views;
 using Finance.Managers;
 using Finance.Utilities;
 
@@ -42,14 +43,20 @@ public partial class MainViewModel : ObservableObject
         if (!UserManager.UserExists(Name))
         {
             await Shell.Current.DisplayAlert("Login Error", "That username does not exist", "OK");
+            Password = string.Empty;
             return;
         }
 
         if (!Name.VerifyPassword(Password))
         {
             await Shell.Current.DisplayAlert("Login Error", "Wrong password.", "OK");
+            Password = string.Empty;
+            return;
         }
 
+        // TODO: Once the DB is set up, move to the transaction page and show only the 
+        // transactions that account made. 
         UserManager.SetUser(Name);
+        await Shell.Current.GoToAsync(nameof(TransactionView));
     }
 }

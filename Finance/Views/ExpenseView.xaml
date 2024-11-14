@@ -39,9 +39,10 @@
         <DatePicker Date="{Binding TransactionDate}"
                     VerticalOptions="Center"
                     HorizontalOptions="Center"/>
-        <Button Text="Add"
+        <Button Text="Add Expense"
                 Command="{Binding SubmitTransactionCommand}"
                 VerticalOptions="Center"
-                HorizontalOptions="End"/>
+                HorizontalOptions="End"
+                Margin="10"/>
     </VerticalStackLayout>
 </ContentPage>

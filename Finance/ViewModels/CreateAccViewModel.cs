@@ -38,6 +38,15 @@ public partial class CreateAccViewModel : ObservableObject
             return;
         }
 
+        // In reality, you'd probably also send some kind of verification email
+        // to check if the email actually exists. We won't.
+        if (!ValidationUtilities.IsValidEmail(Email))
+        {
+            await Shell.Current.DisplayAlert("Email", "Please enter a valid email", "OK");
+            return;
+        }
+
+
         if (!Password.Equals(RePassword))
         {
 
@@ -48,11 +57,12 @@ public partial class CreateAccViewModel : ObservableObject
             return;
         }
 
-        // In reality, you'd probably also send some kind of verification email
-        // to check if the email actually exists. We won't.
-        if (!ValidationUtilities.IsValidEmail(Email))
+
+        if (!ValidationUtilities.IsValidPassword(Password))
         {
-            await Shell.Current.DisplayAlert("Email", "Please enter a valid email", "OK");
+            await Shell.Current.DisplayAlert("Password", "Passwords must be longer than 8 characters", "OK");
+            Password = string.Empty;
+            RePassword = string.Empty;
             return;
         }
 

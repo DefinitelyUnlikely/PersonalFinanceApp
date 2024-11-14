@@ -43,9 +43,10 @@
                     VerticalOptions="Center"
                     HorizontalOptions="Center"/>
 
-        <Button Text="Submit Income"
+        <Button Text="Add Income"
                 Command="{Binding SubmitTransactionCommand}"
                 VerticalOptions="Center"
-                HorizontalOptions="End"/>
+                HorizontalOptions="End"
+                Margin="10"/>
     </VerticalStackLayout>
 </ContentPage>
