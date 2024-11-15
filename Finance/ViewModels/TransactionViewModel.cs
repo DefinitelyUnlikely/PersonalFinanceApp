@@ -27,10 +27,10 @@ namespace Finance.ViewModels
         [ObservableProperty]
         string? username;
 
-        public TransactionViewModel(FinanceDatabase financeDatabase, IPopupService popupSer)
+        public TransactionViewModel(FinanceDatabase financeDatabase, IPopupService popupService)
         {
             Username = UserManager.CurrentUser!.Name;
-            this.popupSerivce = popupSer;
+            this.popupSerivce = popupService;
             LoadItems();
         }
 

@@ -2,6 +2,7 @@ using System;
 using CommunityToolkit.Maui.Core;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Finance.Models;
 using Finance.Managers;
 using Finance.Utilities;
 
@@ -27,6 +28,7 @@ public partial class PasswordPopupViewModel : ObservableObject
     [RelayCommand]
     async Task ChangePassword()
     {
+        User user = UserManager.GetUser(UserManager.CurrentUser!.Name);
 
         if (CurrentPassword is "" || Password is "" || RePassword is "")
         {
@@ -37,7 +39,7 @@ public partial class PasswordPopupViewModel : ObservableObject
             return;
         }
 
-        if (!UserManager.CurrentUser!.Name.VerifyPassword(CurrentPassword))
+        if (!user.Name.VerifyPassword(CurrentPassword))
         {
             CurrentPassword = string.Empty;
             Password = string.Empty;
@@ -63,7 +65,7 @@ public partial class PasswordPopupViewModel : ObservableObject
             return;
         }
 
-        (UserManager.CurrentUser!.Salt, UserManager.CurrentUser!.PasswordHash) = Password.SaltAndHash();
+        (user.Salt, user.PasswordHash) = Password.SaltAndHash();
         await popupService.ClosePopupAsync();
     }
 }
