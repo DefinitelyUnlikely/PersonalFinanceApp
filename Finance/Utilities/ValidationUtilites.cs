@@ -6,9 +6,9 @@ using System.Text.RegularExpressions;
 
 namespace Finance.Utilities;
 
-public class ValidationUtilities
+public static class ValidationUtilities
 {
-    public static bool IsValidEmail(string email)
+    public static bool IsValidEmail(this string email)
     {
         if (string.IsNullOrWhiteSpace(email))
             return false;
@@ -25,9 +25,13 @@ public class ValidationUtilities
         }
     }
 
-    public static bool IsValidPassword(string password)
+    public static bool IsValidPassword(this string password)
     {
-        if (password.Length > 7) return true;
+        // I decided to keep it simple for testin purposes
+        // but "^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$"
+        // checks the more common at least 8, one number one special one letter. 
+        // https://stackoverflow.com/questions/19605150/regex-for-password-must-contain-at-least-eight-characters-at-least-one-number-a
+        if (Regex.IsMatch(password, @"\S{8,}$")) return true;
 
         return false;
     }

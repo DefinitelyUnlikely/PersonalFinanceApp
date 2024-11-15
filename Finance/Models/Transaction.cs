@@ -17,9 +17,6 @@ public class Transaction
     public DateTime CreatedDate { get; set; }
     public DateTime Date { get; set; }
 
-    public Transaction() { }
-
-
     public Transaction(string name, double amount, DateTime transactionDate)
     {
         Name = name;

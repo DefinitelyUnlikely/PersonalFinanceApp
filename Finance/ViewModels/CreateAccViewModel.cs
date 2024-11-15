@@ -39,7 +39,7 @@ public partial class CreateAccViewModel : ObservableObject
 
         // In reality, you'd probably also send some kind of verification email
         // to check if the email actually exists. We won't.
-        if (!ValidationUtilities.IsValidEmail(Email))
+        if (!Email.IsValidEmail())
         {
             await Shell.Current.DisplayAlert("Email", "Please enter a valid email", "OK");
             Password = string.Empty;
@@ -58,7 +58,7 @@ public partial class CreateAccViewModel : ObservableObject
         }
 
 
-        if (!ValidationUtilities.IsValidPassword(Password))
+        if (!Password.IsValidPassword())
         {
             await Shell.Current.DisplayAlert("Password", "Passwords must be longer than 8 characters", "OK");
             Password = string.Empty;
