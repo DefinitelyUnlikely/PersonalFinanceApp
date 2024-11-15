@@ -4,6 +4,7 @@ using CommunityToolkit.Mvvm.Input;
 using Finance.Views;
 using Finance.Managers;
 using Finance.Utilities;
+using System.Reflection;
 
 namespace Finance.ViewModels;
 
@@ -11,7 +12,7 @@ public partial class MainViewModel : ObservableObject
 {
 
     [ObservableProperty]
-    public string name = string.Empty;
+    public string username = string.Empty;
 
     [ObservableProperty]
     public string password = string.Empty;
@@ -32,7 +33,7 @@ public partial class MainViewModel : ObservableObject
     [RelayCommand]
     async Task TryLogin()
     {
-        if (Name is "" || Password is "")
+        if (Username is "" || Password is "")
         {
             await Shell.Current.DisplayAlert("Login Error", "Please enter both username and password", "OK");
             Password = string.Empty;
@@ -40,14 +41,14 @@ public partial class MainViewModel : ObservableObject
         }
 
         // The dict and method in UserManager will be replaced by the database
-        if (!UserManager.UserExists(Name))
+        if (!UserManager.UserExists(Username))
         {
             await Shell.Current.DisplayAlert("Login Error", "That username does not exist", "OK");
             Password = string.Empty;
             return;
         }
 
-        if (!Name.VerifyPassword(Password))
+        if (!Username.VerifyPassword(Password))
         {
             await Shell.Current.DisplayAlert("Login Error", "Wrong password.", "OK");
             Password = string.Empty;
@@ -56,7 +57,19 @@ public partial class MainViewModel : ObservableObject
 
         // TODO: Once the DB is set up, move to the transaction page and show only the 
         // transactions that account made. 
-        UserManager.SetUser(Name);
-        await Shell.Current.GoToAsync(nameof(TransactionView));
+        UserManager.SetUser(Username);
+        Console.WriteLine($"{MethodBase.GetCurrentMethod()!.DeclaringType!.Name} - Username is {Username}");
+
+        try
+        {
+            await Shell.Current.GoToAsync(nameof(TransactionView));
+            Username = string.Empty;
+            Password = string.Empty;
+        }
+        catch (Exception e)
+        {
+            await Shell.Current.DisplayAlert("Nav error", e.Message, "OK");
+        }
+
     }
 }

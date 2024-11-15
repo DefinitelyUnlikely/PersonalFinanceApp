@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Reflection;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Maui.Views;
@@ -27,11 +28,12 @@ namespace Finance.ViewModels
         [ObservableProperty]
         string? username;
 
-        public TransactionViewModel(FinanceDatabase financeDatabase, IPopupService popupService)
+        public TransactionViewModel(IPopupService popupService)
         {
             Username = UserManager.CurrentUser!.Name;
             this.popupSerivce = popupService;
             LoadItems();
+            Console.WriteLine($"{MethodBase.GetCurrentMethod()!.DeclaringType!.Name} - Username is {Username}");
         }
 
         private void LoadItems()
