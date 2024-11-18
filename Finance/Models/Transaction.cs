@@ -8,13 +8,13 @@ public class Transaction
     public Guid Id { get; set; }
 
     // Foreign key
-    public Guid UserId { get; set; }
+    public int UserId { get; set; }
 
     public string Name { get; set; }
 
     public double Amount { get; set; }
 
-    public DateTime CreatedDate { get; set; }
+    public DateTime Created { get; set; }
     public DateTime Date { get; set; }
 
     public Transaction(string name, double amount, DateTime transactionDate)
@@ -30,7 +30,7 @@ public class Transaction
         Name = name;
         Amount = amount;
         Date = date;
-        CreatedDate = created;
+        Created = created;
 
     }
 

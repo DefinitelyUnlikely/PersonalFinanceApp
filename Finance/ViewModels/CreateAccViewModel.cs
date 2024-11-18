@@ -66,11 +66,10 @@ public partial class CreateAccViewModel : ObservableObject
             return;
         }
 
-
-        // Hopefully npgsql gives returns if inserts don't work, so once
-        // this is replaced by the SQL variant - we can try to add the user
-        // and if email or name isn't unique, we catch that.
-        UserManager.AddUser(new User(Email, Name, Password));
+        if (!UserManager.AddUser(Email, Name, Password).Result)
+        {
+            await Shell.Current.DisplayAlert("Failure", $"Oops - User {Name} has not been created", "OK");
+        }
         await Shell.Current.DisplayAlert("Success", $"User {Name} has been created", "OK");
 
         Email = string.Empty;

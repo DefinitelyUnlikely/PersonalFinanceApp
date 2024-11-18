@@ -1,22 +1,38 @@
 using Finance.Models;
+using Finance.Data;
+using Finance.Utilities;
+using Npgsql;
+
 
 namespace Finance.Managers;
 
-
-// I won't need the list nor will AddUser and RemoveUser look like this/be needed
-// but what I will need is away to keep track of the current user and log them in and out. 
-// part of that functionality will be in the ViewModels, but they could call on this manager. 
 public class UserManager
 {
-    private static Dictionary<string, User> Users { get; } = [];
 
     public static User? CurrentUser { get; set; }
 
-    public static bool AddUser(User user)
+    public static async Task<bool> AddUser(string email, string name, string password)
     {
+
+        using var connection = await FinanceDatabase.GetConnection();
+
         try
         {
-            Users.Add(user.Name.ToLower(), user);
+
+            (string salt, string passwordHash) = password.SaltAndHash();
+
+            string sql = @"
+            INSERT INTO users (email, name, salt, password)
+            VALUES (@email, @name, @salt, @password)
+            ";
+
+            using var command = new NpgsqlCommand(sql, connection);
+            command.Parameters.AddWithValue("email", email);
+            command.Parameters.AddWithValue("name", name);
+            command.Parameters.AddWithValue("salt", salt);
+            command.Parameters.AddWithValue("password", passwordHash);
+
+            await command.ExecuteNonQueryAsync();
             return true;
         }
         catch (Exception e)
@@ -26,24 +42,70 @@ public class UserManager
         }
     }
 
-    public static bool RemoveUser(User user)
+    public static async Task<bool> RemoveUser(int id)
     {
-        return Users.Remove(user.Name.ToLower());
+        using var connection = FinanceDatabase.GetConnection().Result;
+        using var sqlTransaction = connection.BeginTransaction();
+
+        try
+        {
+            string sql = @"
+            DELETE FROM users WHERE id = @id;
+            ";
+
+            using var command = new NpgsqlCommand(sql, connection);
+            command.Parameters.AddWithValue("id", id);
+
+
+            await command.ExecuteNonQueryAsync();
+            sqlTransaction.Commit();
+
+            return true;
+        }
+        catch (Exception e)
+        {
+            sqlTransaction.Rollback();
+            Console.WriteLine(e);
+            return false;
+        }
     }
 
     public static bool UserExists(string name)
     {
-        return Users.ContainsKey(name.ToLower());
+        using var connection = FinanceDatabase.GetConnection().Result;
+
+        string sql = @"SELECT * FROM users WHERE name = @name";
+        using var command = new NpgsqlCommand(sql, connection);
+        command.Parameters.AddWithValue("name", name);
+
+        var user = command.ExecuteScalarAsync();
+
+        Console.WriteLine(user.Result);
+        if (user.Result is not null && user.Result.Equals(name))
+        {
+            return true;
+        }
+
+        return false;
     }
 
     public static void SetUser(string name)
     {
-        CurrentUser = Users[name.ToLower()];
+
     }
 
     public static User GetUser(string name)
     {
-        return Users[name.ToLower()];
+        using var connection = FinanceDatabase.GetConnection().Result;
+
+        string sql = @"SELECT * FROM users WHERE name = @name";
+        using var command = new NpgsqlCommand(sql, connection);
+        command.Parameters.AddWithValue("name", name);
+
+        var user = command.ExecuteScalarAsync();
+
+
+        return new User("placeholder", "placeholder", "placeholder");
     }
 
 }

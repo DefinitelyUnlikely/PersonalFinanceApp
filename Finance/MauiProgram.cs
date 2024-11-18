@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Configuration;
 using CommunityToolkit.Maui;
 using Finance.ViewModels;
 using Finance.Views;
