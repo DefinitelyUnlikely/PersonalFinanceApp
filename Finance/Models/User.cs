@@ -15,7 +15,7 @@ public class User
     public string PasswordHash { get; set; }
 
 
-
+    // As I decided to not use EF Core at the moment, this might need to change.
     public User(string email, string name, string password)
     {
         Email = email;

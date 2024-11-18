@@ -13,6 +13,7 @@ public class FinanceDatabase
     {
         if (connection is not null)
         {
+            await connection.OpenAsync();
             return connection;
         }
 
@@ -44,7 +45,7 @@ public class FinanceDatabase
         string createTransactionsTable = @"
         CREATE TABLE IF NOT EXISTS transactions (
         id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-        userId INTEGER REFERENCES users(id)
+        userId INTEGER REFERENCES users(id),
         name text NOT NULL,
         amount decimal NOT NULL,
         created DATE NOT NULL,
@@ -67,8 +68,7 @@ public class FinanceDatabase
         catch (Exception e)
         {
             sqlTransaction.Rollback();
-            Console.WriteLine("Something went wrong with the creation of the tables");
-            Console.WriteLine(e.Message);
+            await Shell.Current.DisplayAlert("Database Error", "Something went wrong with the creation of the tables: " + e.Message, "OK");
         }
 
     }
