@@ -1,9 +1,14 @@
 using Npgsql;
 using Finance;
 using System.Transactions;
+using System.Data.Common;
 
 namespace Finance.Data;
 
+public interface IDatabase
+{
+    Task<DbConnection> GetConnectionAsync();
+}
 
 public class FinanceDatabase : IDatabase
 {
@@ -13,12 +18,12 @@ public class FinanceDatabase : IDatabase
     public FinanceDatabase()
     {
         connectionString = Constants.connectionString;
+        InitializeDatabase();
     }
 
-    public async Task<NpgsqlConnection> GetConnection()
+    public async Task<DbConnection> GetConnectionAsync()
     {
         var connection = new NpgsqlConnection(connectionString);
-        await connection.OpenAsync();
         return connection;
     }
 
@@ -43,7 +48,7 @@ public class FinanceDatabase : IDatabase
         date DATE NOT NULL
         )";
 
-        await using var conn = await GetConnection();
+        await using var conn = (NpgsqlConnection)await GetConnectionAsync();
         await using var sqlTransaction = await conn.BeginTransactionAsync();
 
         try
