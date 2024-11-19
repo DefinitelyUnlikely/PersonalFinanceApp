@@ -4,34 +4,25 @@ using System.Transactions;
 
 namespace Finance.Data;
 
-public class FinanceDatabase
+
+public class FinanceDatabase : IDatabase
 {
-    private static NpgsqlConnection? connection;
 
+    private readonly string connectionString;
 
-    public static async Task<NpgsqlConnection> GetConnection()
+    public FinanceDatabase()
     {
-        if (connection is not null)
-        {
-            await connection.OpenAsync();
-            return connection;
-        }
-
-        try
-        {
-            connection = new NpgsqlConnection(Constants.connectionString);
-            Console.WriteLine(Constants.connectionString);
-            await connection.OpenAsync();
-            return connection;
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e.Message);
-            throw;
-        }
+        connectionString = Constants.connectionString;
     }
 
-    public static async Task CreateTablesIfNotExists()
+    public async Task<NpgsqlConnection> GetConnection()
+    {
+        var connection = new NpgsqlConnection(connectionString);
+        await connection.OpenAsync();
+        return connection;
+    }
+
+    public async Task InitializeDatabase()
     {
         string createUsersTable = @"
         CREATE TABLE IF NOT EXISTS users (
@@ -72,5 +63,6 @@ public class FinanceDatabase
         }
 
     }
+
 }
 
