@@ -14,12 +14,10 @@ public partial class PasswordPopupViewModel : ObservableObject
 {
     private readonly IPopupService popupService;
     private readonly IUserRepository userRepo;
-    private readonly IFinanceDatabase database;
     private readonly IPasswordUtilities passwordUtilities;
 
-    public PasswordPopupViewModel(IPopupService ps, IUserRepository ur, IFinanceDatabase db, IPasswordUtilities pu)
+    public PasswordPopupViewModel(IPopupService ps, IUserRepository ur, IPasswordUtilities pu)
     {
-        database = db;
         userRepo = ur;
         popupService = ps;
         passwordUtilities = pu;

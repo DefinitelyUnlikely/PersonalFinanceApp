@@ -97,6 +97,39 @@ public class UserRepository : IUserRepository
 
     }
 
+    public async Task<bool> UpdateUserAsync(int id, Dictionary<string, string> columnsValues)
+    {
+        await using var connection = (NpgsqlConnection)await database.GetConnectionAsync();
+        await using var sqlTransaction = await connection.BeginTransactionAsync();
+
+        try
+        {
+            foreach (KeyValuePair<string, string> entry in columnsValues)
+            {
+                string sql = @"UPDATE users SET @column = @value WHERE id = @id;";
+                await using var command = new NpgsqlCommand(sql, connection);
+
+                command.Parameters.AddWithValue("@column", entry.Key);
+                command.Parameters.AddWithValue("@value", entry.Value);
+                command.Parameters.AddWithValue("@id", id);
+
+                await command.ExecuteNonQueryAsync();
+            }
+
+            sqlTransaction.Commit();
+            return true;
+
+        }
+        catch (Exception e)
+        {
+            await sqlTransaction.RollbackAsync();
+            await Shell.Current.DisplayAlert("Interal User Error", "Could not update: " + e.Message, "OK");
+            return false;
+        }
+
+
+    }
+
     public async Task<bool> RemoveUserAsync(int id)
     {
         await using var connection = (NpgsqlConnection)await database.GetConnectionAsync();
@@ -125,4 +158,6 @@ public class UserRepository : IUserRepository
         command.Parameters.AddWithValue("@name", name);
         return await command.ExecuteNonQueryAsync() != -1;
     }
+
+
 }
