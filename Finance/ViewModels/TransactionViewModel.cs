@@ -5,7 +5,6 @@ using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Maui.Views;
 using Finance.Data;
 using Finance.Models;
-using Finance.Managers;
 using Finance.Views;
 using CommunityToolkit.Maui.Core;
 

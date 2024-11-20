@@ -2,8 +2,6 @@
 using Isopoh.Cryptography.Argon2;
 using System.Security.Cryptography;
 
-using Finance.Managers;
-
 namespace Finance.Utilities;
 
 // Decided to test using extensions for this. It felt like a good opportunity.

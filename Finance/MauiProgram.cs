@@ -4,6 +4,8 @@ using CommunityToolkit.Maui;
 using Finance.ViewModels;
 using Finance.Views;
 using Finance.Data.Database;
+using Finance.Data.Interfaces;
+using Finance.Data.Repositories;
 
 namespace Finance
 {
@@ -21,7 +23,10 @@ namespace Finance
                 })
                 .UseMauiCommunityToolkit();
 
-            builder.Services.AddSingleton<IFinanceDatabase, FinanceDatabase>();
+            builder.Services.AddSingleton<IFinanceDatabase, PostgresDatabase>();
+            builder.Services.AddSingleton<IUserRepository, UserRepository>();
+            builder.Services.AddSingleton<ITransactionRepository, TransactionRepository>();
+
 
             builder.Services.AddSingleton<MainView>();
             builder.Services.AddSingleton<MainViewModel>();

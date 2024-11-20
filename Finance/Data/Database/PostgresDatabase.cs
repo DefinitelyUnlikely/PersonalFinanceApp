@@ -3,12 +3,12 @@ using System.Data.Common;
 
 namespace Finance.Data.Database;
 
-public class FinanceDatabase : IFinanceDatabase
+public class PostgresDatabase : IFinanceDatabase
 {
 
     private readonly string connectionString;
 
-    public FinanceDatabase()
+    public PostgresDatabase()
     {
         connectionString = Constants.connectionString;
     }
@@ -20,12 +20,6 @@ public class FinanceDatabase : IFinanceDatabase
         return connection;
     }
 
-    // What is a good name for this function? 
-    public async Task ExecuteDbQuery()
-    {
-        // A recommended to me approach to not have to create a new database object 
-        // everytime I want a connection is to have a method that takes a func as it's argument
-    }
 
     public async Task InitializeDatabase()
     {

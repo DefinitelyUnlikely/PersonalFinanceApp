@@ -3,7 +3,6 @@ using CommunityToolkit.Maui.Core;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Finance.Models;
-using Finance.Managers;
 using Finance.Utilities;
 
 namespace Finance.ViewModels;
