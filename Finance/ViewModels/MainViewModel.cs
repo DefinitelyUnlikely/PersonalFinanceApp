@@ -2,7 +2,6 @@ using System;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Finance.Views;
-using Finance.Managers;
 using Finance.Utilities;
 using System.Reflection;
 
@@ -18,7 +17,7 @@ public partial class MainViewModel : ObservableObject
     public string password = string.Empty;
 
     [RelayCommand]
-    async Task Forgot(string url)
+    async static Task Forgot(string url)
     {
         try
         {
@@ -40,8 +39,8 @@ public partial class MainViewModel : ObservableObject
             return;
         }
 
-        // The dict and method in UserManager will be replaced by the database
-        if (!UserManager.UserExists(Username))
+        // Replace UserManager with a Repository that we can inject through the constructor.
+        if (!await UserManager.UserExists(Username))
         {
             await Shell.Current.DisplayAlert("Login Error", "That username does not exist", "OK");
             Password = string.Empty;

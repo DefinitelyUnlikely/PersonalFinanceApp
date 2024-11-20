@@ -17,6 +17,7 @@ public static class PasswordUtilities
         return (salt, hashedPass);
     }
 
+    // change this to check against DB.
     public static bool VerifyPassword(this string userName, string password)
     {
         string userSalt = UserManager.GetUser(userName).Salt;

@@ -3,7 +3,7 @@ using Microsoft.Extensions.Configuration;
 using CommunityToolkit.Maui;
 using Finance.ViewModels;
 using Finance.Views;
-using Finance.Data;
+using Finance.Data.Database;
 
 namespace Finance
 {
@@ -21,6 +21,8 @@ namespace Finance
                 })
                 .UseMauiCommunityToolkit();
 
+            builder.Services.AddSingleton<IFinanceDatabase, FinanceDatabase>();
+
             builder.Services.AddSingleton<MainView>();
             builder.Services.AddSingleton<MainViewModel>();
 
@@ -29,7 +31,7 @@ namespace Finance
 
             builder.Services.AddTransient<TransactionView>();
             builder.Services.AddTransient<TransactionViewModel>();
-            builder.Services.AddSingleton<FinanceDatabase>();
+
 
             builder.Services.AddTransient<IncomeView>();
             builder.Services.AddTransient<IncomeViewModel>();

@@ -28,6 +28,7 @@ public partial class PasswordPopupViewModel : ObservableObject
     [RelayCommand]
     async Task ChangePassword()
     {
+        // Replace with repository
         User user = UserManager.GetUser(UserManager.CurrentUser!.Name);
 
         if (CurrentPassword is "" || Password is "" || RePassword is "")

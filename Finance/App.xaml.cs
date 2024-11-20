@@ -1,4 +1,4 @@
-﻿using Finance.Data;
+﻿using Finance.Data.Database;
 using Microsoft.EntityFrameworkCore.Internal;
 using Microsoft.EntityFrameworkCore.Storage;
 
@@ -6,9 +6,12 @@ namespace Finance;
 
 public partial class App : Application
 {
-    public App()
-    {
 
+    private readonly IFinanceDatabase database;
+
+    public App(IFinanceDatabase database)
+    {
+        this.database = database;
         InitializeComponent();
         InitializeDatabase();
 
@@ -18,7 +21,7 @@ public partial class App : Application
     private async void InitializeDatabase()
     {
 
-        await FinanceDatabase.CreateTablesIfNotExists();
+        await database.InitializeDatabase();
 
     }
 

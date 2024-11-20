@@ -2,7 +2,6 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 using Finance.Data;
 using Finance.Models;
-using Finance.Managers;
 using Finance.Utilities;
 using CommunityToolkit.Mvvm.Input;
 using Finance.Views;
@@ -66,10 +65,13 @@ public partial class CreateAccViewModel : ObservableObject
             return;
         }
 
+        // Replace UserManager with a Repository that we can inject through the constructor.
         if (!UserManager.AddUser(Email, Name, Password).Result)
         {
             await Shell.Current.DisplayAlert("Failure", $"Oops - User {Name} has not been created", "OK");
+            return;
         }
+
         await Shell.Current.DisplayAlert("Success", $"User {Name} has been created", "OK");
 
         Email = string.Empty;
