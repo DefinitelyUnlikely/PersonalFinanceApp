@@ -13,6 +13,7 @@ public partial class MainViewModel : ObservableObject
 {
 
     private readonly IUserRepository userRepo;
+    private readonly IPasswordUtilities passwordUtilities;
 
     [ObservableProperty]
     public string username = string.Empty;
@@ -20,8 +21,9 @@ public partial class MainViewModel : ObservableObject
     [ObservableProperty]
     public string password = string.Empty;
 
-    public MainViewModel(IUserRepository ur)
+    public MainViewModel(IUserRepository ur, IPasswordUtilities pu)
     {
+        passwordUtilities = pu;
         userRepo = ur;
     }
 
@@ -55,7 +57,7 @@ public partial class MainViewModel : ObservableObject
             return;
         }
 
-        if (!Username.VerifyPassword(Password))
+        if (!passwordUtilities.VerifyPassword(Username, Password))
         {
             await Shell.Current.DisplayAlert("Login Error", "Wrong password.", "OK");
             Password = string.Empty;

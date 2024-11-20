@@ -6,6 +6,7 @@ using Finance.Views;
 using Finance.Data.Database;
 using Finance.Data.Interfaces;
 using Finance.Data.Repositories;
+using Finance.Utilities;
 
 namespace Finance
 {
@@ -25,6 +26,7 @@ namespace Finance
 
             builder.Services.AddSingleton<IFinanceDatabase, PostgresDatabase>();
             builder.Services.AddSingleton<IUserRepository, UserRepository>();
+            builder.Services.AddSingleton<IPasswordUtilities, PasswordUtilities>();
             builder.Services.AddSingleton<ITransactionRepository, TransactionRepository>();
 
 
