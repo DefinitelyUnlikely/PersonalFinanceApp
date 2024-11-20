@@ -5,12 +5,16 @@ using Finance.Models;
 using Finance.Utilities;
 using CommunityToolkit.Mvvm.Input;
 using Finance.Views;
+using Finance.Data.Repositories;
+using Finance.Data.Interfaces;
 
 
 namespace Finance.ViewModels;
 
 public partial class CreateAccViewModel : ObservableObject
 {
+
+    private readonly IUserRepository userRepo;
 
     [ObservableProperty]
     string email = string.Empty;
@@ -24,6 +28,11 @@ public partial class CreateAccViewModel : ObservableObject
     [ObservableProperty]
     string rePassword = string.Empty;
 
+
+    public CreateAccViewModel(IUserRepository ur)
+    {
+        userRepo = ur;
+    }
 
     [RelayCommand]
     public async Task CreateAccount()
@@ -65,8 +74,16 @@ public partial class CreateAccViewModel : ObservableObject
             return;
         }
 
-        // Replace UserManager with a Repository that we can inject through the constructor.
-        if (!UserManager.AddUser(Email, Name, Password).Result)
+        if (await userRepo.UserExistsAsync(Name))
+        {
+            await Shell.Current.DisplayAlert("Username", "Username already exists", "OK");
+            Name = string.Empty;
+            Password = string.Empty;
+            RePassword = string.Empty;
+            return;
+        }
+
+        if (!userRepo.AddUserAsync(Email, Name, Password).Result)
         {
             await Shell.Current.DisplayAlert("Failure", $"Oops - User {Name} has not been created", "OK");
             return;

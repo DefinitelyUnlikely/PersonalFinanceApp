@@ -1,16 +1,22 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Finance.Data.Interfaces;
 
 namespace Finance.ViewModels;
 
 public partial class IncomeViewModel : ObservableObject
 {
 
+    private readonly IUserRepository userRepo;
+    private readonly ITransactionRepository transactionRepo;
+
     private readonly TransactionViewModel transactionViewModel;
 
-    public IncomeViewModel(TransactionViewModel transactionViewModel)
+    public IncomeViewModel(IUserRepository ur, ITransactionRepository tr, TransactionViewModel vm)
     {
-        this.transactionViewModel = transactionViewModel;
+        userRepo = ur;
+        transactionRepo = tr;
+        transactionViewModel = vm;
     }
 
     [ObservableProperty]
@@ -27,12 +33,18 @@ public partial class IncomeViewModel : ObservableObject
     {
         try
         {
-            // Note: Only checking for null on name is an active choice - i.e. I'm allowing transactions with a 0 amount.
+            // I'm allowing (atm) 0 sum transactions, so I only null check the name.
             if (TransactionName is null)
             {
                 throw new Exception("Input required");
             }
-            transactionViewModel.AddTransaction(new(TransactionName, Amount, TransactionDate));
+
+            if (userRepo.CurrentUser is null)
+            {
+                throw new Exception("Something went wrong, CurrentUser is null.");
+            }
+
+            transactionViewModel.AddTransaction(new(userRepo.CurrentUser.Id, TransactionName, -Amount, TransactionDate));
         }
         catch (Exception ex)
         {

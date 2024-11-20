@@ -7,6 +7,7 @@ using Finance.Data;
 using Finance.Models;
 using Finance.Views;
 using CommunityToolkit.Maui.Core;
+using Finance.Data.Interfaces;
 
 namespace Finance.ViewModels
 {
@@ -14,6 +15,8 @@ namespace Finance.ViewModels
     {
 
         private readonly IPopupService popupSerivce;
+        private readonly IUserRepository userRepo;
+        private readonly ITransactionRepository transactionRepo;
 
         [ObservableProperty]
         ObservableCollection<Transaction> transactions = [];
@@ -27,17 +30,28 @@ namespace Finance.ViewModels
         [ObservableProperty]
         string? username;
 
-        public TransactionViewModel(IPopupService popupService)
+        public TransactionViewModel(IPopupService ps, ITransactionRepository tr, IUserRepository ur)
         {
-            Username = UserManager.CurrentUser!.Name;
-            this.popupSerivce = popupService;
+            popupSerivce = ps;
+            userRepo = ur;
+            transactionRepo = tr;
+
+            Username = userRepo.CurrentUser!.Name;
+
             LoadItems();
             Console.WriteLine($"{MethodBase.GetCurrentMethod()!.DeclaringType!.Name} - Username is {Username}");
         }
 
-        private void LoadItems()
+        private async void LoadItems()
         {
-            Transactions = new ObservableCollection<Transaction>(TransactionManager.GetTransactions());
+            if (userRepo.CurrentUser is null)
+            {
+                return;
+            }
+
+            var transactions = await transactionRepo.GetUserTransactionsAsync(userRepo.CurrentUser.Id);
+            Transactions = new ObservableCollection<Transaction>(transactions);
+
         }
 
         private void LoadBalance()
@@ -69,7 +83,7 @@ namespace Finance.ViewModels
         {
             try
             {
-                this.popupSerivce.ShowPopup<PasswordPopupViewModel>();
+                popupSerivce.ShowPopup<PasswordPopupViewModel>();
             }
             catch (Exception e)
             {

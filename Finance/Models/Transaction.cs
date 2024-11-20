@@ -1,37 +1,41 @@
+using Finance.Data.Repositories;
+
 namespace Finance.Models;
 
 public class Transaction
 {
 
-    // Primary key, placeholder until I know more about 
-    // using PostgreSQL.
     public Guid Id { get; set; }
 
-    // Foreign key
     public int UserId { get; set; }
 
     public string Name { get; set; }
 
     public double Amount { get; set; }
 
-    public DateTime Created { get; set; }
     public DateTime Date { get; set; }
+    public DateTime Created { get; set; }
 
-    public Transaction(string name, double amount, DateTime transactionDate)
+    // For new transactions.
+    public Transaction(int userId, string name, double amount, DateTime date)
     {
+        Id = new Guid();
+        UserId = userId;
         Name = name;
         Amount = amount;
-        Date = transactionDate;
+        Date = date;
+        Created = DateTime.Now;
 
     }
 
-    public Transaction(string name, double amount, DateTime date, DateTime created)
+    // For creating transactions already in the database
+    public Transaction(Guid guid, int userId, string name, double amount, DateTime date, DateTime created)
     {
+        Id = guid;
+        UserId = userId;
         Name = name;
         Amount = amount;
         Date = date;
         Created = created;
-
     }
-
 }

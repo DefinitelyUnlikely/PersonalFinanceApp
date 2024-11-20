@@ -10,5 +10,6 @@ public interface IUserRepository
     Task<bool> RemoveUserAsync(int id);
     Task<bool> UserExistsAsync(string name);
     Task<User?> GetUserAsync(string name);
-    void SetCurrentUser(User user);
+    void SetUser(User user);
+    void ResetUser();
 }

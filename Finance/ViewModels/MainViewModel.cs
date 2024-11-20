@@ -4,17 +4,26 @@ using CommunityToolkit.Mvvm.Input;
 using Finance.Views;
 using Finance.Utilities;
 using System.Reflection;
+using Finance.Data.Interfaces;
+using Finance.Models;
 
 namespace Finance.ViewModels;
 
 public partial class MainViewModel : ObservableObject
 {
 
+    private readonly IUserRepository userRepo;
+
     [ObservableProperty]
     public string username = string.Empty;
 
     [ObservableProperty]
     public string password = string.Empty;
+
+    public MainViewModel(IUserRepository ur)
+    {
+        userRepo = ur;
+    }
 
     [RelayCommand]
     async static Task Forgot(string url)
@@ -39,8 +48,7 @@ public partial class MainViewModel : ObservableObject
             return;
         }
 
-        // Replace UserManager with a Repository that we can inject through the constructor.
-        if (!await UserManager.UserExists(Username))
+        if (!await userRepo.UserExistsAsync(Username))
         {
             await Shell.Current.DisplayAlert("Login Error", "That username does not exist", "OK");
             Password = string.Empty;
@@ -54,13 +62,16 @@ public partial class MainViewModel : ObservableObject
             return;
         }
 
-        // TODO: Once the DB is set up, move to the transaction page and show only the 
-        // transactions that account made. 
-        UserManager.SetUser(Username);
+
         Console.WriteLine($"{MethodBase.GetCurrentMethod()!.DeclaringType!.Name} - Username is {Username}");
 
         try
         {
+            User? user = await userRepo.GetUserAsync(Username);
+            if (user is not null)
+            {
+                userRepo.SetUser(user);
+            }
             await Shell.Current.GoToAsync(nameof(TransactionView));
             Username = string.Empty;
             Password = string.Empty;

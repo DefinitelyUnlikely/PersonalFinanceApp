@@ -15,12 +15,22 @@ public class User
     public string PasswordHash { get; set; }
 
 
-    // As I decided to not use EF Core at the moment, this might need to change.
+    // For creating completely new user objects.
     public User(string email, string name, string password)
     {
         Email = email;
         Name = name;
 
         (Salt, PasswordHash) = password.SaltAndHash();
+    }
+
+    // for creating user objects from the database.
+    public User(int id, string email, string name, string salt, string password)
+    {
+        Id = id;
+        Email = email;
+        Name = name;
+        Salt = salt;
+        PasswordHash = password;
     }
 }
