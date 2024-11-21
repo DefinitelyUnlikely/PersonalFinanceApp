@@ -10,4 +10,10 @@ public partial class SortView : ContentPage
 		BindingContext = vm;
 	}
 
+	protected override bool OnBackButtonPressed()
+	{
+		Shell.Current.GoToAsync($"/{nameof(TransactionView)}");
+		return true;
+	}
+
 }
