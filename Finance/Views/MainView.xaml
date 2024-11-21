@@ -18,7 +18,7 @@
               <Label Text="Account name"/>
 
               <Entry Placeholder="Enter Username"
-                     Text="{Binding Name}"/>
+                     Text="{Binding Username}"/>
 
               <Label Text="Password"/>
               <Entry Placeholder="Password"

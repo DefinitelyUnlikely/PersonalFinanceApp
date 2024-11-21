@@ -1,13 +1,27 @@
-﻿namespace Finance
+﻿using Finance.Data.Database;
+
+namespace Finance;
+
+public partial class App : Application
 {
-    public partial class App : Application
+
+    private readonly IFinanceDatabase database;
+
+    public App(IFinanceDatabase database)
     {
-        public App()
-        {
-            InitializeComponent();
+        this.database = database;
+        InitializeComponent();
+        InitializeDatabase();
 
-            MainPage = new AppShell();
-
-        }
+        MainPage = new AppShell();
     }
+
+    private async void InitializeDatabase()
+    {
+
+        await database.InitializeDatabase();
+
+    }
+
 }
+

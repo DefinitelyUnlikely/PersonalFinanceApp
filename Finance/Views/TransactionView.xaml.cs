@@ -1,4 +1,5 @@
-﻿using Finance.Managers;
+﻿using Finance.Data.Interfaces;
+using Finance.Data.Repositories;
 using Finance.Models;
 using Finance.ViewModels;
 
@@ -6,9 +7,13 @@ namespace Finance.Views;
 
 public partial class TransactionView : ContentPage
 {
-    public TransactionView(TransactionViewModel vm)
+
+    private readonly IUserRepository userRepo;
+
+    public TransactionView(IUserRepository ur, TransactionViewModel vm)
     {
         InitializeComponent();
+        userRepo = ur;
         BindingContext = vm;
     }
 
@@ -51,8 +56,9 @@ public partial class TransactionView : ContentPage
     protected override bool OnBackButtonPressed()
     {
         // Reset user when going back from transaction page
-        UserManager.CurrentUser = null;
-        return false;
+        userRepo.ResetUser();
+        Shell.Current.GoToAsync($"///{nameof(MainView)}");
+        return true;
     }
 
 

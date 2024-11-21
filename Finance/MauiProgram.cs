@@ -2,7 +2,10 @@
 using CommunityToolkit.Maui;
 using Finance.ViewModels;
 using Finance.Views;
-using Finance.Data;
+using Finance.Data.Database;
+using Finance.Data.Interfaces;
+using Finance.Data.Repositories;
+using Finance.Utilities;
 
 namespace Finance
 {
@@ -20,15 +23,21 @@ namespace Finance
                 })
                 .UseMauiCommunityToolkit();
 
+            builder.Services.AddSingleton<IFinanceDatabase, PostgresDatabase>();
+            builder.Services.AddSingleton<IUserRepository, UserRepository>();
+            builder.Services.AddSingleton<IPasswordUtilities, PasswordUtilities>();
+            builder.Services.AddSingleton<ITransactionRepository, TransactionRepository>();
+
+
             builder.Services.AddSingleton<MainView>();
             builder.Services.AddSingleton<MainViewModel>();
 
             builder.Services.AddTransient<CreateAccView>();
             builder.Services.AddTransient<CreateAccViewModel>();
 
-            builder.Services.AddSingleton<TransactionView>();
-            builder.Services.AddSingleton<TransactionViewModel>();
-            builder.Services.AddSingleton<FinanceDatabase>();
+            builder.Services.AddTransient<TransactionView>();
+            builder.Services.AddTransient<TransactionViewModel>();
+
 
             builder.Services.AddTransient<IncomeView>();
             builder.Services.AddTransient<IncomeViewModel>();

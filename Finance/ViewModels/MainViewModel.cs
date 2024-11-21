@@ -1,23 +1,32 @@
-using System;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Finance.Views;
-using Finance.Managers;
 using Finance.Utilities;
+using Finance.Data.Interfaces;
+using Finance.Models;
 
 namespace Finance.ViewModels;
 
 public partial class MainViewModel : ObservableObject
 {
 
+    private readonly IUserRepository userRepo;
+    private readonly IPasswordUtilities passwordUtilities;
+
     [ObservableProperty]
-    public string name = string.Empty;
+    public string username = string.Empty;
 
     [ObservableProperty]
     public string password = string.Empty;
 
+    public MainViewModel(IUserRepository ur, IPasswordUtilities pu)
+    {
+        passwordUtilities = pu;
+        userRepo = ur;
+    }
+
     [RelayCommand]
-    async Task Forgot(string url)
+    async static Task Forgot(string url)
     {
         try
         {
@@ -32,31 +41,45 @@ public partial class MainViewModel : ObservableObject
     [RelayCommand]
     async Task TryLogin()
     {
-        if (Name is "" || Password is "")
+        if (Username is "" || Password is "")
         {
             await Shell.Current.DisplayAlert("Login Error", "Please enter both username and password", "OK");
             Password = string.Empty;
             return;
         }
 
-        // The dict and method in UserManager will be replaced by the database
-        if (!UserManager.UserExists(Name))
+        if (!await userRepo.UserExistsAsync(Username))
         {
             await Shell.Current.DisplayAlert("Login Error", "That username does not exist", "OK");
             Password = string.Empty;
             return;
         }
 
-        if (!Name.VerifyPassword(Password))
+        if (!await passwordUtilities.VerifyPassword(Username, Password))
         {
             await Shell.Current.DisplayAlert("Login Error", "Wrong password.", "OK");
             Password = string.Empty;
             return;
         }
 
-        // TODO: Once the DB is set up, move to the transaction page and show only the 
-        // transactions that account made. 
-        UserManager.SetUser(Name);
-        await Shell.Current.GoToAsync(nameof(TransactionView));
+
+        // Console.WriteLine($"{MethodBase.GetCurrentMethod()!.DeclaringType!.Name} - Username is {Username}");
+
+        try
+        {
+            User? user = await userRepo.GetUserAsync(Username);
+            if (user is not null)
+            {
+                userRepo.SetUser(user);
+            }
+            await Shell.Current.GoToAsync(nameof(TransactionView));
+            Username = string.Empty;
+            Password = string.Empty;
+        }
+        catch (Exception e)
+        {
+            await Shell.Current.DisplayAlert("Nav error", e.Message, "OK");
+        }
+
     }
 }

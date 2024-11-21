@@ -1,9 +1,8 @@
-using System;
 using CommunityToolkit.Maui.Core;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Finance.Data.Interfaces;
 using Finance.Models;
-using Finance.Managers;
 using Finance.Utilities;
 
 namespace Finance.ViewModels;
@@ -11,10 +10,14 @@ namespace Finance.ViewModels;
 public partial class PasswordPopupViewModel : ObservableObject
 {
     private readonly IPopupService popupService;
+    private readonly IUserRepository userRepo;
+    private readonly IPasswordUtilities passwordUtilities;
 
-    public PasswordPopupViewModel(IPopupService popupService)
+    public PasswordPopupViewModel(IPopupService ps, IUserRepository ur, IPasswordUtilities pu)
     {
-        this.popupService = popupService;
+        userRepo = ur;
+        popupService = ps;
+        passwordUtilities = pu;
     }
 
     [ObservableProperty]
@@ -28,7 +31,14 @@ public partial class PasswordPopupViewModel : ObservableObject
     [RelayCommand]
     async Task ChangePassword()
     {
-        User user = UserManager.GetUser(UserManager.CurrentUser!.Name);
+
+        User? user = await userRepo.GetUserAsync(userRepo.CurrentUser!.Name);
+
+        if (user is null)
+        {
+            await Shell.Current.DisplayAlert("Internal User Error", "CurrentUser is null", "OK");
+            return;
+        }
 
         if (CurrentPassword is "" || Password is "" || RePassword is "")
         {
@@ -39,7 +49,7 @@ public partial class PasswordPopupViewModel : ObservableObject
             return;
         }
 
-        if (!user.Name.VerifyPassword(CurrentPassword))
+        if (!await passwordUtilities.VerifyPassword(userRepo.CurrentUser.Name, CurrentPassword))
         {
             CurrentPassword = string.Empty;
             Password = string.Empty;
@@ -65,7 +75,8 @@ public partial class PasswordPopupViewModel : ObservableObject
             return;
         }
 
-        (user.Salt, user.PasswordHash) = Password.SaltAndHash();
+        (user.Salt, user.PasswordHash) = passwordUtilities.HashPassword(Password);
+        // TODO: Add new password to database.
         await popupService.ClosePopupAsync();
     }
 }
