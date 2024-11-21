@@ -57,7 +57,7 @@ public partial class MainViewModel : ObservableObject
             return;
         }
 
-        if (!passwordUtilities.VerifyPassword(Username, Password))
+        if (!await passwordUtilities.VerifyPassword(Username, Password))
         {
             await Shell.Current.DisplayAlert("Login Error", "Wrong password.", "OK");
             Password = string.Empty;
@@ -65,7 +65,7 @@ public partial class MainViewModel : ObservableObject
         }
 
 
-        Console.WriteLine($"{MethodBase.GetCurrentMethod()!.DeclaringType!.Name} - Username is {Username}");
+        // Console.WriteLine($"{MethodBase.GetCurrentMethod()!.DeclaringType!.Name} - Username is {Username}");
 
         try
         {

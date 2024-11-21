@@ -15,6 +15,7 @@ public partial class CreateAccViewModel : ObservableObject
 {
 
     private readonly IUserRepository userRepo;
+    private readonly IPasswordUtilities passUtil;
 
     [ObservableProperty]
     string email = string.Empty;
@@ -29,9 +30,10 @@ public partial class CreateAccViewModel : ObservableObject
     string rePassword = string.Empty;
 
 
-    public CreateAccViewModel(IUserRepository ur)
+    public CreateAccViewModel(IUserRepository ur, IPasswordUtilities ps)
     {
         userRepo = ur;
+        passUtil = ps;
     }
 
     [RelayCommand]
@@ -83,7 +85,9 @@ public partial class CreateAccViewModel : ObservableObject
             return;
         }
 
-        if (!userRepo.AddUserAsync(Email, Name, Password).Result)
+        (string salt, string hash) = passUtil.HashPassword(Password);
+
+        if (!await userRepo.AddUserAsync(Email, Name, salt, hash))
         {
             await Shell.Current.DisplayAlert("Failure", $"Oops - User {Name} has not been created", "OK");
             return;

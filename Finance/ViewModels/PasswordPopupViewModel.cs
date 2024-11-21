@@ -52,7 +52,7 @@ public partial class PasswordPopupViewModel : ObservableObject
             return;
         }
 
-        if (!passwordUtilities.VerifyPassword(userRepo.CurrentUser.Name, CurrentPassword))
+        if (!await passwordUtilities.VerifyPassword(userRepo.CurrentUser.Name, CurrentPassword))
         {
             CurrentPassword = string.Empty;
             Password = string.Empty;

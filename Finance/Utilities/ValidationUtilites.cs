@@ -32,7 +32,7 @@ public static class ValidationUtilities
 
         try
         {
-            return Regex.IsMatch(password, @"^[^@\s]+@[^@\s]+\.[^@\s]+$", RegexOptions.None, TimeSpan.FromMilliseconds(250));
+            return Regex.IsMatch(password, @"^\S\S{8,}$", RegexOptions.None, TimeSpan.FromMilliseconds(250));
         }
         catch (RegexMatchTimeoutException)
         {

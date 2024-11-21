@@ -39,7 +39,6 @@ namespace Finance.ViewModels
             Username = userRepo.CurrentUser!.Name;
 
             LoadItems();
-            Console.WriteLine($"{MethodBase.GetCurrentMethod()!.DeclaringType!.Name} - Username is {Username}");
         }
 
         private async void LoadItems()

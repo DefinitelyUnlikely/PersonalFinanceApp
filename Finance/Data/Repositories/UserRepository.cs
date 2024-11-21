@@ -1,3 +1,4 @@
+using System.Reflection;
 using Finance.Data.Database;
 using Finance.Data.Interfaces;
 using Finance.Models;
@@ -5,6 +6,8 @@ using Npgsql;
 
 namespace Finance.Data.Repositories;
 
+// TODO: change the catch to throwing an exception and let the thing trying to do the action 
+// show the DisplayAlert.
 public class UserRepository : IUserRepository
 {
 
@@ -31,10 +34,10 @@ public class UserRepository : IUserRepository
         currentUser = null;
     }
 
-    public async Task<bool> AddUserAsync(string email, string name, string password)
+    public async Task<bool> AddUserAsync(string email, string name, string salt, string password)
     {
 
-        User addUser = new(email, name, password);
+        User addUser = new(email, name, salt, password);
 
 
         string sql = @"INSERT INTO users (email, name, salt, password) VALUES (@email, @name, @salt, @password);";
@@ -68,32 +71,45 @@ public class UserRepository : IUserRepository
 
     public async Task<User?> GetUserAsync(string name)
     {
-
         if (userCache.TryGetValue(name, out User? value))
         {
             return value;
         }
 
+
         string sql = @"SELECT * FROM users WHERE name = @name;";
-        using var connection = (NpgsqlConnection)await database.GetConnectionAsync();
+        await using var connection = (NpgsqlConnection)await database.GetConnectionAsync();
         await using var command = new NpgsqlCommand(sql, connection);
 
         command.Parameters.AddWithValue("@name", name);
 
         try
         {
+
             await using var reader = await command.ExecuteReaderAsync();
-            reader.Read();
-            User getUser = new(reader.GetInt32(0), reader.GetString(1), reader.GetString(2), reader.GetString(3), reader.GetString(4));
-            userCache.Add(getUser.Name, getUser);
-            return getUser;
+            if (await reader.ReadAsync())
+            {
+                User getUser = new(
+                    reader.GetInt32(0),
+                    reader.GetString(1),
+                    reader.GetString(2),
+                    reader.GetString(3),
+                    reader.GetString(4)
+                    );
+
+                userCache.Add(getUser.Name, getUser);
+
+                return getUser;
+            }
+
+            return null;
+
         }
         catch (Exception e)
         {
-            await Shell.Current.DisplayAlert("Internal User Error", e.Message, "OK");
+            throw new Exception("Couldn't GET user. Exception: " + e.Message);
         }
 
-        return null;
 
     }
 
@@ -123,8 +139,7 @@ public class UserRepository : IUserRepository
         catch (Exception e)
         {
             await sqlTransaction.RollbackAsync();
-            await Shell.Current.DisplayAlert("Interal User Error", "Could not update: " + e.Message, "OK");
-            return false;
+            throw new Exception("Update failed, transaction rolled back. Exception: " + e.Message);
         }
 
 
@@ -156,7 +171,9 @@ public class UserRepository : IUserRepository
         await using var command = new NpgsqlCommand(sql, connection);
 
         command.Parameters.AddWithValue("@name", name);
-        return await command.ExecuteNonQueryAsync() != -1;
+
+        var count = await command.ExecuteScalarAsync();
+        return Convert.ToInt32(count) > 0;
     }
 
 

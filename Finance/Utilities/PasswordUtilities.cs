@@ -25,10 +25,10 @@ public class PasswordUtilities : IPasswordUtilities
         return (salt, hashedPass);
     }
 
-    public bool VerifyPassword(string username, string password)
+    public async Task<bool> VerifyPassword(string username, string password)
     {
 
-        User? user = userRepo.GetUserAsync(username).Result;
+        User? user = await userRepo.GetUserAsync(username);
 
         if (user is null)
         {

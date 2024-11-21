@@ -3,7 +3,6 @@ using Finance.Data.Interfaces;
 using Finance.Data.Database;
 using Finance.Models;
 using System.Data;
-using Java.Sql;
 
 namespace Finance.Data.Repositories;
 

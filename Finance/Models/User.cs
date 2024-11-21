@@ -16,12 +16,13 @@ public class User
 
 
     // For creating completely new user objects.
-    public User(string email, string name, string password)
+    public User(string email, string name, string salt, string passwordHash)
     {
         Email = email;
         Name = name;
+        Salt = salt;
+        PasswordHash = passwordHash;
 
-        (Salt, PasswordHash) = password.SaltAndHash();
     }
 
     // for creating user objects from the database.
