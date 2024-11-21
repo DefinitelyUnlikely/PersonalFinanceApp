@@ -10,5 +10,11 @@ public partial class IncomeView : ContentPage
 		BindingContext = vm;
 	}
 
+	protected override bool OnBackButtonPressed()
+	{
+		Shell.Current.GoToAsync($"/{nameof(TransactionView)}");
+		return true;
+	}
+
 
 }

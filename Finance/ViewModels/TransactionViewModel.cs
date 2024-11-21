@@ -33,8 +33,6 @@ namespace Finance.ViewModels
             transactionRepo = tr;
 
             Username = userRepo.CurrentUser!.Name;
-            Console.WriteLine($"Inside constructor: Username is {Username}");
-            Console.WriteLine($"Inside constructor: User ID is {userRepo.CurrentUser.Id}");
 
             LoadItems();
         }

@@ -9,4 +9,10 @@ public partial class ExpenseView : ContentPage
 		InitializeComponent();
 		BindingContext = vm;
 	}
+
+	protected override bool OnBackButtonPressed()
+	{
+		Shell.Current.GoToAsync($"/{nameof(TransactionView)}");
+		return true;
+	}
 }
