@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Finance.Data.Interfaces;
+using Finance.Views;
 
 namespace Finance.ViewModels;
 
@@ -53,7 +54,7 @@ public partial class IncomeViewModel : ObservableObject
         }
         finally
         {
-            await Shell.Current.GoToAsync("..");
+            await Shell.Current.GoToAsync($"/{nameof(TransactionView)}");
         }
     }
 }

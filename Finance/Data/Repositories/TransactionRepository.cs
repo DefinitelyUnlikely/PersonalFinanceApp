@@ -23,7 +23,6 @@ public class TransactionRepository : ITransactionRepository
         string sql = @"INSERT INTO transactions VALUES (@id, @userId, @name, @amount, @created, @date)";
         await using var command = new NpgsqlCommand(sql, connection);
 
-        Console.WriteLine($"{transaction.Id} {transaction.UserId} {transaction.Name} {transaction.Amount} {transaction.Date}");
         command.Parameters.AddWithValue("@id", transaction.Id);
         command.Parameters.AddWithValue("@userId", transaction.UserId);
         command.Parameters.AddWithValue("@name", transaction.Name);
