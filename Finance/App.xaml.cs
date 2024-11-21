@@ -1,6 +1,4 @@
 ﻿using Finance.Data.Database;
-using Microsoft.EntityFrameworkCore.Internal;
-using Microsoft.EntityFrameworkCore.Storage;
 
 namespace Finance;
 

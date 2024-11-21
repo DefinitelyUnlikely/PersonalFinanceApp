@@ -1,9 +1,6 @@
-using System;
-using System.Data.Common;
 using CommunityToolkit.Maui.Core;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Finance.Data.Database;
 using Finance.Data.Interfaces;
 using Finance.Models;
 using Finance.Utilities;

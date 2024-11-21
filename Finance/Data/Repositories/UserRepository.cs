@@ -1,4 +1,3 @@
-using System.Reflection;
 using Finance.Data.Database;
 using Finance.Data.Interfaces;
 using Finance.Models;
@@ -37,17 +36,14 @@ public class UserRepository : IUserRepository
     public async Task<bool> AddUserAsync(string email, string name, string salt, string password)
     {
 
-        User addUser = new(email, name, salt, password);
-
-
         string sql = @"INSERT INTO users (email, name, salt, password) VALUES (@email, @name, @salt, @password);";
         await using var connection = (NpgsqlConnection)await database.GetConnectionAsync();
         await using var command = new NpgsqlCommand(sql, connection);
 
-        command.Parameters.AddWithValue("@email", addUser.Email);
-        command.Parameters.AddWithValue("@name", addUser.Name);
-        command.Parameters.AddWithValue("@salt", addUser.Salt);
-        command.Parameters.AddWithValue("@password", addUser.PasswordHash);
+        command.Parameters.AddWithValue("@email", email);
+        command.Parameters.AddWithValue("@name", name);
+        command.Parameters.AddWithValue("@salt", salt);
+        command.Parameters.AddWithValue("@password", password);
 
         try
         {
@@ -55,8 +51,6 @@ public class UserRepository : IUserRepository
             {
                 return false;
             }
-
-            userCache.Add(addUser.Name, addUser);
 
             return true;
         }
@@ -75,7 +69,6 @@ public class UserRepository : IUserRepository
         {
             return value;
         }
-
 
         string sql = @"SELECT * FROM users WHERE name = @name;";
         await using var connection = (NpgsqlConnection)await database.GetConnectionAsync();

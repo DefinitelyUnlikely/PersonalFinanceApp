@@ -1,5 +1,3 @@
-using Finance.Data.Repositories;
-
 namespace Finance.Models;
 
 public class Transaction

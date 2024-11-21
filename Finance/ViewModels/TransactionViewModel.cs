@@ -1,11 +1,7 @@
 ﻿using System.Collections.ObjectModel;
-using System.Reflection;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using CommunityToolkit.Maui.Views;
-using Finance.Data;
 using Finance.Models;
-using Finance.Views;
 using CommunityToolkit.Maui.Core;
 using Finance.Data.Interfaces;
 
@@ -38,6 +34,7 @@ namespace Finance.ViewModels
 
             Username = userRepo.CurrentUser!.Name;
             Console.WriteLine($"Inside constructor: Username is {Username}");
+            Console.WriteLine($"Inside constructor: User ID is {userRepo.CurrentUser.Id}");
 
             LoadItems();
         }

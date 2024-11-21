@@ -1,11 +1,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
-
-using Finance.Data;
-using Finance.Models;
 using Finance.Utilities;
 using CommunityToolkit.Mvvm.Input;
 using Finance.Views;
-using Finance.Data.Repositories;
 using Finance.Data.Interfaces;
 
 
@@ -70,7 +66,7 @@ public partial class CreateAccViewModel : ObservableObject
 
         if (!Password.IsValidPassword())
         {
-            await Shell.Current.DisplayAlert("Password", "Passwords must be longer than 8 characters", "OK");
+            await Shell.Current.DisplayAlert("Password", "Passwords must be at least 8 characters", "OK");
             Password = string.Empty;
             RePassword = string.Empty;
             return;

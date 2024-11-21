@@ -2,7 +2,6 @@ using Npgsql;
 using Finance.Data.Interfaces;
 using Finance.Data.Database;
 using Finance.Models;
-using System.Data;
 
 namespace Finance.Data.Repositories;
 

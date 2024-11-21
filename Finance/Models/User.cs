@@ -1,5 +1,3 @@
-using Finance.Utilities;
-
 namespace Finance.Models;
 
 public class User
