@@ -45,7 +45,7 @@ public partial class IncomeViewModel : ObservableObject
                 throw new Exception("Something went wrong, CurrentUser is null.");
             }
 
-            await transactionViewModel.AddTransaction(new(userRepo.CurrentUser.Id, TransactionName, -Amount, TransactionDate));
+            await transactionViewModel.AddTransaction(new(userRepo.CurrentUser.Id, TransactionName, Amount, TransactionDate));
 
         }
         catch (Exception ex)

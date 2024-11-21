@@ -50,13 +50,14 @@ namespace Finance.ViewModels
             }
 
             var transactionsAsync = transactionRepo.GetUserTransactionsAsync(userRepo.CurrentUser.Id);
+            LoadBalance(transactionsAsync.Result);
             Transactions = new ObservableCollection<Transaction>(transactionsAsync.Result);
 
         }
 
-        private void LoadBalance()
+        private void LoadBalance(List<Transaction> transactions)
         {
-            Console.WriteLine();
+            transactions.ForEach(x => Balance += x.Amount);
         }
 
         public async Task AddTransaction(Transaction transaction)
