@@ -1,12 +1,9 @@
 ﻿using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using CommunityToolkit.Maui.Views;
-using Finance.Data;
 using Finance.Models;
-using Finance.Managers;
-using Finance.Views;
 using CommunityToolkit.Maui.Core;
+using Finance.Data.Interfaces;
 
 namespace Finance.ViewModels
 {
@@ -14,6 +11,8 @@ namespace Finance.ViewModels
     {
 
         private readonly IPopupService popupSerivce;
+        private readonly IUserRepository userRepo;
+        private readonly ITransactionRepository transactionRepo;
 
         [ObservableProperty]
         ObservableCollection<Transaction> transactions = [];
@@ -27,31 +26,46 @@ namespace Finance.ViewModels
         [ObservableProperty]
         string? username;
 
-        public TransactionViewModel(FinanceDatabase financeDatabase, IPopupService popupService)
+        public TransactionViewModel(IPopupService ps, ITransactionRepository tr, IUserRepository ur)
         {
-            Username = UserManager.CurrentUser!.Name;
-            this.popupSerivce = popupService;
+            popupSerivce = ps;
+            userRepo = ur;
+            transactionRepo = tr;
+
+            Username = userRepo.CurrentUser!.Name;
+            Console.WriteLine($"Inside constructor: Username is {Username}");
+            Console.WriteLine($"Inside constructor: User ID is {userRepo.CurrentUser.Id}");
+
             LoadItems();
         }
 
         private void LoadItems()
         {
-            Transactions = new ObservableCollection<Transaction>(TransactionManager.GetTransactions());
+            if (userRepo.CurrentUser is null)
+            {
+                return;
+            }
+
+            var transactionsAsync = transactionRepo.GetUserTransactionsAsync(userRepo.CurrentUser.Id);
+            LoadBalance(transactionsAsync.Result);
+            Transactions = new ObservableCollection<Transaction>(transactionsAsync.Result);
+
         }
 
-        private void LoadBalance()
+        private void LoadBalance(List<Transaction> transactions)
         {
-            Console.WriteLine();
+            transactions.ForEach(x => Balance += x.Amount);
         }
 
-        public void AddTransaction(Transaction transaction)
+        public async Task AddTransaction(Transaction transaction)
         {
+            await transactionRepo.AddTransactionAsync(transaction);
             Transactions.Add(transaction);
             Balance += transaction.Amount;
         }
 
         [RelayCommand]
-        public void Delete(Transaction transaction)
+        public async Task Delete(Transaction transaction)
         {
 
             if (transaction == null)
@@ -59,6 +73,7 @@ namespace Finance.ViewModels
                 return;
             }
 
+            await transactionRepo.RemoveTransactionAsync(transaction.Id);
             Transactions.Remove(transaction);
             Balance -= transaction.Amount;
         }
@@ -68,7 +83,7 @@ namespace Finance.ViewModels
         {
             try
             {
-                this.popupSerivce.ShowPopup<PasswordPopupViewModel>();
+                popupSerivce.ShowPopup<PasswordPopupViewModel>();
             }
             catch (Exception e)
             {

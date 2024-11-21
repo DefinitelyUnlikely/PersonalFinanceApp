@@ -1,17 +1,17 @@
 using CommunityToolkit.Mvvm.ComponentModel;
-
-using Finance.Data;
-using Finance.Models;
-using Finance.Managers;
 using Finance.Utilities;
 using CommunityToolkit.Mvvm.Input;
 using Finance.Views;
+using Finance.Data.Interfaces;
 
 
 namespace Finance.ViewModels;
 
 public partial class CreateAccViewModel : ObservableObject
 {
+
+    private readonly IUserRepository userRepo;
+    private readonly IPasswordUtilities passUtil;
 
     [ObservableProperty]
     string email = string.Empty;
@@ -25,6 +25,12 @@ public partial class CreateAccViewModel : ObservableObject
     [ObservableProperty]
     string rePassword = string.Empty;
 
+
+    public CreateAccViewModel(IUserRepository ur, IPasswordUtilities ps)
+    {
+        userRepo = ur;
+        passUtil = ps;
+    }
 
     [RelayCommand]
     public async Task CreateAccount()
@@ -60,17 +66,29 @@ public partial class CreateAccViewModel : ObservableObject
 
         if (!Password.IsValidPassword())
         {
-            await Shell.Current.DisplayAlert("Password", "Passwords must be longer than 8 characters", "OK");
+            await Shell.Current.DisplayAlert("Password", "Passwords must be at least 8 characters", "OK");
             Password = string.Empty;
             RePassword = string.Empty;
             return;
         }
 
+        if (await userRepo.UserExistsAsync(Name))
+        {
+            await Shell.Current.DisplayAlert("Username", "Username already exists", "OK");
+            Name = string.Empty;
+            Password = string.Empty;
+            RePassword = string.Empty;
+            return;
+        }
 
-        // Hopefully npgsql gives returns if inserts don't work, so once
-        // this is replaced by the SQL variant - we can try to add the user
-        // and if email or name isn't unique, we catch that.
-        UserManager.AddUser(new User(Email, Name, Password));
+        (string salt, string hash) = passUtil.HashPassword(Password);
+
+        if (!await userRepo.AddUserAsync(Email, Name, salt, hash))
+        {
+            await Shell.Current.DisplayAlert("Failure", $"Oops - User {Name} has not been created", "OK");
+            return;
+        }
+
         await Shell.Current.DisplayAlert("Success", $"User {Name} has been created", "OK");
 
         Email = string.Empty;
