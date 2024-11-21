@@ -14,6 +14,9 @@
                         <MenuFlyoutItem Text="Change Username"/>
                         <MenuFlyoutItem Text="Change Password"
                                         Command="{Binding ChangePasswordCommand}"/>
+                        <MenuFlyoutSeparator/>
+                        <MenuFlyoutItem Text="Logout"
+                                        Clicked="OnLogoutPressed"/>
                 </MenuBarItem>
         </ContentPage.MenuBarItems>
 

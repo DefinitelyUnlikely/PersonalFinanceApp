@@ -53,6 +53,20 @@ public partial class TransactionView : ContentPage
         }
     }
 
+    private async void OnLogoutPressed(object sender, EventArgs e)
+    {
+        try
+        {
+            userRepo.ResetUser();
+            await Shell.Current.GoToAsync($"///{nameof(MainView)}");
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlert("Navigation Error", ex.Message, "OK");
+        }
+
+    }
+
     protected override bool OnBackButtonPressed()
     {
         // Reset user when going back from transaction page
