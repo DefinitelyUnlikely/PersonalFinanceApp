@@ -37,19 +37,20 @@ namespace Finance.ViewModels
             transactionRepo = tr;
 
             Username = userRepo.CurrentUser!.Name;
+            Console.WriteLine($"Inside constructor: Username is {Username}");
 
             LoadItems();
         }
 
-        private async void LoadItems()
+        private void LoadItems()
         {
             if (userRepo.CurrentUser is null)
             {
                 return;
             }
 
-            var transactions = await transactionRepo.GetUserTransactionsAsync(userRepo.CurrentUser.Id);
-            Transactions = new ObservableCollection<Transaction>(transactions);
+            var transactionsAsync = transactionRepo.GetUserTransactionsAsync(userRepo.CurrentUser.Id);
+            Transactions = new ObservableCollection<Transaction>(transactionsAsync.Result);
 
         }
 
@@ -58,14 +59,15 @@ namespace Finance.ViewModels
             Console.WriteLine();
         }
 
-        public void AddTransaction(Transaction transaction)
+        public async Task AddTransaction(Transaction transaction)
         {
+            await transactionRepo.AddTransactionAsync(transaction);
             Transactions.Add(transaction);
             Balance += transaction.Amount;
         }
 
         [RelayCommand]
-        public void Delete(Transaction transaction)
+        public async Task Delete(Transaction transaction)
         {
 
             if (transaction == null)
@@ -73,6 +75,7 @@ namespace Finance.ViewModels
                 return;
             }
 
+            await transactionRepo.RemoveTransactionAsync(transaction.Id);
             Transactions.Remove(transaction);
             Balance -= transaction.Amount;
         }

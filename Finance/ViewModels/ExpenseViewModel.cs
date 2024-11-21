@@ -6,6 +6,7 @@ namespace Finance.ViewModels;
 
 public partial class ExpenseViewModel : ObservableObject
 {
+
     private readonly IUserRepository userRepo;
     private readonly ITransactionRepository transactionRepo;
 
@@ -43,7 +44,7 @@ public partial class ExpenseViewModel : ObservableObject
                 throw new Exception("Something went wrong, CurrentUser is null.");
             }
 
-            transactionViewModel.AddTransaction(new(userRepo.CurrentUser.Id, TransactionName, -Amount, TransactionDate));
+            await transactionViewModel.AddTransaction(new(userRepo.CurrentUser.Id, TransactionName, -Amount, TransactionDate));
 
         }
         catch (Exception ex)

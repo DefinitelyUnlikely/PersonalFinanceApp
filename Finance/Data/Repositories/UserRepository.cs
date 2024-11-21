@@ -7,7 +7,7 @@ using Npgsql;
 namespace Finance.Data.Repositories;
 
 // TODO: change the catch to throwing an exception and let the thing trying to do the action 
-// show the DisplayAlert.
+// show the DisplayAlert. Keeping it for now for easier debugging.
 public class UserRepository : IUserRepository
 {
 

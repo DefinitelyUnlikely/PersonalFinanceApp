@@ -18,12 +18,14 @@ public class TransactionRepository : ITransactionRepository
 
     public async Task<bool> AddTransactionAsync(Transaction transaction)
     {
+
         await using var connection = (NpgsqlConnection)await database.GetConnectionAsync();
         string sql = @"INSERT INTO transactions VALUES (@id, @userId, @name, @amount, @created, @date)";
         await using var command = new NpgsqlCommand(sql, connection);
 
+        Console.WriteLine($"{transaction.Id} {transaction.UserId} {transaction.Name} {transaction.Amount} {transaction.Date}");
         command.Parameters.AddWithValue("@id", transaction.Id);
-        command.Parameters.AddWithValue("@userId", transaction);
+        command.Parameters.AddWithValue("@userId", transaction.UserId);
         command.Parameters.AddWithValue("@name", transaction.Name);
         command.Parameters.AddWithValue("@amount", transaction.Amount);
         command.Parameters.AddWithValue("@created", transaction.Created);
@@ -55,7 +57,7 @@ public class TransactionRepository : ITransactionRepository
         await using var command = new NpgsqlCommand(sql, connection);
 
         command.Parameters.AddWithValue("@userId", userId);
-        using var reader = command.ExecuteReader();
+        await using var reader = command.ExecuteReader();
 
         while (reader.Read())
         {

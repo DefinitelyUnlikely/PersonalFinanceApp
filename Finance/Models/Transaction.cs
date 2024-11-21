@@ -19,7 +19,7 @@ public class Transaction
     // For new transactions.
     public Transaction(int userId, string name, double amount, DateTime date)
     {
-        Id = new Guid();
+        Id = Guid.NewGuid();
         UserId = userId;
         Name = name;
         Amount = amount;
