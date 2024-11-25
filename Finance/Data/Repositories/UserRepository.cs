@@ -113,12 +113,22 @@ public class UserRepository : IUserRepository
 
         try
         {
+            // As I cannot parameterize column names, claude.ai gave me the idea that one 
+            // can instead check that the incoming column name is in an allowed list of names
+            // to highten security somewhat.
+            List<string> allowedColumns = ["id", "email", "name", "salt", "password"];
+
             foreach (KeyValuePair<string, string> entry in columnsValues)
             {
-                string sql = @"UPDATE users SET @column = @value WHERE id = @id;";
+
+                if (!allowedColumns.Contains(entry.Key))
+                {
+                    return false;
+                }
+
+                string sql = $"UPDATE users SET {entry.Key} = @value WHERE id = @id;";
                 await using var command = new NpgsqlCommand(sql, connection);
 
-                command.Parameters.AddWithValue("@column", entry.Key);
                 command.Parameters.AddWithValue("@value", entry.Value);
                 command.Parameters.AddWithValue("@id", id);
 
@@ -132,7 +142,7 @@ public class UserRepository : IUserRepository
         catch (Exception e)
         {
             await sqlTransaction.RollbackAsync();
-            throw new Exception("Update failed, transaction rolled back. Exception: " + e.Message);
+            throw new Exception("Update failed, transaction rolled back: " + e.Message);
         }
 
 
@@ -168,6 +178,5 @@ public class UserRepository : IUserRepository
         var count = await command.ExecuteScalarAsync();
         return Convert.ToInt32(count) > 0;
     }
-
 
 }

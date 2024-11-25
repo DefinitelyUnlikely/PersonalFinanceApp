@@ -75,8 +75,22 @@ public partial class PasswordPopupViewModel : ObservableObject
             return;
         }
 
-        (user.Salt, user.PasswordHash) = passwordUtilities.HashPassword(Password);
-        // TODO: Add new password to database.
-        await popupService.ClosePopupAsync();
+        try
+        {
+            (var newSalt, var newPass) = passwordUtilities.HashPassword(Password);
+            if (!await userRepo.UpdateUserAsync(user.Id, new() { { "salt", newSalt }, { "password", newPass } }))
+            {
+                await Shell.Current.DisplayAlert("Update error", "Failed to update password, changes rolled back", "OK");
+                return;
+            }
+            user.Salt = newSalt;
+            user.PasswordHash = newPass;
+            await popupService.ClosePopupAsync();
+        }
+        catch (Exception e)
+        {
+            throw new Exception("Something went wrong: " + e.Message);
+        }
+
     }
 }
