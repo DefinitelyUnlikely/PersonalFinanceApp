@@ -24,7 +24,10 @@ namespace Finance.ViewModels
         Transaction? selectedTransaction;
 
         [ObservableProperty]
-        string? username;
+        string? userName;
+
+        [ObservableProperty]
+        string? displayName;
 
         public TransactionViewModel(IPopupService ps, ITransactionRepository tr, IUserRepository ur)
         {
@@ -32,7 +35,8 @@ namespace Finance.ViewModels
             userRepo = ur;
             transactionRepo = tr;
 
-            Username = userRepo.CurrentUser!.Name;
+            DisplayName = userRepo.CurrentUser!.DisplayName;
+            UserName = userRepo.CurrentUser!.UserName;
 
             LoadItems();
         }

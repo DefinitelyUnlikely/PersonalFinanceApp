@@ -9,7 +9,7 @@
         <ContentPage.MenuBarItems>
 
                 <MenuBarItem Text="User Settings">
-                        <MenuFlyoutItem Text="{Binding Username}"/>
+                        <MenuFlyoutItem Text="{Binding DisplayName}"/>
                         <MenuFlyoutSeparator/>
                         <MenuFlyoutItem Text="Change Username"/>
                         <MenuFlyoutItem Text="Change Password"

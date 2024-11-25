@@ -28,7 +28,7 @@ public class PasswordUtilities : IPasswordUtilities
     public async Task<bool> VerifyPassword(string username, string password)
     {
 
-        User? user = await userRepo.GetUserAsync(username);
+        User? user = await userRepo.GetUserAsync(username.ToUpper());
 
         if (user is null)
         {
