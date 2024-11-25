@@ -27,9 +27,11 @@ public class PostgresDatabase : IFinanceDatabase
         CREATE TABLE IF NOT EXISTS users (
         id SERIAL PRIMARY KEY,
         email text UNIQUE NOT NULL,
-        name text UNIQUE NOT NULL,
+        name text NOT NULL,
+        upper_name text GENERATED ALWAYS AS (UPPER(name)) STORED, 
         salt text NOT NULL,
-        password text NOT NULL
+        password text NOT NULL,
+        UNIQUE(upper_name)
         )";
 
         string createTransactionsTable = @"
