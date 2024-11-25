@@ -36,7 +36,7 @@ public class UserRepository : IUserRepository
     public async Task<bool> AddUserAsync(string email, string name, string salt, string password)
     {
 
-        string sql = @"INSERT INTO users (email, name, salt, password) VALUES (@email, @name, @salt, @password);";
+        string sql = @"INSERT INTO users (email, display_name, salt, password) VALUES (@email, @name, @salt, @password);";
         await using var connection = (NpgsqlConnection)await database.GetConnectionAsync();
         await using var command = new NpgsqlCommand(sql, connection);
 
@@ -65,16 +65,16 @@ public class UserRepository : IUserRepository
 
     public async Task<User?> GetUserAsync(string name)
     {
-        if (userCache.TryGetValue(name, out User? value))
+        if (userCache.TryGetValue(name.ToUpper(), out User? value))
         {
             return value;
         }
 
-        string sql = @"SELECT * FROM users WHERE name = @name;";
+        string sql = @"SELECT * FROM users WHERE user_name = @name;";
         await using var connection = (NpgsqlConnection)await database.GetConnectionAsync();
         await using var command = new NpgsqlCommand(sql, connection);
 
-        command.Parameters.AddWithValue("@name", name);
+        command.Parameters.AddWithValue("@name", name.ToUpper());
 
         try
         {
@@ -87,10 +87,11 @@ public class UserRepository : IUserRepository
                     reader.GetString(1),
                     reader.GetString(2),
                     reader.GetString(3),
-                    reader.GetString(4)
+                    reader.GetString(4),
+                    reader.GetString(5)
                     );
 
-                userCache.Add(getUser.Name, getUser);
+                userCache.Add(getUser.UserName, getUser);
 
                 return getUser;
             }
@@ -116,7 +117,7 @@ public class UserRepository : IUserRepository
             // As I cannot parameterize column names, claude.ai gave me the idea that one 
             // can instead check that the incoming column name is in an allowed list of names
             // to highten security somewhat.
-            List<string> allowedColumns = ["id", "email", "name", "salt", "password"];
+            List<string> allowedColumns = ["id", "email", "user_name", "display_name", "salt", "password"];
 
             foreach (KeyValuePair<string, string> entry in columnsValues)
             {
@@ -170,10 +171,10 @@ public class UserRepository : IUserRepository
     public async Task<bool> UserExistsAsync(string name)
     {
         await using var connection = (NpgsqlConnection)await database.GetConnectionAsync();
-        string sql = @"SELECT * FROM users WHERE name = @name;";
+        string sql = @"SELECT * FROM users WHERE user_name = @name;";
         await using var command = new NpgsqlCommand(sql, connection);
 
-        command.Parameters.AddWithValue("@name", name);
+        command.Parameters.AddWithValue("@name", name.ToUpper());
 
         var count = await command.ExecuteScalarAsync();
         return Convert.ToInt32(count) > 0;

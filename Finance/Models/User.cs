@@ -7,7 +7,9 @@ public class User
     public int Id { get; set; }
 
     public string Email { get; set; }
-    public string Name { get; set; }
+
+    public string UserName { get; set; }
+    public string DisplayName { get; set; }
 
     public string Salt { get; set; }
     public string PasswordHash { get; set; }
@@ -17,18 +19,20 @@ public class User
     public User(string email, string name, string salt, string passwordHash)
     {
         Email = email;
-        Name = name;
+        DisplayName = name;
+        UserName = name.ToUpper();
         Salt = salt;
         PasswordHash = passwordHash;
 
     }
 
     // for creating user objects from the database.
-    public User(int id, string email, string name, string salt, string password)
+    public User(int id, string email, string displayName, string username, string salt, string password)
     {
         Id = id;
         Email = email;
-        Name = name;
+        UserName = username;
+        DisplayName = displayName;
         Salt = salt;
         PasswordHash = password;
     }

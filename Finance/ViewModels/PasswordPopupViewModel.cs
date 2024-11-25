@@ -32,7 +32,7 @@ public partial class PasswordPopupViewModel : ObservableObject
     async Task ChangePassword()
     {
 
-        User? user = await userRepo.GetUserAsync(userRepo.CurrentUser!.Name);
+        User? user = await userRepo.GetUserAsync(userRepo.CurrentUser!.UserName);
 
         if (user is null)
         {
@@ -49,7 +49,7 @@ public partial class PasswordPopupViewModel : ObservableObject
             return;
         }
 
-        if (!await passwordUtilities.VerifyPassword(userRepo.CurrentUser.Name, CurrentPassword))
+        if (!await passwordUtilities.VerifyPassword(userRepo.CurrentUser.UserName, CurrentPassword))
         {
             CurrentPassword = string.Empty;
             Password = string.Empty;
