@@ -49,6 +49,7 @@ namespace Finance
             builder.Services.AddTransient<SortViewModel>();
 
             builder.Services.AddTransientPopup<PasswordPopup, PasswordPopupViewModel>();
+            builder.Services.AddTransientPopup<UsernamePopup, UsernamePopupViewModel>();
 
 #if DEBUG
             builder.Logging.AddDebug();

@@ -85,11 +85,13 @@ public partial class PasswordPopupViewModel : ObservableObject
             }
             user.Salt = newSalt;
             user.PasswordHash = newPass;
+            await Shell.Current.DisplayAlert("Password changed", "Password changed, You will need to log in again", "OK");
+            userRepo.SetUser(null!);
             await popupService.ClosePopupAsync();
         }
         catch (Exception e)
         {
-            throw new Exception("Something went wrong: " + e.Message);
+            await Shell.Current.DisplayAlert("Update Error", "Something went wrong: " + e.Message, "OK");
         }
 
     }

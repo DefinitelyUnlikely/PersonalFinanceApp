@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Finance.Models;
+using Finance.Views;
 using CommunityToolkit.Maui.Core;
 using Finance.Data.Interfaces;
 
@@ -81,15 +82,32 @@ namespace Finance.ViewModels
         }
 
         [RelayCommand]
-        public void ChangePassword()
+        public async Task ChangePassword()
         {
             try
             {
-                popupSerivce.ShowPopup<PasswordPopupViewModel>();
+                await popupSerivce.ShowPopupAsync<PasswordPopupViewModel>();
+                await Shell.Current.GoToAsync($"///{nameof(MainView)}");
             }
             catch (Exception e)
             {
-                Shell.Current.DisplayAlert("Error", e.Message, "OK");
+                await Shell.Current.DisplayAlert("Error", e.Message, "OK");
+            }
+
+        }
+
+        [RelayCommand]
+        public async Task ChangeUsername()
+        {
+            try
+            {
+                await popupSerivce.ShowPopupAsync<UsernamePopupViewModel>();
+                await Shell.Current.GoToAsync($"///{nameof(MainView)}");
+
+            }
+            catch (Exception e)
+            {
+                await Shell.Current.DisplayAlert("Error", e.Message, "OK");
             }
 
         }
