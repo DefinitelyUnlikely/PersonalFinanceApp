@@ -3,7 +3,7 @@ namespace Finance.Models;
 public class User
 {
 
-    // Name and email will be unique, but I've decided to still have an id as prmary key.
+    // Name and email will be unique, but I've decided to still have an id as primary key.
     public int Id { get; set; }
 
     public string Email { get; set; }
