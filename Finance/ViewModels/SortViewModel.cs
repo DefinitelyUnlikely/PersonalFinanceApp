@@ -1,84 +1,148 @@
 ﻿using System.Collections.ObjectModel;
+using System.Data;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Finance.Data.Interfaces;
 using Finance.Models;
-using Finance.Utilities;
+using Npgsql;
 
 namespace Finance.ViewModels;
 
+
+// TODO: Make this use SQL queryes rather than my current solution.
+// It is a bit counterintuitive to do a database query when I already got all 
+// the transactions I need in-memory. But I'm doing it to get better at SQL.
 public partial class SortViewModel : ObservableObject
 {
     private readonly TransactionViewModel transactionViewModel;
+    private readonly ITransactionRepository transactionRepo;
 
-    private List<Models.Transaction> Transactions;
+    private List<Transaction> Transactions;
 
-    private List<Dictionary<string, List<Models.Transaction>>> dictionaries;
+    private List<Dictionary<string, List<Transaction>>> dictionaries;
 
     [ObservableProperty]
     ObservableCollection<DisplayItem> displayList = [];
 
-    // A mediator is used, as the program would crash if one tried to sort
-    // and observableCollection. 
-    List<DisplayItem> mediatorList = [];
 
-
-    public SortViewModel(TransactionViewModel transactionViewModel)
+    public SortViewModel(ITransactionRepository tr)
     {
-        this.transactionViewModel = transactionViewModel;
-        Transactions = new List<Transaction>(transactionViewModel.Transactions);
-
-        dictionaries = DateKey.CreateTransactionDicts(Transactions);
-
+        transactionRepo = tr;
     }
 
 
     [RelayCommand]
     void Year()
     {
-        foreach (KeyValuePair<string, List<Transaction>> kvp in dictionaries[0])
+
+        var transactions = transactionRepo.ExecuteOperationAsync(async connection =>
         {
-            mediatorList.Add(new DisplayItem(kvp.Key, kvp.Value));
+            List<Transaction>? returnList = [];
+
+            var sql = @"";
+            await using var command = new NpgsqlCommand(sql, (NpgsqlConnection)connection);
+            command.Parameters.AddWithValue(@"", "");
+
+            await using var reader = await command.ExecuteReaderAsync();
+            while (await reader.ReadAsync())
+            {
+                returnList.Add(
+                    new(
+                    reader.GetInt32(0),
+                    reader.GetString(1),
+                    reader.GetDouble(2),
+                    reader.GetDateTime(3)
+                    )
+                );
+            }
+            return returnList;
         }
-        mediatorList.Sort((x, y) => x.Key.CompareTo(y.Key));
-        DisplayList = new ObservableCollection<DisplayItem>(mediatorList);
-        mediatorList = [];
+        );
     }
 
     [RelayCommand]
     void Month()
     {
-        foreach (KeyValuePair<string, List<Transaction>> kvp in dictionaries[1])
-        {
-            mediatorList.Add(new DisplayItem(kvp.Key, kvp.Value));
-        }
-        mediatorList.Sort((x, y) => x.Key.CompareTo(y.Key));
-        DisplayList = new ObservableCollection<DisplayItem>(mediatorList);
-        mediatorList = [];
+        var transactions = transactionRepo.ExecuteOperationAsync(async connection =>
+{
+    List<Transaction>? returnList = [];
+
+    var sql = @"";
+    await using var command = new NpgsqlCommand(sql, (NpgsqlConnection)connection);
+    command.Parameters.AddWithValue(@"", "");
+
+    await using var reader = await command.ExecuteReaderAsync();
+    while (await reader.ReadAsync())
+    {
+        returnList.Add(
+            new(
+            reader.GetInt32(0),
+            reader.GetString(1),
+            reader.GetDouble(2),
+            reader.GetDateTime(3)
+            )
+        );
+    }
+    return returnList;
+}
+);
     }
 
 
     [RelayCommand]
     void Week()
     {
-        foreach (KeyValuePair<string, List<Transaction>> kvp in dictionaries[2])
+        var transactions = transactionRepo.ExecuteOperationAsync(async connection =>
         {
-            mediatorList.Add(new DisplayItem(kvp.Key, kvp.Value));
+            List<Transaction>? returnList = [];
+
+            var sql = @"";
+            await using var command = new NpgsqlCommand(sql, (NpgsqlConnection)connection);
+            command.Parameters.AddWithValue(@"", "");
+
+            await using var reader = await command.ExecuteReaderAsync();
+            while (await reader.ReadAsync())
+            {
+                returnList.Add(
+                    new(
+                    reader.GetInt32(0),
+                    reader.GetString(1),
+                    reader.GetDouble(2),
+                    reader.GetDateTime(3)
+                    )
+                );
+            }
+            return returnList;
         }
-        mediatorList.Sort((x, y) => x.Key.CompareTo(y.Key));
-        DisplayList = new ObservableCollection<DisplayItem>(mediatorList);
-        mediatorList = [];
+        );
     }
 
 
     [RelayCommand]
     void Day()
     {
-        foreach (KeyValuePair<string, List<Transaction>> kvp in dictionaries[3])
+        var transactions = transactionRepo.ExecuteOperationAsync(async connection =>
         {
-            mediatorList.Add(new DisplayItem(kvp.Key, kvp.Value));
+            List<Transaction>? returnList = [];
+
+            var sql = @"";
+            await using var command = new NpgsqlCommand(sql, (NpgsqlConnection)connection);
+            command.Parameters.AddWithValue(@"", "");
+
+            await using var reader = await command.ExecuteReaderAsync();
+            while (await reader.ReadAsync())
+            {
+                returnList.Add(
+                    new(
+                    reader.GetInt32(0),
+                    reader.GetString(1),
+                    reader.GetDouble(2),
+                    reader.GetDateTime(3)
+                    )
+                );
+            }
+            return returnList;
         }
-        mediatorList.Sort((x, y) => x.Key.CompareTo(y.Key));
-        DisplayList = new ObservableCollection<DisplayItem>(mediatorList);
-        mediatorList = [];
+        );
     }
 }

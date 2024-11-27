@@ -2,6 +2,7 @@ using Npgsql;
 using Finance.Data.Interfaces;
 using Finance.Data.Database;
 using Finance.Models;
+using System.Data.Common;
 
 namespace Finance.Data.Repositories;
 
@@ -70,6 +71,13 @@ public class TransactionRepository : ITransactionRepository
 
         return transactions;
 
+    }
+
+    // general usecase function - execute any SQL query that returns transactions.
+    public async Task<List<Transaction>?> ExecuteOperationAsync(Func<DbConnection, Task<List<Transaction>?>> operation)
+    {
+        await using var connection = (NpgsqlConnection)await database.GetConnectionAsync();
+        return operation(connection);
     }
 
 }
