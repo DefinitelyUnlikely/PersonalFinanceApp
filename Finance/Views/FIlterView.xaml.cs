@@ -1,8 +1,8 @@
 namespace Finance.Views;
 
-public partial class FIlterView : ContentPage
+public partial class FilterView : ContentPage
 {
-	public FIlterView()
+	public FilterView()
 	{
 		InitializeComponent();
 	}

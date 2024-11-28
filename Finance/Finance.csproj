@@ -80,6 +80,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Compile Update="Views\FIlterView.xaml.cs">
+	    <DependentUpon>FilterView.xaml</DependentUpon>
+	  </Compile>
 	  <Compile Update="Views\UsernamePopup.xaml.cs">
 	    <DependentUpon>UsernamePopup.xaml</DependentUpon>
 	  </Compile>

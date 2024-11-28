@@ -100,8 +100,16 @@
 
                 <Button Text="Sort"
                         Grid.Row="3"
-                        Grid.ColumnSpan="4"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="2"
                         Margin="1,1,1,1"
                         Clicked="OnSortClicked"/>
+
+                <Button Text="Filter"
+                        Grid.Row="3"
+                        Grid.Column="2"
+                        Grid.ColumnSpan="2"
+                        Margin="1,1,1,1"
+                        Clicked="OnFilterClicked"/>
         </Grid>
 </ContentPage>

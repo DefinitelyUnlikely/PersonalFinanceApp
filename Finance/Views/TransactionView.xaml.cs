@@ -29,6 +29,18 @@ public partial class TransactionView : ContentPage
         }
     }
 
+    private async void OnFilterClicked(object sender, EventArgs e)
+    {
+        try
+        {
+            await Shell.Current.GoToAsync(nameof(FilterView));
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlert("Navigation Error", ex.Message, "OK");
+        }
+    }
+
     private async void OnIncomeClicked(object sender, EventArgs e)
     {
         try

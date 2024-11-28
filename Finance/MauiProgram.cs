@@ -47,6 +47,8 @@ namespace Finance
 
             builder.Services.AddTransient<SortView>();
             builder.Services.AddTransient<SortViewModel>();
+            builder.Services.AddTransient<FilterView>();
+            builder.Services.AddTransient<FilterViewModel>();
 
             builder.Services.AddTransientPopup<PasswordPopup, PasswordPopupViewModel>();
             builder.Services.AddTransientPopup<UsernamePopup, UsernamePopupViewModel>();
