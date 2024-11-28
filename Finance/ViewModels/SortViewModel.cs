@@ -32,10 +32,10 @@ public partial class SortViewModel : ObservableObject
 
 
     [RelayCommand]
-    void Year()
+    async Task Year()
     {
 
-        var transactions = transactionRepo.ExecuteOperationAsync(async connection =>
+        var transactions = await transactionRepo.ExecuteOperationAsync(async (connection) =>
         {
             List<Transaction>? returnList = [];
 
@@ -56,43 +56,13 @@ public partial class SortViewModel : ObservableObject
                 );
             }
             return returnList;
-        }
-        );
+        });
     }
 
     [RelayCommand]
-    void Month()
+    async Task Month()
     {
-        var transactions = transactionRepo.ExecuteOperationAsync(async connection =>
-{
-    List<Transaction>? returnList = [];
-
-    var sql = @"";
-    await using var command = new NpgsqlCommand(sql, (NpgsqlConnection)connection);
-    command.Parameters.AddWithValue(@"", "");
-
-    await using var reader = await command.ExecuteReaderAsync();
-    while (await reader.ReadAsync())
-    {
-        returnList.Add(
-            new(
-            reader.GetInt32(0),
-            reader.GetString(1),
-            reader.GetDouble(2),
-            reader.GetDateTime(3)
-            )
-        );
-    }
-    return returnList;
-}
-);
-    }
-
-
-    [RelayCommand]
-    void Week()
-    {
-        var transactions = transactionRepo.ExecuteOperationAsync(async connection =>
+        var transactions = await transactionRepo.ExecuteOperationAsync(async (connection) =>
         {
             List<Transaction>? returnList = [];
 
@@ -113,15 +83,14 @@ public partial class SortViewModel : ObservableObject
                 );
             }
             return returnList;
-        }
-        );
+        });
     }
 
 
     [RelayCommand]
-    void Day()
+    async Task Week()
     {
-        var transactions = transactionRepo.ExecuteOperationAsync(async connection =>
+        var transactions = await transactionRepo.ExecuteOperationAsync(async (connection) =>
         {
             List<Transaction>? returnList = [];
 
@@ -142,7 +111,34 @@ public partial class SortViewModel : ObservableObject
                 );
             }
             return returnList;
-        }
-        );
+        });
+    }
+
+
+    [RelayCommand]
+    async Task Day()
+    {
+        var transactions = await transactionRepo.ExecuteOperationAsync(async (connection) =>
+        {
+            List<Transaction>? returnList = [];
+
+            var sql = @"";
+            await using var command = new NpgsqlCommand(sql, (NpgsqlConnection)connection);
+            command.Parameters.AddWithValue(@"", "");
+
+            await using var reader = await command.ExecuteReaderAsync();
+            while (await reader.ReadAsync())
+            {
+                returnList.Add(
+                    new(
+                    reader.GetInt32(0),
+                    reader.GetString(1),
+                    reader.GetDouble(2),
+                    reader.GetDateTime(3)
+                    )
+                );
+            }
+            return returnList;
+        });
     }
 }

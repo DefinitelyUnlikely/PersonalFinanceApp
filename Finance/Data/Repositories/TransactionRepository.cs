@@ -3,6 +3,7 @@ using Finance.Data.Interfaces;
 using Finance.Data.Database;
 using Finance.Models;
 using System.Data.Common;
+using CommunityToolkit.Maui.Converters;
 
 namespace Finance.Data.Repositories;
 
@@ -77,7 +78,10 @@ public class TransactionRepository : ITransactionRepository
     public async Task<List<Transaction>?> ExecuteOperationAsync(Func<DbConnection, Task<List<Transaction>?>> operation)
     {
         await using var connection = (NpgsqlConnection)await database.GetConnectionAsync();
-        return operation(connection);
+        return await operation(connection);
     }
+
+
+
 
 }
