@@ -48,22 +48,12 @@ public partial class MainViewModel : ObservableObject
             return;
         }
 
-        if (!await userRepo.UserExistsAsync(Username))
+        if (!await userRepo.UserExistsAsync(Username) || !await passwordUtilities.VerifyPassword(Username, Password))
         {
-            await Shell.Current.DisplayAlert("Login Error", "That username does not exist", "OK");
+            await Shell.Current.DisplayAlert("Login Error", "Wrong username or password", "OK");
             Password = string.Empty;
             return;
         }
-
-        if (!await passwordUtilities.VerifyPassword(Username, Password))
-        {
-            await Shell.Current.DisplayAlert("Login Error", "Wrong password.", "OK");
-            Password = string.Empty;
-            return;
-        }
-
-
-        // Console.WriteLine($"{MethodBase.GetCurrentMethod()!.DeclaringType!.Name} - Username is {Username}");
 
         try
         {

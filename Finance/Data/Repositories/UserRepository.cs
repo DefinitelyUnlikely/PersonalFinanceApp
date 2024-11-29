@@ -56,10 +56,8 @@ public class UserRepository : IUserRepository
         }
         catch (Exception e)
         {
-            await Shell.Current.DisplayAlert("Internal User Error", e.Message, "OK");
+            throw new Exception("Couldn't add user: " + e.Message);
         }
-
-        return false;
 
     }
 
