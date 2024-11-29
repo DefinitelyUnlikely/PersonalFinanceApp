@@ -13,7 +13,7 @@ public class UserRepository : IUserRepository
     private readonly IFinanceDatabase database;
 
     private User? currentUser;
-    public User? CurrentUser { get => currentUser; }
+    public User? CurrentUser { get => currentUser; } // Keep the id instead? Easier when updating.
 
     public Dictionary<string, User> userCache = [];
 
@@ -115,7 +115,7 @@ public class UserRepository : IUserRepository
             // As I cannot parameterize column names, claude.ai gave me the idea that one 
             // can instead check that the incoming column name is in an allowed list of names
             // to highten security somewhat.
-            List<string> allowedColumns = ["id", "email", "user_name", "display_name", "salt", "password"];
+            List<string> allowedColumns = ["email", "user_name", "display_name", "salt", "password"];
 
             foreach (KeyValuePair<string, string> entry in columnsValues)
             {
