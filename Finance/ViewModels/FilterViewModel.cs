@@ -13,6 +13,15 @@ public partial class FilterViewModel : ObservableObject
     private readonly ITransactionRepository transactionRepo;
 
     [ObservableProperty]
+    string textSearch = string.Empty;
+
+    [ObservableProperty]
+    string dateFrom = string.Empty;
+
+    [ObservableProperty]
+    string dateTo = string.Empty;
+
+    [ObservableProperty]
     ObservableCollection<Transaction> transactions;
 
     public FilterViewModel(ITransactionRepository tr, TransactionViewModel transactionViewModel)
@@ -23,7 +32,7 @@ public partial class FilterViewModel : ObservableObject
     }
 
     [RelayCommand]
-    async Task Year()
+    async Task Filter()
     {
 
         var transactions = await transactionRepo.ExecuteOperationAsync(async (connection) =>
