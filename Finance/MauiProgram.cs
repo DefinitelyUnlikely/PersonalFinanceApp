@@ -35,6 +35,9 @@ namespace Finance
             builder.Services.AddTransient<CreateAccView>();
             builder.Services.AddTransient<CreateAccViewModel>();
 
+            builder.Services.AddTransient<AccountView>();
+            builder.Services.AddTransient<AccountViewModel>();
+
             builder.Services.AddTransient<TransactionView>();
             builder.Services.AddTransient<TransactionViewModel>();
 
@@ -52,6 +55,7 @@ namespace Finance
 
             builder.Services.AddTransientPopup<PasswordPopup, PasswordPopupViewModel>();
             builder.Services.AddTransientPopup<UsernamePopup, UsernamePopupViewModel>();
+            builder.Services.AddTransientPopup<AccountPopup, AccountPopupViewModel>();
 
 #if DEBUG
             builder.Logging.AddDebug();

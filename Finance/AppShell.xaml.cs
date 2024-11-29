@@ -8,8 +8,11 @@ namespace Finance
         {
             InitializeComponent();
 
-            // Route for account creation
+            // Route for user creation
             Routing.RegisterRoute(nameof(CreateAccView), typeof(CreateAccView));
+
+            // Route for account view
+            Routing.RegisterRoute(nameof(AccountView), typeof(AccountView));
 
             // Routes for transactions, sorting and filtering
             Routing.RegisterRoute(nameof(TransactionView), typeof(TransactionView));
