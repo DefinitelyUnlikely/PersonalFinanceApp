@@ -25,7 +25,7 @@ public class TransactionRepository : ITransactionRepository
         await using var command = new NpgsqlCommand(sql, connection);
 
         command.Parameters.AddWithValue("@id", transaction.Id);
-        command.Parameters.AddWithValue("@userId", transaction.UserId);
+        command.Parameters.AddWithValue("@userId", transaction.AccountId);
         command.Parameters.AddWithValue("@name", transaction.Name);
         command.Parameters.AddWithValue("@amount", transaction.Amount);
         command.Parameters.AddWithValue("@created", transaction.Created);
@@ -62,7 +62,7 @@ public class TransactionRepository : ITransactionRepository
         while (reader.Read())
         {
             Guid guid = reader.GetGuid(0);
-            int id = reader.GetInt32(1);
+            Guid id = reader.GetGuid(1);
             string name = reader.GetString(2);
             double amount = reader.GetDouble(3);
             DateTime date = reader.GetDateTime(4);

@@ -160,10 +160,9 @@ public class UserRepository : IUserRepository
         }
         catch (Exception e)
         {
-            await Shell.Current.DisplayAlert("Internal User Error", e.Message, "OK");
+            throw new Exception("Internal User Error: " + e.Message);
         }
 
-        return false;
     }
 
     public async Task<bool> UserExistsAsync(string name)
@@ -174,8 +173,16 @@ public class UserRepository : IUserRepository
 
         command.Parameters.AddWithValue("@name", name.ToUpper());
 
-        var count = await command.ExecuteScalarAsync();
-        return Convert.ToInt32(count) > 0;
+        try
+        {
+            var count = await command.ExecuteScalarAsync();
+            return Convert.ToInt32(count) > 0;
+        }
+        catch (Exception e)
+        {
+            throw new Exception("Internal User Error: " + e.Message);
+        }
+
     }
 
 }
