@@ -12,8 +12,8 @@ public class AccountRepository : IAccountRepository
 
     private readonly IFinanceDatabase database;
 
-    private Account? selectedAcc;
-    public Account? selectedAccount { get => selectedAcc; } // Keep the id instead? Easier when updating.
+    private readonly Account? selectedAcc;
+    public Account? SelectedAccount { get => selectedAcc; }
 
     public Dictionary<string, Account> accountCache = [];
 
@@ -35,6 +35,8 @@ public class AccountRepository : IAccountRepository
             command.Parameters.AddWithValue("@id", account.Id);
             command.Parameters.AddWithValue("@userId", account.UserId);
             command.Parameters.AddWithValue("@name", account.Name);
+
+            return await command.ExecuteNonQueryAsync() != -1;
         }
         catch (Exception e)
         {

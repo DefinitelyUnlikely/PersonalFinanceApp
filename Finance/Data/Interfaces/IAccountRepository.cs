@@ -6,6 +6,7 @@ namespace Finance.Data.Interfaces;
 
 public interface IAccountRepository
 {
+    void SetUser(string name);
     Task<bool> AddAccountAsync(Account account);
     Task<Account> GetAccountAsync(string name);
     Task<bool> UpdateAccountAsync(Guid guid, Dictionary<string, string> columnsValues);
