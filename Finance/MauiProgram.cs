@@ -27,6 +27,7 @@ namespace Finance
             builder.Services.AddSingleton<IUserRepository, UserRepository>();
             builder.Services.AddSingleton<IPasswordUtilities, PasswordUtilities>();
             builder.Services.AddSingleton<ITransactionRepository, TransactionRepository>();
+            builder.Services.AddSingleton<IAccountRepository, AccountRepository>();
 
 
             builder.Services.AddSingleton<MainView>();
