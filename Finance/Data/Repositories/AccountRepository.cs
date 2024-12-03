@@ -12,7 +12,7 @@ public class AccountRepository : IAccountRepository
 
     private readonly IFinanceDatabase database;
 
-    private readonly Account? selectedAcc;
+    private Account? selectedAcc;
     public Account? SelectedAccount { get => selectedAcc; }
 
     public Dictionary<string, Account> accountCache = [];
@@ -44,23 +44,42 @@ public class AccountRepository : IAccountRepository
         }
     }
 
-    public Task<bool> DeleteAccountASync(Guid guid)
+    public async Task<bool> DeleteAccountAsync(Guid guid)
+    {
+        await using var connection = (NpgsqlConnection)await database.GetConnectionAsync();
+        string sql = @"DELETE FROM accounts WHERE id = @id";
+        await using var command = new NpgsqlCommand(sql, connection);
+
+        command.Parameters.AddWithValue("@id", guid);
+
+        return await command.ExecuteNonQueryAsync() != -1;
+    }
+
+    public async Task<List<Account>?> ExecuteOperationAsync(Func<DbConnection, Task<List<Account>?>> operation)
     {
         throw new NotImplementedException();
     }
 
-    public Task<List<Account>?> ExecuteOperationAsync(Func<DbConnection, Task<List<Account>?>> operation)
+    public async Task<Account> GetAccountAsync(string name)
+    {
+        await using var connection = (NpgsqlConnection)await database.GetConnectionAsync();
+        string sql = @"DELETE FROM accounts WHERE id = @id";
+        await using var command = new NpgsqlCommand(sql, connection);
+    }
+
+    public async Task<bool> UpdateAccountAsync(Guid guid, Dictionary<string, string> columnsValues)
     {
         throw new NotImplementedException();
     }
 
-    public Task<Account> GetAccountAsync(string name)
+    public void SetAccount(string name)
     {
-        throw new NotImplementedException();
-    }
+        if (accountCache.TryGetValue(name, out Account? value))
+        {
+            selectedAcc = value;
+            return;
+        }
 
-    public Task<bool> UpdateAccountAsync(Guid guid, Dictionary<string, string> columnsValues)
-    {
-        throw new NotImplementedException();
+        throw new Exception("That account is not available in the cache.");
     }
 }
