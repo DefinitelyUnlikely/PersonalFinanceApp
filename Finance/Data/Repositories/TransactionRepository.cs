@@ -20,65 +20,93 @@ public class TransactionRepository : ITransactionRepository
     public async Task<bool> AddTransactionAsync(Transaction transaction)
     {
 
-        await using var connection = (NpgsqlConnection)await database.GetConnectionAsync();
-        string sql = @"INSERT INTO transactions VALUES (@id, @userId, @name, @amount, @created, @date)";
-        await using var command = new NpgsqlCommand(sql, connection);
+        try
+        {
+            await using var connection = (NpgsqlConnection)await database.GetConnectionAsync();
+            string sql = @"INSERT INTO transactions VALUES (@id, @userId, @name, @amount, @created, @date)";
+            await using var command = new NpgsqlCommand(sql, connection);
 
-        command.Parameters.AddWithValue("@id", transaction.Id);
-        command.Parameters.AddWithValue("@userId", transaction.AccountId);
-        command.Parameters.AddWithValue("@name", transaction.Name);
-        command.Parameters.AddWithValue("@amount", transaction.Amount);
-        command.Parameters.AddWithValue("@created", transaction.Created);
-        command.Parameters.AddWithValue("@date", transaction.Date);
+            command.Parameters.AddWithValue("@id", transaction.Id);
+            command.Parameters.AddWithValue("@userId", transaction.AccountId);
+            command.Parameters.AddWithValue("@name", transaction.Name);
+            command.Parameters.AddWithValue("@amount", transaction.Amount);
+            command.Parameters.AddWithValue("@created", transaction.Created);
+            command.Parameters.AddWithValue("@date", transaction.Date);
 
-        return await command.ExecuteNonQueryAsync() != -1;
+            return await command.ExecuteNonQueryAsync() != -1;
+        }
+        catch (Exception e)
+        {
+            throw new Exception("Transaction Error: " + e.Message);
+        }
     }
 
     public async Task<bool> RemoveTransactionAsync(Guid guid)
     {
-        await using var connection = (NpgsqlConnection)await database.GetConnectionAsync();
-        string sql = @"DELETE FROM transactions WHERE id = @guid;";
-        await using var command = new NpgsqlCommand(sql, connection);
+        try
+        {
+            await using var connection = (NpgsqlConnection)await database.GetConnectionAsync();
+            string sql = @"DELETE FROM transactions WHERE id = @guid;";
+            await using var command = new NpgsqlCommand(sql, connection);
 
-        command.Parameters.AddWithValue("@guid", guid);
+            command.Parameters.AddWithValue("@guid", guid);
 
-        return await command.ExecuteNonQueryAsync() != -1;
+            return await command.ExecuteNonQueryAsync() != -1;
+        }
+        catch (Exception e)
+        {
+            throw new Exception("Transaction Error: " + e.Message);
+        }
+
 
     }
 
 
     public async Task<List<Transaction>> GetUserTransactionsAsync(int userId)
     {
-
-        List<Transaction> transactions = [];
-
-        await using var connection = (NpgsqlConnection)await database.GetConnectionAsync();
-        string sql = @"SELECT * FROM transactions WHERE userId = @userId;";
-        await using var command = new NpgsqlCommand(sql, connection);
-
-        command.Parameters.AddWithValue("@userId", userId);
-        await using var reader = command.ExecuteReader();
-
-        while (reader.Read())
+        try
         {
-            Guid guid = reader.GetGuid(0);
-            Guid id = reader.GetGuid(1);
-            string name = reader.GetString(2);
-            double amount = reader.GetDouble(3);
-            DateTime date = reader.GetDateTime(4);
-            DateTime created = reader.GetDateTime(5);
-            transactions.Add(new Transaction(guid, id, name, amount, date, created));
-        }
+            List<Transaction> transactions = [];
 
-        return transactions;
+            await using var connection = (NpgsqlConnection)await database.GetConnectionAsync();
+            string sql = @"SELECT * FROM transactions WHERE userId = @userId;";
+            await using var command = new NpgsqlCommand(sql, connection);
+
+            command.Parameters.AddWithValue("@userId", userId);
+            await using var reader = command.ExecuteReader();
+
+            while (reader.Read())
+            {
+                Guid guid = reader.GetGuid(0);
+                Guid id = reader.GetGuid(1);
+                string name = reader.GetString(2);
+                double amount = reader.GetDouble(3);
+                DateTime date = reader.GetDateTime(4);
+                DateTime created = reader.GetDateTime(5);
+                transactions.Add(new Transaction(guid, id, name, amount, date, created));
+            }
+
+            return transactions;
+        }
+        catch (Exception e)
+        {
+            throw new Exception("Transaction Error: " + e.Message);
+        }
 
     }
 
     // general usecase function - execute any SQL query that returns transactions.
     public async Task<List<Transaction>?> ExecuteOperationAsync(Func<DbConnection, Task<List<Transaction>?>> operation)
     {
-        await using var connection = (NpgsqlConnection)await database.GetConnectionAsync();
-        return await operation(connection);
+        try
+        {
+            await using var connection = (NpgsqlConnection)await database.GetConnectionAsync();
+            return await operation(connection);
+        }
+        catch (Exception e)
+        {
+            throw new Exception("Transaction Error: " + e.Message);
+        }
     }
 
 
