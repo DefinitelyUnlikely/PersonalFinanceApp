@@ -38,7 +38,9 @@ public class PostgresDatabase : IFinanceDatabase
         CREATE TABLE IF NOT EXISTS accounts (
         id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
         userId INTEGER REFERENCES users(id),
-        name TEXT NOT NULL
+        display_name TEXT NOT NULL,
+        account_name text GENERATED ALWAYS AS (UPPER(display_name)) STORED,
+        UNIQUE(userId, account_name)
         )";
 
         string createTransactionsTable = @"

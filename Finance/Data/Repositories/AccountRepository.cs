@@ -11,15 +11,17 @@ public class AccountRepository : IAccountRepository
 {
 
     private readonly IFinanceDatabase database;
+    private readonly IUserRepository userRepo;
 
     private Account? selectedAcc;
     public Account? SelectedAccount { get => selectedAcc; }
 
     public Dictionary<string, Account> accountCache = [];
 
-    public AccountRepository(IFinanceDatabase financeDatabase)
+    public AccountRepository(IFinanceDatabase financeDatabase, IUserRepository ur)
     {
         database = financeDatabase;
+        userRepo = ur;
     }
 
     public async Task<bool> AddAccountAsync(Account account)
@@ -62,9 +64,29 @@ public class AccountRepository : IAccountRepository
 
     public async Task<Account> GetAccountAsync(string name)
     {
-        await using var connection = (NpgsqlConnection)await database.GetConnectionAsync();
-        string sql = @"DELETE FROM accounts WHERE id = @id";
-        await using var command = new NpgsqlCommand(sql, connection);
+        try
+        {
+            await using var connection = (NpgsqlConnection)await database.GetConnectionAsync();
+            string sql = @"SELECT * FROM accounts WHERE account_name = @account_name";
+            await using var command = new NpgsqlCommand(sql, connection);
+
+            command.Parameters.AddWithValue("@account_name", name.ToUpper());
+
+            await using var reader = await command.ExecuteReaderAsync();
+            if (!reader.Read())
+            {
+                throw new ArgumentException("No account with that name.");
+            }
+
+            return new Account(reader.GetGuid(0), reader.GetInt32(1), reader.GetString(2), reader.GetString(3));
+
+        }
+        catch (Exception e)
+        {
+            throw new Exception("Could net GET account: " + e.Message);
+        }
+
+
     }
 
     public async Task<bool> UpdateAccountAsync(Guid guid, Dictionary<string, string> columnsValues)
