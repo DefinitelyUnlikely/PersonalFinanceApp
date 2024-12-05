@@ -67,7 +67,15 @@ public class AccountRepository : IAccountRepository
 
     public async Task<List<Account>?> ExecuteOperationAsync(Func<DbConnection, Task<List<Account>?>> operation)
     {
-        throw new NotImplementedException();
+        try
+        {
+            await using var connection = (NpgsqlConnection)await database.GetConnectionAsync();
+            return await operation(connection);
+        }
+        catch (Exception e)
+        {
+            throw new Exception("Account Error: " + e.Message);
+        }
     }
 
     public async Task<Account> GetAccountAsync(string name)
