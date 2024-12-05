@@ -68,7 +68,7 @@ public partial class MainViewModel : ObservableObject
             }
 
             userRepo.SetUser(user);
-            await Shell.Current.GoToAsync(nameof(TransactionView));
+            await Shell.Current.GoToAsync(nameof(AccountView));
             Username = string.Empty;
             Password = string.Empty;
 
