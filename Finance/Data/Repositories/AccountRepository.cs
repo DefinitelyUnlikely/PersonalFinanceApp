@@ -13,8 +13,8 @@ public class AccountRepository : IAccountRepository
     private readonly IFinanceDatabase database;
     private readonly IUserRepository userRepo;
 
-    private Account? selectedAcc;
-    public Account? SelectedAccount { get => selectedAcc; }
+    private Account? selectedAccount;
+    public Account? SelectedAccount { get => selectedAccount; }
 
     public Dictionary<string, Account> accountCache = [];
 
@@ -110,7 +110,7 @@ public class AccountRepository : IAccountRepository
     public async Task<bool> UpdateAccountAsync(Guid guid, string name)
     {
 
-        if (selectedAcc is null)
+        if (selectedAccount is null)
         {
             throw new Exception($"Account is null, cannot update");
         }
@@ -121,7 +121,7 @@ public class AccountRepository : IAccountRepository
             throw new Exception($"User is null, cannot update");
         }
 
-        if (selectedAcc.UserId != userRepo.CurrentUser.Id)
+        if (selectedAccount.UserId != userRepo.CurrentUser.Id)
         {
             throw new Exception($"Current user is not owner of account. May not update.");
         }
@@ -149,7 +149,7 @@ public class AccountRepository : IAccountRepository
     {
         if (accountCache.TryGetValue(name, out Account? value))
         {
-            selectedAcc = value;
+            selectedAccount = value;
             return;
         }
 

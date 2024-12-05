@@ -9,6 +9,7 @@ namespace Finance.ViewModels;
 
 public partial class FilterViewModel : ObservableObject
 {
+    private readonly IAccountRepository accountRepo;
     private readonly TransactionViewModel transactionViewModel;
     private readonly ITransactionRepository transactionRepo;
 
@@ -24,8 +25,9 @@ public partial class FilterViewModel : ObservableObject
     [ObservableProperty]
     ObservableCollection<Transaction> transactions;
 
-    public FilterViewModel(ITransactionRepository tr, TransactionViewModel transactionViewModel)
+    public FilterViewModel(IAccountRepository ar, ITransactionRepository tr, TransactionViewModel transactionViewModel)
     {
+        accountRepo = ar;
         transactionRepo = tr;
         this.transactionViewModel = transactionViewModel;
         Transactions = new ObservableCollection<Transaction>(transactionViewModel.Transactions);
@@ -48,7 +50,7 @@ public partial class FilterViewModel : ObservableObject
             {
                 returnList.Add(
                     new(
-                    reader.GetInt32(0),
+                    reader.GetGuid(0),
                     reader.GetString(1),
                     reader.GetDouble(2),
                     reader.GetDateTime(3)

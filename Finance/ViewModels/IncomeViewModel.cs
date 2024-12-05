@@ -9,13 +9,15 @@ public partial class IncomeViewModel : ObservableObject
 {
 
     private readonly IUserRepository userRepo;
+    private readonly IAccountRepository accountRepo;
     private readonly ITransactionRepository transactionRepo;
 
     private readonly TransactionViewModel transactionViewModel;
 
-    public IncomeViewModel(IUserRepository ur, ITransactionRepository tr, TransactionViewModel vm)
+    public IncomeViewModel(IUserRepository ur, IAccountRepository ar, ITransactionRepository tr, TransactionViewModel vm)
     {
         userRepo = ur;
+        accountRepo = ar;
         transactionRepo = tr;
         transactionViewModel = vm;
     }
@@ -40,12 +42,12 @@ public partial class IncomeViewModel : ObservableObject
                 throw new Exception("Input required");
             }
 
-            if (userRepo.CurrentUser is null)
+            if (accountRepo.SelectedAccount is null)
             {
-                throw new Exception("Something went wrong, CurrentUser is null.");
+                throw new Exception("Something went wrong, SelectedAccount is null.");
             }
 
-            await transactionViewModel.AddTransaction(new(userRepo.CurrentUser.Id, TransactionName, Amount, TransactionDate));
+            await transactionViewModel.AddTransaction(new(accountRepo.SelectedAccount.Id, TransactionName, Amount, TransactionDate));
 
         }
         catch (Exception ex)
