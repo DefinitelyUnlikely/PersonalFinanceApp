@@ -42,19 +42,27 @@ public class AccountRepository : IAccountRepository
         }
         catch (Exception e)
         {
-            throw new Exception("Could not add user: " + e.Message);
+            throw new Exception("Could not ADD user: " + e.Message);
         }
     }
 
     public async Task<bool> DeleteAccountAsync(Guid guid)
     {
-        await using var connection = (NpgsqlConnection)await database.GetConnectionAsync();
-        string sql = @"DELETE FROM accounts WHERE id = @id";
-        await using var command = new NpgsqlCommand(sql, connection);
+        try
+        {
+            await using var connection = (NpgsqlConnection)await database.GetConnectionAsync();
+            string sql = @"DELETE FROM accounts WHERE id = @id";
+            await using var command = new NpgsqlCommand(sql, connection);
 
-        command.Parameters.AddWithValue("@id", guid);
+            command.Parameters.AddWithValue("@id", guid);
 
-        return await command.ExecuteNonQueryAsync() != -1;
+            return await command.ExecuteNonQueryAsync() != -1;
+        }
+        catch (Exception e)
+        {
+            throw new Exception("Could not DELETE account: " + e.Message);
+        }
+
     }
 
     public async Task<List<Account>?> ExecuteOperationAsync(Func<DbConnection, Task<List<Account>?>> operation)
@@ -83,15 +91,50 @@ public class AccountRepository : IAccountRepository
         }
         catch (Exception e)
         {
-            throw new Exception("Could net GET account: " + e.Message);
+            throw new Exception("Could not GET account: " + e.Message);
         }
 
 
     }
 
-    public async Task<bool> UpdateAccountAsync(Guid guid, Dictionary<string, string> columnsValues)
+    // Only the display name can be updated on an account, so unlike the users
+    // update method, this only needs to know which account and which name.
+    public async Task<bool> UpdateAccountAsync(Guid guid, string name)
     {
-        throw new NotImplementedException();
+
+        if (selectedAcc is null)
+        {
+            throw new Exception($"Account is null, cannot update");
+        }
+
+
+        if (userRepo.CurrentUser is null)
+        {
+            throw new Exception($"User is null, cannot update");
+        }
+
+        if (selectedAcc.UserId != userRepo.CurrentUser.Id)
+        {
+            throw new Exception($"Current user is not owner of account. May not update.");
+        }
+
+        try
+        {
+            await using var connection = (NpgsqlConnection)await database.GetConnectionAsync();
+            string sql = @"UPDATE accounts SET display_name = @name WHERE id = @id";
+            await using var command = new NpgsqlCommand(sql, connection);
+
+            command.Parameters.AddWithValue("@name", name);
+            command.Parameters.AddWithValue("@id", guid);
+
+            return await command.ExecuteNonQueryAsync() != -1;
+
+        }
+        catch (Exception e)
+        {
+            throw new Exception("Could not UPDATE account name: " + e.Message);
+        }
+
     }
 
     public void SetAccount(string name)

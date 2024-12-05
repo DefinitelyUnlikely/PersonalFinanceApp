@@ -67,11 +67,11 @@ public class PostgresDatabase : IFinanceDatabase
             await using var command3 = new NpgsqlCommand(createTransactionsTable, conn, sqlTransaction);
             await command3.ExecuteNonQueryAsync();
 
-            sqlTransaction.Commit();
+            await sqlTransaction.CommitAsync();
         }
         catch (Exception e)
         {
-            sqlTransaction.Rollback();
+            await sqlTransaction.RollbackAsync();
             await Shell.Current.DisplayAlert("Database Error", "Something went wrong with the creation of the tables: " + e.Message, "OK");
         }
 

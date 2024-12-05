@@ -115,13 +115,17 @@ public class UserRepository : IUserRepository
             // As I cannot parameterize column names, claude.ai gave me the idea that one 
             // can instead check that the incoming column name is in an allowed list of names
             // to highten security somewhat.
-            List<string> allowedColumns = ["email", "user_name", "display_name", "salt", "password"];
+            List<string> allowedColumns = ["email", "display_name", "salt", "password"];
 
+            // One can do several columns in one update, but I could not come up with a 
+            // way to make that approach work for an unknown amount of columns to update.
+            // So we are using a forloop instead. 
             foreach (KeyValuePair<string, string> entry in columnsValues)
             {
 
                 if (!allowedColumns.Contains(entry.Key))
                 {
+                    await sqlTransaction.RollbackAsync();
                     return false;
                 }
 
@@ -134,7 +138,7 @@ public class UserRepository : IUserRepository
                 await command.ExecuteNonQueryAsync();
             }
 
-            sqlTransaction.Commit();
+            await sqlTransaction.CommitAsync();
             return true;
 
         }
