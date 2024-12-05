@@ -58,13 +58,20 @@ public partial class MainViewModel : ObservableObject
         try
         {
             User? user = await userRepo.GetUserAsync(Username);
-            if (user is not null)
+
+            // User should not be null as we check if they exist prior to getting the whole object
+            // But this check makes sure the user cannot be null in case I've missed something.
+            if (user is null)
             {
-                userRepo.SetUser(user);
+                await Shell.Current.DisplayAlert("Login error", "User is null", "OK");
+                return;
             }
+
+            userRepo.SetUser(user);
             await Shell.Current.GoToAsync(nameof(TransactionView));
             Username = string.Empty;
             Password = string.Empty;
+
         }
         catch (Exception e)
         {
