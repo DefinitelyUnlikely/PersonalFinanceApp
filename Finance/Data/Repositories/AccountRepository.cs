@@ -13,8 +13,8 @@ public class AccountRepository : IAccountRepository
     private readonly IFinanceDatabase database;
     private readonly IUserRepository userRepo;
 
-    private Account? selectedAccount;
-    public Account? SelectedAccount { get => selectedAccount; }
+    private Account? currentAccount;
+    public Account? CurrentAccount { get => currentAccount; }
 
     public Dictionary<string, Account> accountCache = [];
 
@@ -105,12 +105,50 @@ public class AccountRepository : IAccountRepository
 
     }
 
+    public async Task<List<Account>> GetUserAccountsAsync()
+    {
+
+        if (userRepo.CurrentUser is null)
+        {
+            throw new Exception("User is null, please login before using this method.");
+        }
+        try
+        {
+
+            List<Account> accounts = [];
+
+            await using var connection = (NpgsqlConnection)await database.GetConnectionAsync();
+
+            string sql = @"SELECT * FROM accounts WHERE user_id = @id";
+            await using var command = new NpgsqlCommand(sql, connection);
+
+            command.Parameters.AddWithValue("@id", userRepo.CurrentUser.Id);
+            await using var reader = await command.ExecuteReaderAsync();
+
+            while (reader.Read())
+            {
+                accounts.Add(new(
+                    reader.GetGuid(0),
+                    reader.GetInt32(1),
+                    reader.GetString(2),
+                    reader.GetString(3)
+                    ));
+            }
+
+            return accounts;
+        }
+        catch (Exception e)
+        {
+            throw new Exception($"Could not load accounts for user: {e.Message}");
+        }
+    }
+
     // Only the display name can be updated on an account, so unlike the users
     // update method, this only needs to know which account and which name.
     public async Task<bool> UpdateAccountAsync(Guid guid, string name)
     {
 
-        if (selectedAccount is null)
+        if (CurrentAccount is null)
         {
             throw new Exception($"Account is null, cannot update");
         }
@@ -121,7 +159,7 @@ public class AccountRepository : IAccountRepository
             throw new Exception($"User is null, cannot update");
         }
 
-        if (selectedAccount.UserId != userRepo.CurrentUser.Id)
+        if (CurrentAccount.UserId != userRepo.CurrentUser.Id)
         {
             throw new Exception($"Current user is not owner of account. May not update.");
         }
@@ -149,7 +187,7 @@ public class AccountRepository : IAccountRepository
     {
         if (accountCache.TryGetValue(name, out Account? value))
         {
-            selectedAccount = value;
+            currentAccount = value;
             return;
         }
 

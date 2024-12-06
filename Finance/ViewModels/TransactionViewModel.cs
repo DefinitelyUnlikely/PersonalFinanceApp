@@ -46,7 +46,7 @@ namespace Finance.ViewModels
         {
             if (userRepo.CurrentUser is null)
             {
-                return;
+                throw new Exception("User is null, something has gone wrong.");
             }
 
             var transactionsAsync = transactionRepo.GetUserTransactionsAsync(userRepo.CurrentUser.Id);
