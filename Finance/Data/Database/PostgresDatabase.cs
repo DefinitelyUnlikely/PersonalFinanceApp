@@ -37,16 +37,16 @@ public class PostgresDatabase : IFinanceDatabase
         string createAccountsTable = @"
         CREATE TABLE IF NOT EXISTS accounts (
         id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-        userId INTEGER REFERENCES users(id),
+        user_id INTEGER REFERENCES users(id),
         display_name TEXT NOT NULL,
         account_name text GENERATED ALWAYS AS (UPPER(display_name)) STORED,
-        UNIQUE(userId, account_name)
+        UNIQUE(user_id, account_name)
         )";
 
         string createTransactionsTable = @"
         CREATE TABLE IF NOT EXISTS transactions (
         id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-        account_id INTEGER REFERENCES accounts(id),
+        account_id UUID REFERENCES accounts(id),
         name text NOT NULL,
         amount decimal NOT NULL,
         created DATE NOT NULL,
@@ -58,12 +58,15 @@ public class PostgresDatabase : IFinanceDatabase
 
         try
         {
+            Console.WriteLine("Creating users");
             await using var command1 = new NpgsqlCommand(createUsersTable, conn, sqlTransaction);
             await command1.ExecuteNonQueryAsync();
 
+            Console.WriteLine("Creating accounts");
             await using var command2 = new NpgsqlCommand(createAccountsTable, conn, sqlTransaction);
-            await command1.ExecuteNonQueryAsync();
+            await command2.ExecuteNonQueryAsync();
 
+            Console.WriteLine("Creating transaction");
             await using var command3 = new NpgsqlCommand(createTransactionsTable, conn, sqlTransaction);
             await command3.ExecuteNonQueryAsync();
 

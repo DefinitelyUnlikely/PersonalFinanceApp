@@ -70,7 +70,7 @@ public class TransactionRepository : ITransactionRepository
 
             await using var connection = (NpgsqlConnection)await database.GetConnectionAsync();
             string sql = @"
-            SELECT transactions.name, transactions.amount, transactions.date, accounts.display_name FROM transactions 
+            SELECT transactions.name, transactions.amount, transactions.date, transactions.created, accounts.display_name FROM transactions 
             INNER JOIN accounts ON transactions.account_id = accounts.id WHERE user_id = @userId";
             await using var command = new NpgsqlCommand(sql, connection);
 
