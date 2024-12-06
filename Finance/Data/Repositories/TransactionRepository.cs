@@ -69,7 +69,9 @@ public class TransactionRepository : ITransactionRepository
             List<Transaction> transactions = [];
 
             await using var connection = (NpgsqlConnection)await database.GetConnectionAsync();
-            string sql = @"SELECT * FROM transactions WHERE userId = @userId;";
+            string sql = @"
+            SELECT transactions.name, transactions.amount, transactions.date, accounts.display_name FROM transactions 
+            INNER JOIN accounts ON transactions.account_id = accounts.id WHERE user_id = @userId";
             await using var command = new NpgsqlCommand(sql, connection);
 
             command.Parameters.AddWithValue("@userId", userId);
@@ -77,13 +79,7 @@ public class TransactionRepository : ITransactionRepository
 
             while (reader.Read())
             {
-                Guid guid = reader.GetGuid(0);
-                Guid id = reader.GetGuid(1);
-                string name = reader.GetString(2);
-                double amount = reader.GetDouble(3);
-                DateTime date = reader.GetDateTime(4);
-                DateTime created = reader.GetDateTime(5);
-                transactions.Add(new Transaction(guid, id, name, amount, date, created));
+
             }
 
             return transactions;
@@ -109,7 +105,38 @@ public class TransactionRepository : ITransactionRepository
         }
     }
 
+    public async Task<List<Transaction>> GetAccountTransactionsAsync(Guid id)
+    {
+        try
+        {
+            List<Transaction> transactions = [];
 
+            await using var connection = (NpgsqlConnection)await database.GetConnectionAsync();
+            string sql = @"SELECT * FROM transactions WHERE account_id = @id";
+            await using var command = new NpgsqlCommand(sql, connection);
 
+            command.Parameters.AddWithValue("@id", id);
 
+            await using var reader = await command.ExecuteReaderAsync();
+            while (reader.Read())
+            {
+                while (reader.Read())
+                {
+                    Guid transactionId = reader.GetGuid(0);
+                    Guid accountId = reader.GetGuid(1);
+                    string name = reader.GetString(2);
+                    double amount = reader.GetDouble(3);
+                    DateTime date = reader.GetDateTime(4);
+                    DateTime created = reader.GetDateTime(5);
+                    transactions.Add(new Transaction(transactionId, accountId, name, amount, date, created));
+                }
+            }
+
+            return transactions;
+        }
+        catch (Exception e)
+        {
+            throw new Exception("Could not get transactions for account: " + e.Message);
+        }
+    }
 }
