@@ -7,10 +7,11 @@ public partial class AccountView : ContentPage
 {
 	private readonly IUserRepository userRepo;
 
-	public AccountView(IUserRepository ur, TransactionViewModel vm)
+	public AccountView(IUserRepository ur, AccountViewModel vm)
 	{
 		InitializeComponent();
 		userRepo = ur;
+		BindingContext = vm;
 	}
 
 	private async void OnLogoutPressed(object sender, EventArgs e)

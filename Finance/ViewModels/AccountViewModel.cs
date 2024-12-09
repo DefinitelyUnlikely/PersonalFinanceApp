@@ -39,7 +39,7 @@ public partial class AccountViewModel : ObservableObject
         LoadAccounts();
     }
 
-    private async void LoadAccounts()
+    async void LoadAccounts()
     {
         if (userRepo.CurrentUser is null)
         {
@@ -58,7 +58,7 @@ public partial class AccountViewModel : ObservableObject
     }
 
     [RelayCommand]
-    private async Task AccountDetails()
+    async Task AccountDetails()
     {
         if (SelectedAccount is null)
         {
@@ -72,7 +72,7 @@ public partial class AccountViewModel : ObservableObject
     }
 
     [RelayCommand]
-    private async Task ShowAllTransactions()
+    async Task ShowAllTransactions()
     {
         Console.WriteLine("Is the button working?");
         accountRepo.SetAccount(null);
@@ -81,7 +81,7 @@ public partial class AccountViewModel : ObservableObject
 
     // Placeholder
     [RelayCommand]
-    public async Task ChangeAccountName()
+    async Task ChangeAccountName()
     {
         try
         {
