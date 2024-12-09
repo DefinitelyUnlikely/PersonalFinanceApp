@@ -42,12 +42,12 @@ public partial class IncomeViewModel : ObservableObject
                 throw new Exception("Input required");
             }
 
-            if (accountRepo.SelectedAccount is null)
+            if (accountRepo.CurrentAccount is null)
             {
-                throw new Exception("Something went wrong, SelectedAccount is null.");
+                throw new Exception("Something went wrong, Current Account is null.");
             }
 
-            await transactionViewModel.AddTransaction(new(accountRepo.SelectedAccount.Id, TransactionName, Amount, TransactionDate));
+            await transactionViewModel.AddTransaction(new(accountRepo.CurrentAccount.Id, TransactionName, Amount, TransactionDate));
 
         }
         catch (Exception ex)

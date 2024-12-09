@@ -74,7 +74,23 @@ public partial class AccountViewModel : ObservableObject
     [RelayCommand]
     private async Task ShowAllTransactions()
     {
+        Console.WriteLine("Is the button working?");
         accountRepo.SetAccount(null);
         await Shell.Current.GoToAsync($"{nameof(TransactionView)}");
+    }
+
+    // Placeholder
+    [RelayCommand]
+    public async Task ChangeAccountName()
+    {
+        try
+        {
+            await Shell.Current.GoToAsync($"///{nameof(MainView)}");
+        }
+        catch (Exception e)
+        {
+            await Shell.Current.DisplayAlert("Error", e.Message, "OK");
+        }
+
     }
 }

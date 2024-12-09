@@ -58,15 +58,12 @@ public class PostgresDatabase : IFinanceDatabase
 
         try
         {
-            Console.WriteLine("Creating users");
             await using var command1 = new NpgsqlCommand(createUsersTable, conn, sqlTransaction);
             await command1.ExecuteNonQueryAsync();
 
-            Console.WriteLine("Creating accounts");
             await using var command2 = new NpgsqlCommand(createAccountsTable, conn, sqlTransaction);
             await command2.ExecuteNonQueryAsync();
 
-            Console.WriteLine("Creating transaction");
             await using var command3 = new NpgsqlCommand(createTransactionsTable, conn, sqlTransaction);
             await command3.ExecuteNonQueryAsync();
 

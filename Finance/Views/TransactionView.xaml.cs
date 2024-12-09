@@ -88,7 +88,7 @@ public partial class TransactionView : ContentPage
         // Cannot ask if the user wants to log out, as a DisplayAlert will freeze the 
         // application if it is not awaited. And we cannot put this method async as it is an override.
         userRepo.ResetUser();
-        Shell.Current.GoToAsync($"///{nameof(MainView)}");
+        Shell.Current.GoToAsync($"///{nameof(AccountView)}");
 
         return true;
     }

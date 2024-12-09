@@ -4,7 +4,7 @@
              x:Class="Finance.Views.AccountView"
              xmlns:model="clr-namespace:Finance.Models"
              xmlns:vm="clr-namespace:Finance.ViewModels"
-             x:DataType="vm:TransactionViewModel"
+             x:DataType="vm:AccountViewModel"
              Title="Accounts">
 
     <ContentPage.MenuBarItems>
@@ -13,9 +13,7 @@
             <MenuFlyoutItem Text="{Binding DisplayName}"/>
             <MenuFlyoutSeparator/>
             <MenuFlyoutItem Text="Change Username"
-                            Command="{Binding ChangeUsernameCommand}"/>
-            <MenuFlyoutItem Text="Change Password"
-                            Command="{Binding ChangePasswordCommand}"/>
+                            Command="{Binding ChangeAccountNameCommand}"/>
             <MenuFlyoutSeparator/>
             <MenuFlyoutItem Text="Logout"
                             Clicked="OnLogoutPressed"/>
@@ -23,6 +21,9 @@
     </ContentPage.MenuBarItems>
 
     <VerticalStackLayout>
+        <Button Text="Show all transactions"
+                Command="{Binding ShowAllTransactionsCommand}"/>
+
         <CollectionView Margin="0,10,0,10"
                         ItemsSource="{Binding Accounts}"
                         SelectedItem="{Binding SelectedAccount}"
@@ -45,8 +46,9 @@
                         <HorizontalStackLayout HorizontalOptions="Center">
                             <Label Text="{Binding DisplayName}"
                                    Margin="10,0,0,0"/>
+
                             <Button Text="Details"
-                                    Command="{Binding AccountDetailsCommand}"/>
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type vm:AccountViewModel}}, Path=AccountDetailsCommand}"/>
                         </HorizontalStackLayout>
                     </Frame>
                 </DataTemplate>

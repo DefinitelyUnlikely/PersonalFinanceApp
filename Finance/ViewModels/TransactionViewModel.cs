@@ -14,6 +14,7 @@ namespace Finance.ViewModels
         private readonly IPopupService popupSerivce;
         private readonly IUserRepository userRepo;
         private readonly ITransactionRepository transactionRepo;
+        private readonly IAccountRepository accountRepo;
 
         [ObservableProperty]
         ObservableCollection<Transaction> transactions = [];
@@ -30,28 +31,50 @@ namespace Finance.ViewModels
         [ObservableProperty]
         string? displayName;
 
-        public TransactionViewModel(IPopupService ps, ITransactionRepository tr, IUserRepository ur)
+        public TransactionViewModel(IPopupService ps, ITransactionRepository tr, IUserRepository ur, IAccountRepository ar)
         {
             popupSerivce = ps;
             userRepo = ur;
             transactionRepo = tr;
+            accountRepo = ar;
 
             DisplayName = userRepo.CurrentUser!.DisplayName;
             UserName = userRepo.CurrentUser!.UserName;
 
-            LoadItems();
-        }
-
-        private void LoadItems()
-        {
-            if (userRepo.CurrentUser is null)
+            if (accountRepo.CurrentAccount is null)
             {
-                throw new Exception("User is null, something has gone wrong.");
+                LoadItems("user");
             }
 
-            var transactionsAsync = transactionRepo.GetUserTransactionsAsync(userRepo.CurrentUser.Id);
-            LoadBalance(transactionsAsync.Result);
-            Transactions = new ObservableCollection<Transaction>(transactionsAsync.Result);
+            LoadItems("account");
+        }
+
+        private async void LoadItems(string type)
+        {
+
+            if (type.Equals("user"))
+            {
+                if (userRepo.CurrentUser is null)
+                {
+                    throw new ArgumentException("User argument selected, but user is currently NULL.");
+                }
+
+                var transactionsAsync = await transactionRepo.GetUserTransactionsAsync(userRepo.CurrentUser.Id);
+                LoadBalance(transactionsAsync);
+                Transactions = new ObservableCollection<Transaction>(transactionsAsync);
+            }
+            else if (type.Equals("Account"))
+            {
+                if (accountRepo.CurrentAccount is null)
+                {
+                    throw new ArgumentException("Account argument selected, but account is currently NULL.");
+                }
+
+                var transactionsAsync = await transactionRepo.GetAccountTransactionsAsync(accountRepo.CurrentAccount.Id);
+                LoadBalance(transactionsAsync);
+                Transactions = new ObservableCollection<Transaction>(transactionsAsync);
+            }
+
 
         }
 
