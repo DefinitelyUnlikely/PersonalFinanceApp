@@ -9,11 +9,13 @@ public partial class TransactionView : ContentPage
 {
 
     private readonly IUserRepository userRepo;
+    private readonly IAccountRepository accountRepo;
 
-    public TransactionView(IUserRepository ur, TransactionViewModel vm)
+    public TransactionView(IUserRepository ur, IAccountRepository ar, TransactionViewModel vm)
     {
         InitializeComponent();
         userRepo = ur;
+        accountRepo = ar;
         BindingContext = vm;
     }
 
@@ -45,6 +47,12 @@ public partial class TransactionView : ContentPage
     {
         try
         {
+            if (accountRepo.CurrentAccount is null)
+            {
+                await DisplayAlert("Navigation Error", "You may not add transactions unless you have selected an account.", "OK");
+                return;
+            }
+
             await Shell.Current.GoToAsync(nameof(IncomeView));
         }
         catch (Exception ex)
@@ -57,6 +65,12 @@ public partial class TransactionView : ContentPage
     {
         try
         {
+            if (accountRepo.CurrentAccount is null)
+            {
+                await DisplayAlert("Navigation Error", "You may not add transactions unless you have selected an account.", "OK");
+                return;
+            }
+
             await Shell.Current.GoToAsync(nameof(ExpenseView));
         }
         catch (Exception ex)
