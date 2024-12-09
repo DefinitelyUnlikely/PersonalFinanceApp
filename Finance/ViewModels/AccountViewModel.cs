@@ -74,7 +74,6 @@ public partial class AccountViewModel : ObservableObject
     [RelayCommand]
     async Task ShowAllTransactions()
     {
-        Console.WriteLine("Is the button working?");
         accountRepo.SetAccount(null);
         await Shell.Current.GoToAsync($"{nameof(TransactionView)}");
     }
