@@ -6,6 +6,22 @@
              xmlns:vm="clr-namespace:Finance.ViewModels"
              x:DataType="vm:TransactionViewModel"
              Title="Accounts">
+
+    <ContentPage.MenuBarItems>
+
+        <MenuBarItem Text="User Settings">
+            <MenuFlyoutItem Text="{Binding DisplayName}"/>
+            <MenuFlyoutSeparator/>
+            <MenuFlyoutItem Text="Change Username"
+                            Command="{Binding ChangeUsernameCommand}"/>
+            <MenuFlyoutItem Text="Change Password"
+                            Command="{Binding ChangePasswordCommand}"/>
+            <MenuFlyoutSeparator/>
+            <MenuFlyoutItem Text="Logout"
+                            Clicked="OnLogoutPressed"/>
+        </MenuBarItem>
+    </ContentPage.MenuBarItems>
+
     <VerticalStackLayout>
         <CollectionView Margin="0,10,0,10"
                         ItemsSource="{Binding Accounts}"

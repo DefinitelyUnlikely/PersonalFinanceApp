@@ -21,11 +21,20 @@ public partial class AccountViewModel : ObservableObject
     [ObservableProperty]
     ObservableCollection<Account> accounts = [];
 
+    [ObservableProperty]
+    string? userName;
+
+    [ObservableProperty]
+    string? displayName;
+
     public AccountViewModel(IUserRepository ur, IAccountRepository ar, ITransactionRepository tr)
     {
         userRepo = ur;
         accountRepo = ar;
         transactionRepo = tr;
+
+        DisplayName = userRepo.CurrentUser!.DisplayName;
+        UserName = userRepo.CurrentUser!.UserName;
 
         LoadAccounts();
     }
