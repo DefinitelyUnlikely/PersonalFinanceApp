@@ -16,7 +16,7 @@ public class AccountRepository : IAccountRepository
     private Account? currentAccount;
     public Account? CurrentAccount { get => currentAccount; }
 
-    public Dictionary<string, Account> accountCache = [];
+    public Dictionary<Guid, Account> accountCache = [];
 
     public AccountRepository(IFinanceDatabase financeDatabase, IUserRepository ur)
     {
@@ -26,7 +26,7 @@ public class AccountRepository : IAccountRepository
 
     public async Task<bool> AddAccountAsync(Account account)
     {
-        accountCache.Add(account.Name, account);
+        accountCache.Add(account.Id, account);
 
         try
         {
@@ -127,12 +127,16 @@ public class AccountRepository : IAccountRepository
 
             while (reader.Read())
             {
-                accounts.Add(new(
+
+                Account accObj = new(
                     reader.GetGuid(0),
                     reader.GetInt32(1),
                     reader.GetString(2),
                     reader.GetString(3)
-                    ));
+                    );
+
+                accounts.Add(accObj);
+                accountCache.Add(accObj.Id, accObj);
             }
 
             return accounts;
@@ -150,18 +154,18 @@ public class AccountRepository : IAccountRepository
 
         if (CurrentAccount is null)
         {
-            throw new Exception($"Account is null, cannot update");
+            throw new Exception("Account is null, cannot update");
         }
 
 
         if (userRepo.CurrentUser is null)
         {
-            throw new Exception($"User is null, cannot update");
+            throw new Exception("User is null, cannot update");
         }
 
         if (CurrentAccount.UserId != userRepo.CurrentUser.Id)
         {
-            throw new Exception($"Current user is not owner of account. May not update.");
+            throw new Exception("Current user is not owner of account. May not update.");
         }
 
         try
@@ -183,9 +187,15 @@ public class AccountRepository : IAccountRepository
 
     }
 
-    public void SetAccount(string name)
+    public void SetAccount(Guid? id)
     {
-        if (accountCache.TryGetValue(name, out Account? value))
+        if (id is null)
+        {
+            currentAccount = null;
+            return;
+        }
+
+        if (accountCache.TryGetValue((Guid)id, out Account? value))
         {
             currentAccount = value;
             return;

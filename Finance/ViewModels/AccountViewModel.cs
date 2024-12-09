@@ -1,8 +1,10 @@
 using System;
 using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using Finance.Data.Interfaces;
 using Finance.Models;
+using Finance.Views;
 using Npgsql;
 
 namespace Finance.ViewModels;
@@ -44,5 +46,26 @@ public partial class AccountViewModel : ObservableObject
             await Shell.Current.DisplayAlert("Account error", "Could not load accounts" + e.Message, "OK");
             return;
         }
+    }
+
+    [RelayCommand]
+    private async Task AccountDetails()
+    {
+        if (SelectedAccount is null)
+        {
+            await Shell.Current.DisplayAlert("Account error", "Current account is NULL", "OK");
+            return;
+        }
+
+        accountRepo.SetAccount(SelectedAccount.Id);
+        await Shell.Current.GoToAsync($"{nameof(TransactionView)}");
+
+    }
+
+    [RelayCommand]
+    private async Task ShowAllTransactions()
+    {
+        accountRepo.SetAccount(null);
+        await Shell.Current.GoToAsync($"{nameof(TransactionView)}");
     }
 }

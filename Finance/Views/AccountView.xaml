@@ -29,6 +29,8 @@
                         <HorizontalStackLayout HorizontalOptions="Center">
                             <Label Text="{Binding DisplayName}"
                                    Margin="10,0,0,0"/>
+                            <Button Text="Details"
+                                    Command="{Binding AccountDetailsCommand}"/>
                         </HorizontalStackLayout>
                     </Frame>
                 </DataTemplate>
