@@ -1,5 +1,6 @@
 using System;
 using System.Collections.ObjectModel;
+using CommunityToolkit.Maui.Core;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Finance.Data.Interfaces;
@@ -14,6 +15,7 @@ public partial class AccountViewModel : ObservableObject
     private readonly IUserRepository userRepo;
     private readonly IAccountRepository accountRepo;
     private readonly ITransactionRepository transactionRepo;
+    private readonly IPopupService popupService;
 
     [ObservableProperty]
     Account? selectedAccount;
@@ -27,11 +29,12 @@ public partial class AccountViewModel : ObservableObject
     [ObservableProperty]
     string? displayName;
 
-    public AccountViewModel(IUserRepository ur, IAccountRepository ar, ITransactionRepository tr)
+    public AccountViewModel(IUserRepository ur, IAccountRepository ar, ITransactionRepository tr, IPopupService pu)
     {
         userRepo = ur;
         accountRepo = ar;
         transactionRepo = tr;
+        popupService = pu;
 
         DisplayName = userRepo.CurrentUser!.DisplayName;
         UserName = userRepo.CurrentUser!.UserName;
@@ -80,10 +83,27 @@ public partial class AccountViewModel : ObservableObject
 
     // Placeholder
     [RelayCommand]
-    async Task ChangeAccountName()
+    public async Task ChangeUsername()
     {
         try
         {
+            await popupService.ShowPopupAsync<UsernamePopupViewModel>();
+            await Shell.Current.GoToAsync($"///{nameof(MainView)}");
+
+        }
+        catch (Exception e)
+        {
+            await Shell.Current.DisplayAlert("Error", e.Message, "OK");
+        }
+
+    }
+
+    [RelayCommand]
+    public async Task ChangePassword()
+    {
+        try
+        {
+            await popupService.ShowPopupAsync<PasswordPopupViewModel>();
             await Shell.Current.GoToAsync($"///{nameof(MainView)}");
         }
         catch (Exception e)
@@ -92,4 +112,5 @@ public partial class AccountViewModel : ObservableObject
         }
 
     }
+
 }

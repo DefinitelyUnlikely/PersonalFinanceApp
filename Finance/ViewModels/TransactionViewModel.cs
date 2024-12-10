@@ -11,7 +11,7 @@ namespace Finance.ViewModels
     public partial class TransactionViewModel : ObservableObject
     {
 
-        private readonly IPopupService popupSerivce;
+        private readonly IPopupService popupService;
         private readonly IUserRepository userRepo;
         private readonly ITransactionRepository transactionRepo;
         private readonly IAccountRepository accountRepo;
@@ -33,7 +33,7 @@ namespace Finance.ViewModels
 
         public TransactionViewModel(IPopupService ps, ITransactionRepository tr, IUserRepository ur, IAccountRepository ar)
         {
-            popupSerivce = ps;
+            popupService = ps;
             userRepo = ur;
             transactionRepo = tr;
             accountRepo = ar;
@@ -105,28 +105,11 @@ namespace Finance.ViewModels
         }
 
         [RelayCommand]
-        public async Task ChangePassword()
+        async Task ChangeAccountName()
         {
             try
             {
-                await popupSerivce.ShowPopupAsync<PasswordPopupViewModel>();
                 await Shell.Current.GoToAsync($"///{nameof(MainView)}");
-            }
-            catch (Exception e)
-            {
-                await Shell.Current.DisplayAlert("Error", e.Message, "OK");
-            }
-
-        }
-
-        [RelayCommand]
-        public async Task ChangeUsername()
-        {
-            try
-            {
-                await popupSerivce.ShowPopupAsync<UsernamePopupViewModel>();
-                await Shell.Current.GoToAsync($"///{nameof(MainView)}");
-
             }
             catch (Exception e)
             {
