@@ -22,6 +22,8 @@
     </ContentPage.MenuBarItems>
 
     <VerticalStackLayout>
+        <Button Text="Create New Account"
+                Command="CreateAccountCommand"/>
         <Button Text="Show all transactions"
                 Command="{Binding ShowAllTransactionsCommand}"/>
 

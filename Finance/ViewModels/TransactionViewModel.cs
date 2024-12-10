@@ -104,6 +104,7 @@ namespace Finance.ViewModels
             Balance -= transaction.Amount;
         }
 
+        //Placeholder
         [RelayCommand]
         async Task ChangeAccountName()
         {

@@ -9,6 +9,7 @@
         <ContentPage.MenuBarItems>
 
                 <MenuBarItem Text="User Settings">
+
                         <MenuFlyoutItem Text="{Binding DisplayName}"/>
                         <MenuFlyoutSeparator/>
                         <MenuFlyoutItem Text="Change Accountname"

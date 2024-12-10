@@ -81,7 +81,19 @@ public partial class AccountViewModel : ObservableObject
         await Shell.Current.GoToAsync($"{nameof(TransactionView)}");
     }
 
-    // Placeholder
+    [RelayCommand]
+    public async Task CreateAccount()
+    {
+        try
+        {
+            await popupService.ShowPopupAsync<AccountPopupViewModel>();
+        }
+        catch (Exception e)
+        {
+            await Shell.Current.DisplayAlert("Error", e.Message, "OK");
+        }
+    }
+
     [RelayCommand]
     public async Task ChangeUsername()
     {
