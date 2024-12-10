@@ -23,7 +23,7 @@
 
     <VerticalStackLayout>
         <Button Text="Create New Account"
-                Command="CreateAccountCommand"/>
+                Command="{Binding CreateAccountCommand}"/>
         <Button Text="Show all transactions"
                 Command="{Binding ShowAllTransactionsCommand}"/>
 

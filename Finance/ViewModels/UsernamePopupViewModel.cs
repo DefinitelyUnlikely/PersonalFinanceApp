@@ -13,17 +13,17 @@ public partial class UsernamePopupViewModel : ObservableObject
     private readonly IUserRepository userRepo;
     private readonly IPasswordUtilities passwordUtilities;
 
+    [ObservableProperty]
+    string newUsername = string.Empty;
+    [ObservableProperty]
+    string password = string.Empty;
+
     public UsernamePopupViewModel(IPopupService ps, IUserRepository ur, IPasswordUtilities pu)
     {
         userRepo = ur;
         popupService = ps;
         passwordUtilities = pu;
     }
-
-    [ObservableProperty]
-    string newUsername = string.Empty;
-    [ObservableProperty]
-    string password = string.Empty;
 
     [RelayCommand]
     async Task ChangeUsername()
