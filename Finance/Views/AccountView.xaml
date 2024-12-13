@@ -48,7 +48,8 @@
                         </VisualStateManager.VisualStateGroups>
                         <HorizontalStackLayout HorizontalOptions="Center">
                             <Label Text="{Binding DisplayName}"
-                                   Margin="10,0,0,0"/>
+                                   Margin="10,0,0,0"
+                                   VerticalOptions="Center"/>
 
                             <Button Text="Details"
                                     Command="{Binding Source={RelativeSource AncestorType={x:Type vm:AccountViewModel}}, Path=AccountDetailsCommand}"

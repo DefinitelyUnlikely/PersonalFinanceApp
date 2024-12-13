@@ -61,11 +61,14 @@
                                                         </VisualStateManager.VisualStateGroups>
                                                         <HorizontalStackLayout HorizontalOptions="Center">
                                                                 <Label Text="{Binding Name}"
-                                                                       Margin="10,0,0,0"/>
+                                                                       Margin="10,0,0,0"
+                                                                       VerticalOptions="Center"/>
                                                                 <Label Text="{Binding Amount, StringFormat='{0:C}'}"
-                                                                       Margin="10,0,0,0"/>
+                                                                       Margin="10,0,0,0"
+                                                                       VerticalOptions="Center"/>
                                                                 <Label Text="{Binding Date, StringFormat='{0:d}'}"
-                                                                       Margin="10,0,0,0"/>
+                                                                       Margin="10,0,0,0"
+                                                                       VerticalOptions="Center"/>
 
                                                                 <ImageButton Source="trash.png"
                                                                              HeightRequest="30"
