@@ -13,6 +13,9 @@ public class PostgresDatabase : IFinanceDatabase
         connectionString = Constants.connectionString;
     }
 
+    // Should most of this be in my constructor perhaps? 
+    // And we only return the connection?
+
     public async Task<DbConnection> GetConnectionAsync()
     {
         var connection = new NpgsqlConnection(connectionString);
