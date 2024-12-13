@@ -8,7 +8,7 @@
 
         <ContentPage.MenuBarItems>
 
-                <MenuBarItem Text="User Settings">
+                <MenuBarItem Text="Account Settings">
 
                         <MenuFlyoutItem Text="{Binding DisplayName}"/>
                         <MenuFlyoutSeparator/>

@@ -118,7 +118,6 @@ public class TransactionRepository : ITransactionRepository
     {
         try
         {
-            Console.WriteLine("Inside GetAccountTransactionsAsync");
             List<Transaction> transactions = [];
 
             await using var connection = (NpgsqlConnection)await database.GetConnectionAsync();
@@ -140,12 +139,6 @@ public class TransactionRepository : ITransactionRepository
                 transactions.Add(new Transaction(transactionId, accountId, name, amount, date, created));
             }
 
-            foreach (Transaction transaction in transactions)
-            {
-                Console.WriteLine(transaction.Name);
-            }
-
-            Console.WriteLine("End of code block, just before return");
             return transactions;
         }
         catch (Exception e)

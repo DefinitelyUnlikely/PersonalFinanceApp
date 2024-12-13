@@ -18,7 +18,7 @@ public partial class SortViewModel : ObservableObject
     ObservableCollection<DisplayItem> displayList = [];
 
     // A mediator is used, as the program would crash if one tried to sort
-    // and observableCollection. 
+    // an observableCollection. 
     List<DisplayItem> mediatorList = [];
 
 
@@ -29,6 +29,7 @@ public partial class SortViewModel : ObservableObject
 
         dictionaries = DateKey.CreateTransactionDicts(Transactions);
 
+        Year();
     }
 
 
