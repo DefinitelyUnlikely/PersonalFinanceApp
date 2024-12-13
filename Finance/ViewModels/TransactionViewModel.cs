@@ -63,7 +63,6 @@ namespace Finance.ViewModels
                 var transactionsAsync = await transactionRepo.GetUserTransactionsAsync(userRepo.CurrentUser.Id);
                 LoadBalance(transactionsAsync);
                 Transactions = new ObservableCollection<Transaction>(transactionsAsync);
-                Console.WriteLine("Does this thing after user happen?");
             }
             else if (type.Equals("account"))
             {
@@ -75,7 +74,6 @@ namespace Finance.ViewModels
                 var transactionsAsync = await transactionRepo.GetAccountTransactionsAsync(accountRepo.CurrentAccount.Id);
                 LoadBalance(transactionsAsync);
                 Transactions = new ObservableCollection<Transaction>(transactionsAsync);
-                Console.WriteLine("Does this thing after account happen?");
             }
 
         }
