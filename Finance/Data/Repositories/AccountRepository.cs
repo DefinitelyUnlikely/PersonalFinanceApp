@@ -42,7 +42,7 @@ public class AccountRepository : IAccountRepository
         }
         catch (Exception e)
         {
-            throw new Exception("Could not ADD user: " + e.Message);
+            throw new Exception("Could not ADD user: " + e.Message + " AccountRepository.cs\\AddAccountAsync\n");
         }
     }
 
@@ -60,7 +60,7 @@ public class AccountRepository : IAccountRepository
         }
         catch (Exception e)
         {
-            throw new Exception("Could not DELETE account: " + e.Message);
+            throw new Exception("Could not DELETE account: " + e.Message + " AccountRepository.cs\\DeleteAccountAsync\n");
         }
 
     }
@@ -74,7 +74,7 @@ public class AccountRepository : IAccountRepository
         }
         catch (Exception e)
         {
-            throw new Exception("Account Error: " + e.Message);
+            throw new Exception("Account Error: " + e.Message + " AccountRepository.cs\n");
         }
     }
 
@@ -99,7 +99,7 @@ public class AccountRepository : IAccountRepository
         }
         catch (Exception e)
         {
-            throw new Exception("Could not GET account: " + e.Message);
+            throw new Exception("Could not GET account: " + e.Message + " AccountRepository.cs\n");
         }
 
 
@@ -110,7 +110,7 @@ public class AccountRepository : IAccountRepository
 
         if (userRepo.CurrentUser is null)
         {
-            throw new Exception("User is null, please login before using this method.");
+            throw new Exception("User is null, please login before using this method." + " AccountRepository.cs\\GetUserAccountAsync\n");
         }
         try
         {
@@ -143,7 +143,7 @@ public class AccountRepository : IAccountRepository
         }
         catch (Exception e)
         {
-            throw new Exception($"Could not load accounts for user: {e.Message}");
+            throw new Exception($"Could not load accounts for user: {e.Message}" + " AccountRepository.cs\\GetUserAccountsAsync\n");
         }
     }
 
@@ -154,18 +154,18 @@ public class AccountRepository : IAccountRepository
 
         if (CurrentAccount is null)
         {
-            throw new Exception("Account is null, cannot update");
+            throw new Exception("Account is null, cannot update" + " AccountRepository.cs\\UpdateAccountAsync\n");
         }
 
 
         if (userRepo.CurrentUser is null)
         {
-            throw new Exception("User is null, cannot update");
+            throw new Exception("User is null, cannot update" + " AccountRepository.cs\\UpdateAccountAsync\n");
         }
 
         if (CurrentAccount.UserId != userRepo.CurrentUser.Id)
         {
-            throw new Exception("Current user is not owner of account. May not update.");
+            throw new Exception("Current user is not owner of account. May not update." + " AccountRepository.cs\\UpdateAccountAsync\n");
         }
 
         try
@@ -182,7 +182,7 @@ public class AccountRepository : IAccountRepository
         }
         catch (Exception e)
         {
-            throw new Exception("Could not UPDATE account name: " + e.Message);
+            throw new Exception("Could not UPDATE account name: " + e.Message + " AccountRepository.cs\\UpdateAccountAsync\n");
         }
 
     }
@@ -201,6 +201,6 @@ public class AccountRepository : IAccountRepository
             return;
         }
 
-        throw new Exception("That account is not available in the cache.");
+        throw new Exception("That account is not available in the cache." + " AccountRepository.cs\\SetAccount \n");
     }
 }

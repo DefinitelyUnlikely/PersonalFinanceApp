@@ -56,7 +56,7 @@ public class UserRepository : IUserRepository
         }
         catch (Exception e)
         {
-            throw new Exception("Couldn't add user: " + e.Message);
+            throw new Exception("Couldn't add user: " + e.Message + " UserRepository.cs\\AddUserAsync \n");
         }
 
     }
@@ -99,7 +99,7 @@ public class UserRepository : IUserRepository
         }
         catch (Exception e)
         {
-            throw new Exception("Couldn't GET user. Exception: " + e.Message);
+            throw new Exception("Couldn't GET user. Exception: " + e.Message + " UserRepository.cs\\GetUserAsync \n");
         }
 
 
@@ -145,7 +145,7 @@ public class UserRepository : IUserRepository
         catch (Exception e)
         {
             await sqlTransaction.RollbackAsync();
-            throw new Exception("Update failed, transaction rolled back: " + e.Message);
+            throw new Exception("Update failed, transaction rolled back: " + e.Message + " UserRepository.cs\\UpdateUserAsync \n");
         }
 
 
@@ -184,7 +184,7 @@ public class UserRepository : IUserRepository
         }
         catch (Exception e)
         {
-            throw new Exception("Internal User Error: " + e.Message);
+            throw new Exception("Internal User Error: " + e.Message + " UserRepository.cs\\UserExistsAsync \n");
         }
 
     }
