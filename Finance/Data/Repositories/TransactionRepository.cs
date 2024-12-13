@@ -118,6 +118,7 @@ public class TransactionRepository : ITransactionRepository
     {
         try
         {
+            Console.WriteLine("Inside GetAccountTransactionsAsync");
             List<Transaction> transactions = [];
 
             await using var connection = (NpgsqlConnection)await database.GetConnectionAsync();
@@ -129,18 +130,22 @@ public class TransactionRepository : ITransactionRepository
             await using var reader = await command.ExecuteReaderAsync();
             while (reader.Read())
             {
-                while (reader.Read())
-                {
-                    Guid transactionId = reader.GetGuid(0);
-                    Guid accountId = reader.GetGuid(1);
-                    string name = reader.GetString(2);
-                    double amount = reader.GetDouble(3);
-                    DateTime date = reader.GetDateTime(4);
-                    DateTime created = reader.GetDateTime(5);
-                    transactions.Add(new Transaction(transactionId, accountId, name, amount, date, created));
-                }
+
+                Guid transactionId = reader.GetGuid(0);
+                Guid accountId = reader.GetGuid(1);
+                string name = reader.GetString(2);
+                double amount = reader.GetDouble(3);
+                DateTime date = reader.GetDateTime(4);
+                DateTime created = reader.GetDateTime(5);
+                transactions.Add(new Transaction(transactionId, accountId, name, amount, date, created));
             }
 
+            foreach (Transaction transaction in transactions)
+            {
+                Console.WriteLine(transaction.Name);
+            }
+
+            Console.WriteLine("End of code block, just before return");
             return transactions;
         }
         catch (Exception e)
