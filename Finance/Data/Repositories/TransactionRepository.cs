@@ -38,7 +38,7 @@ public class TransactionRepository : ITransactionRepository
         }
         catch (Exception e)
         {
-            throw new Exception("Transaction Error: " + e.Message + " TransactionREpository.cs\\AddTransactionAsync \n");
+            throw new Exception("Transaction Error: " + e.Message + " TransactionRepository.cs\\AddTransactionAsync \n");
         }
     }
 
@@ -56,7 +56,7 @@ public class TransactionRepository : ITransactionRepository
         }
         catch (Exception e)
         {
-            throw new Exception("Transaction Error: " + e.Message + " TransactionREpository.cs\\RemoveTransactionsAsync \n");
+            throw new Exception("Transaction Error: " + e.Message + " TransactionRepository.cs\\RemoveTransactionsAsync \n");
         }
 
 
@@ -95,7 +95,7 @@ public class TransactionRepository : ITransactionRepository
         }
         catch (Exception e)
         {
-            throw new Exception("Transaction Error: " + e.Message + " TransactionREpository.cs\\GetUserTransactionsAsync \n");
+            throw new Exception("Transaction Error: " + e.Message + " TransactionRepository.cs\\GetUserTransactionsAsync \n");
         }
 
     }
@@ -110,7 +110,7 @@ public class TransactionRepository : ITransactionRepository
         }
         catch (Exception e)
         {
-            throw new Exception("Transaction Error: " + e.Message + " TransactionREpository.cs \n");
+            throw new Exception("Transaction Error: " + e.Message + " TransactionRepository.cs \n");
         }
     }
 
@@ -150,7 +150,7 @@ public class TransactionRepository : ITransactionRepository
         }
         catch (Exception e)
         {
-            throw new Exception("Could not get transactions for account: " + e.Message + " TransactionREpository.cs\\GetAccountTransactionAsync \n");
+            throw new Exception("Could not get transactions for account: " + e.Message + " TransactionRepository.cs\\GetAccountTransactionAsync \n");
         }
     }
 }
