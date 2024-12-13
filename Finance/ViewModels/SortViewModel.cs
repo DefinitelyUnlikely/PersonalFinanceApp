@@ -26,9 +26,6 @@ public partial class SortViewModel : ObservableObject
     // an observableCollection. 
     List<DisplayItem> mediatorList = [];
 
-    // For some reason, 'Transactions' is empty when the constructor runs. Both the copy and list in the VM.
-    // if you've gotten here from one of the accountViews. I would prefer not having to do
-    // another database query to get the transactions yet again.
     public SortViewModel(ITransactionRepository tr, IUserRepository ur, IAccountRepository ar)
     {
         userRepo = ur;
@@ -36,6 +33,9 @@ public partial class SortViewModel : ObservableObject
         accountRepo = ar;
     }
 
+    // To be able to solve a bug with this ViewModel being unable to get the Transactions collection from
+    // TransactionViewModel, I'm forced to repeat myself with an almost identical LoadItems function here as well.
+    // That also means both ViewModels makes a DB Query for the exact same list.
     public async Task LoadItems(string type)
     {
 

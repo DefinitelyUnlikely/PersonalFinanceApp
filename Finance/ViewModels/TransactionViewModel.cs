@@ -31,11 +31,8 @@ public partial class TransactionViewModel : ObservableObject
     [ObservableProperty]
     string? displayName;
 
-    // After putting in some writelines for debugging, I can now tell that I get the Writelines in this 
-    // order: Loop done in constructor -> Loop done  inside LoadItems. I.e. as we don't await the LoadItems 
-    // we are movin forward before the list of transactions is complete. Visually, it isn't a problem as the 
-    // collection is Observable. But it might be the cause of our Sorting bug. We need to find a way to await
-    // LoadItems.
+    // To be able to await LoadItems, we are now splitting up the constructor.
+    // It is now this part + an override of OnNaviateTo in the code-behind.
     public TransactionViewModel(IPopupService ps, ITransactionRepository tr, IUserRepository ur, IAccountRepository ar)
     {
         popupService = ps;
