@@ -36,7 +36,7 @@ public partial class AccountPopupViewModel : ObservableObject
         if (NewAccountName is null)
         {
             NewAccountName = string.Empty; // Just in case
-            await Shell.Current.DisplayAlert("Account Creation", "Please enter an account name", "OK");
+            await Shell.Current.DisplayAlert("Account Creation", "Please enter an account name\n", "OK");
         }
 
         try
@@ -48,7 +48,7 @@ public partial class AccountPopupViewModel : ObservableObject
         }
         catch (Exception e)
         {
-            throw new Exception("Create Account Error: " + e.Message);
+            throw new Exception("Create Account Error: " + e.Message + "\n");
         }
     }
 }

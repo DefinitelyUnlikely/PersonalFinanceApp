@@ -43,14 +43,14 @@ public partial class MainViewModel : ObservableObject
     {
         if (Username is "" || Password is "")
         {
-            await Shell.Current.DisplayAlert("Login Error", "Please enter both username and password", "OK");
+            await Shell.Current.DisplayAlert("Login Error", "Please enter both username and password\n", "OK");
             Password = string.Empty;
             return;
         }
 
         if (!await userRepo.UserExistsAsync(Username) || !await passwordUtilities.VerifyPassword(Username, Password))
         {
-            await Shell.Current.DisplayAlert("Login Error", "Wrong username or password", "OK");
+            await Shell.Current.DisplayAlert("Login Error", "Wrong username or password\n", "OK");
             Password = string.Empty;
             return;
         }
@@ -63,7 +63,7 @@ public partial class MainViewModel : ObservableObject
             // But this check makes sure the user cannot be null in case I've missed something.
             if (user is null)
             {
-                await Shell.Current.DisplayAlert("Login error", "User is null", "OK");
+                await Shell.Current.DisplayAlert("Login error", "User is null\n", "OK");
                 return;
             }
 
@@ -75,7 +75,7 @@ public partial class MainViewModel : ObservableObject
         }
         catch (Exception e)
         {
-            await Shell.Current.DisplayAlert("Nav error", e.Message, "OK");
+            await Shell.Current.DisplayAlert("Nav error", e.Message + "\n", "OK");
         }
 
     }

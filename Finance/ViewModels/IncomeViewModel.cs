@@ -39,12 +39,12 @@ public partial class IncomeViewModel : ObservableObject
             // I'm allowing (atm) 0 sum transactions, so I only null check the name.
             if (TransactionName is null)
             {
-                throw new Exception("Input required");
+                throw new Exception("Input required\n");
             }
 
             if (accountRepo.CurrentAccount is null)
             {
-                throw new Exception("Something went wrong, Current Account is null.");
+                throw new Exception("Something went wrong, Current Account is null.\n");
             }
 
             await transactionViewModel.AddTransaction(new(accountRepo.CurrentAccount.Id, TransactionName, Amount, TransactionDate));

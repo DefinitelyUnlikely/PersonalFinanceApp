@@ -56,7 +56,7 @@ namespace Finance.ViewModels
             {
                 if (userRepo.CurrentUser is null)
                 {
-                    throw new ArgumentException("User argument selected, but user is currently NULL.");
+                    throw new ArgumentException("User argument selected, but user is currently NULL.\n");
                 }
 
                 var transactionsAsync = await transactionRepo.GetUserTransactionsAsync(userRepo.CurrentUser.Id);
@@ -67,7 +67,7 @@ namespace Finance.ViewModels
             {
                 if (accountRepo.CurrentAccount is null)
                 {
-                    throw new ArgumentException("Account argument selected, but account is currently NULL.");
+                    throw new ArgumentException("Account argument selected, but account is currently NULL.\n");
                 }
 
                 var transactionsAsync = await transactionRepo.GetAccountTransactionsAsync(accountRepo.CurrentAccount.Id);
@@ -114,7 +114,7 @@ namespace Finance.ViewModels
             }
             catch (Exception e)
             {
-                await Shell.Current.DisplayAlert("Error", e.Message, "OK");
+                await Shell.Current.DisplayAlert("Error", e.Message + "\n", "OK");
             }
 
         }

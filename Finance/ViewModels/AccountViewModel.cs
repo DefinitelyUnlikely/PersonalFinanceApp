@@ -46,7 +46,7 @@ public partial class AccountViewModel : ObservableObject
     {
         if (userRepo.CurrentUser is null)
         {
-            throw new Exception("User is null, something has gone wrong.");
+            throw new Exception("User is null, something has gone wrong.\n");
         }
 
         try
@@ -55,7 +55,7 @@ public partial class AccountViewModel : ObservableObject
         }
         catch (Exception e)
         {
-            await Shell.Current.DisplayAlert("Account error", "Could not load accounts" + e.Message, "OK");
+            await Shell.Current.DisplayAlert("Account error", "Could not load accounts\n" + e.Message, "OK");
             return;
         }
     }
@@ -84,7 +84,7 @@ public partial class AccountViewModel : ObservableObject
         }
         catch (Exception e)
         {
-            await Shell.Current.DisplayAlert("Error", e.Message, "OK");
+            await Shell.Current.DisplayAlert("Error", e.Message + "\n", "OK");
         }
     }
 
@@ -99,7 +99,7 @@ public partial class AccountViewModel : ObservableObject
         }
         catch (Exception e)
         {
-            await Shell.Current.DisplayAlert("Error", e.Message, "OK");
+            await Shell.Current.DisplayAlert("Error", e.Message + "\n", "OK");
         }
 
     }
@@ -114,7 +114,7 @@ public partial class AccountViewModel : ObservableObject
         }
         catch (Exception e)
         {
-            await Shell.Current.DisplayAlert("Error", e.Message, "OK");
+            await Shell.Current.DisplayAlert("Error", e.Message + "\n", "OK");
         }
 
     }
