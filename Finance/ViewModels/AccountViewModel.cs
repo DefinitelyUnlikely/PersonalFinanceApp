@@ -55,7 +55,7 @@ public partial class AccountViewModel : ObservableObject
         }
         catch (Exception e)
         {
-            await Shell.Current.DisplayAlert("Account error", "Could not load accounts\n" + e.Message, "OK");
+            await Shell.Current.DisplayAlert("Account error", "Could not load accounts.\n" + e.Message, "OK");
             return;
         }
     }
