@@ -24,15 +24,15 @@ public class TransactionRepository : ITransactionRepository
         try
         {
             await using var connection = (NpgsqlConnection)await database.GetConnectionAsync();
-            string sql = @"INSERT INTO transactions VALUES (@id, @userId, @name, @amount, @created, @date)";
+            string sql = @"INSERT INTO transactions VALUES (@id, @userId, @name, @amount, @date, @created)";
             await using var command = new NpgsqlCommand(sql, connection);
 
             command.Parameters.AddWithValue("@id", transaction.Id);
             command.Parameters.AddWithValue("@userId", transaction.AccountId);
             command.Parameters.AddWithValue("@name", transaction.Name);
             command.Parameters.AddWithValue("@amount", transaction.Amount);
-            command.Parameters.AddWithValue("@created", transaction.Created);
             command.Parameters.AddWithValue("@date", transaction.Date);
+            command.Parameters.AddWithValue("@created", transaction.Created);
 
             return await command.ExecuteNonQueryAsync() != -1;
         }
