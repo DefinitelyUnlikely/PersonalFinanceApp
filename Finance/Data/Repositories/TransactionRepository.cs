@@ -4,6 +4,7 @@ using Finance.Data.Database;
 using Finance.Models;
 using System.Data.Common;
 using CommunityToolkit.Maui.Converters;
+using System.Data;
 
 namespace Finance.Data.Repositories;
 
@@ -70,7 +71,7 @@ public class TransactionRepository : ITransactionRepository
 
             await using var connection = (NpgsqlConnection)await database.GetConnectionAsync();
             string sql = @"
-            SELECT transactions.name, transactions.amount, transactions.date, transactions.created, accounts.display_name FROM transactions 
+            SELECT transactions.id, accounts.id, transactions.name, transactions.amount, transactions.date, transactions.created FROM transactions 
             INNER JOIN accounts ON transactions.account_id = accounts.id WHERE user_id = @userId";
             await using var command = new NpgsqlCommand(sql, connection);
 
@@ -79,7 +80,15 @@ public class TransactionRepository : ITransactionRepository
 
             while (reader.Read())
             {
-
+                transactions.Add(
+                    new(
+                        reader.GetGuid(0),
+                        reader.GetGuid(1),
+                        reader.GetString(2),
+                        reader.GetDouble(3),
+                        reader.GetDateTime(4),
+                        reader.GetDateTime(5)
+                    ));
             }
 
             return transactions;

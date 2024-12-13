@@ -52,8 +52,8 @@ public class PostgresDatabase : IFinanceDatabase
         account_id UUID REFERENCES accounts(id),
         name text NOT NULL,
         amount decimal NOT NULL,
-        created DATE NOT NULL,
-        date DATE NOT NULL
+        date DATE NOT NULL,
+        created DATE NOT NULL
         )";
 
         await using var conn = (NpgsqlConnection)await GetConnectionAsync();
