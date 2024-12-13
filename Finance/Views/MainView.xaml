@@ -23,7 +23,8 @@
               <Label Text="Password"/>
               <Entry Placeholder="Password"
                      IsPassword="True"
-                     Text="{Binding Password}"/>
+                     Text="{Binding Password}"
+                     ReturnCommand="{Binding TryLoginCommand}"/>
 
               <Grid RowDefinitions="50"
                     ColumnDefinitions=".50*, .50*">

@@ -38,7 +38,8 @@
             HorizontalOptions="Start"/>
         <Entry Placeholder="Enter Password Again"
                IsPassword="True"
-               Text="{Binding RePassword}"/>
+               Text="{Binding RePassword}"
+               ReturnCommand="{Binding CreateAccountCommand}"/>
 
         <Button Text="Create Account"
                 Command="{Binding CreateAccountCommand}"/>

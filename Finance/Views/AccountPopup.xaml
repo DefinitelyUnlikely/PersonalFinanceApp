@@ -10,7 +10,8 @@
             VerticalOptions="Center"
             HorizontalOptions="Center"/>
         <Entry Placeholder="Enter name..."
-               Text="{Binding NewAccountName}"/>
+               Text="{Binding NewAccountName}"
+               ReturnCommand="{Binding CreateNewAccountCommand}"/>
 
         <Button Text="Create Account"
                 Command="{Binding CreateNewAccountCommand}"/>

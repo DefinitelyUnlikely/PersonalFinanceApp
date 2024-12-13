@@ -19,7 +19,8 @@
             HorizontalOptions="Center"/>
         <Entry Placeholder="Password"
                IsPassword="True"
-               Text="{Binding Password}"/>
+               Text="{Binding Password}"
+               ReturnCommand="{Binding ChangeUsernameCommand}"/>
 
         <Button Text="Change Username"
                 Command="{Binding ChangeUsernameCommand}"/>
