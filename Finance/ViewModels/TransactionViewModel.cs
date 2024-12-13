@@ -32,7 +32,7 @@ public partial class TransactionViewModel : ObservableObject
     string? displayName;
 
     // To be able to await LoadItems, we are now splitting up the constructor.
-    // It is now this part + an override of OnNaviateTo in the code-behind.
+    // It is now this part + an override of OnNavigateTo in the code-behind.
     public TransactionViewModel(IPopupService ps, ITransactionRepository tr, IUserRepository ur, IAccountRepository ar)
     {
         popupService = ps;
@@ -93,21 +93,6 @@ public partial class TransactionViewModel : ObservableObject
         await transactionRepo.RemoveTransactionAsync(transaction.Id);
         Transactions.Remove(transaction);
         Balance -= transaction.Amount;
-    }
-
-    //Placeholder
-    [RelayCommand]
-    public async Task ChangeAccountName()
-    {
-        try
-        {
-            await Shell.Current.GoToAsync($"///{nameof(MainView)}");
-        }
-        catch (Exception e)
-        {
-            await Shell.Current.DisplayAlert("Error", e.Message + "\n", "OK");
-        }
-
     }
 
 }

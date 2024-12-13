@@ -12,9 +12,6 @@
 
                         <MenuFlyoutItem Text="{Binding DisplayName}"/>
                         <MenuFlyoutSeparator/>
-                        <MenuFlyoutItem Text="Change Accountname"
-                                        Command="{Binding ChangeAccountNameCommand}"/>
-                        <MenuFlyoutSeparator/>
                         <MenuFlyoutItem Text="Logout"
                                         Clicked="OnLogoutPressed"/>
                 </MenuBarItem>
