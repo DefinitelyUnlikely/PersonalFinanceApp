@@ -44,6 +44,7 @@ namespace Finance.ViewModels
             if (accountRepo.CurrentAccount is null)
             {
                 LoadItems("user");
+                return;
             }
 
             LoadItems("account");
