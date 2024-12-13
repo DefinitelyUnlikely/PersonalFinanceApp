@@ -11,10 +11,10 @@ namespace Finance.ViewModels;
 public partial class TransactionViewModel : ObservableObject
 {
 
-    private readonly IPopupService popupService;
-    private readonly IUserRepository userRepo;
-    private readonly ITransactionRepository transactionRepo;
-    private readonly IAccountRepository accountRepo;
+    public readonly IPopupService popupService;
+    public readonly IUserRepository userRepo;
+    public readonly ITransactionRepository transactionRepo;
+    public readonly IAccountRepository accountRepo;
 
     [ObservableProperty]
     ObservableCollection<Transaction> transactions = [];
@@ -31,27 +31,20 @@ public partial class TransactionViewModel : ObservableObject
     [ObservableProperty]
     string? displayName;
 
+    // After putting in some writelines for debugging, I can now tell that I get the Writelines in this 
+    // order: Loop done in constructor -> Loop done  inside LoadItems. I.e. as we don't await the LoadItems 
+    // we are movin forward before the list of transactions is complete. Visually, it isn't a problem as the 
+    // collection is Observable. But it might be the cause of our Sorting bug. We need to find a way to await
+    // LoadItems.
     public TransactionViewModel(IPopupService ps, ITransactionRepository tr, IUserRepository ur, IAccountRepository ar)
     {
         popupService = ps;
         userRepo = ur;
         transactionRepo = tr;
         accountRepo = ar;
-
-        DisplayName = userRepo.CurrentUser!.DisplayName;
-        UserName = userRepo.CurrentUser!.UserName;
-
-        if (accountRepo.CurrentAccount is null)
-        {
-            LoadItems("user");
-            return;
-        }
-
-        LoadItems("account");
-
     }
 
-    private async void LoadItems(string type)
+    public async Task LoadItems(string type)
     {
 
         if (type.Equals("user"))
@@ -107,7 +100,7 @@ public partial class TransactionViewModel : ObservableObject
 
     //Placeholder
     [RelayCommand]
-    async Task ChangeAccountName()
+    public async Task ChangeAccountName()
     {
         try
         {

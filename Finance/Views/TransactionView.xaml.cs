@@ -8,15 +8,40 @@ namespace Finance.Views;
 public partial class TransactionView : ContentPage
 {
 
-    private readonly IUserRepository userRepo;
-    private readonly IAccountRepository accountRepo;
+    public readonly IUserRepository userRepo;
+    public readonly IAccountRepository accountRepo;
+    public readonly TransactionViewModel transactionViewModel;
+
 
     public TransactionView(IUserRepository ur, IAccountRepository ar, TransactionViewModel vm)
     {
         InitializeComponent();
         userRepo = ur;
         accountRepo = ar;
-        BindingContext = vm;
+        transactionViewModel = vm;
+        BindingContext = transactionViewModel;
+    }
+
+    protected override async void OnNavigatedTo(NavigatedToEventArgs args)
+    {
+        base.OnNavigatedTo(args);
+
+        if (userRepo.CurrentUser is null)
+        {
+            throw new InvalidNavigationException("TransactionView.xaml.cs: User should not be null.\n");
+        }
+
+        transactionViewModel.DisplayName = userRepo.CurrentUser.DisplayName;
+        transactionViewModel.UserName = userRepo.CurrentUser.UserName;
+
+        if (accountRepo.CurrentAccount is null)
+        {
+            await transactionViewModel.LoadItems("user");
+            return;
+        }
+
+        await transactionViewModel.LoadItems("account");
+
     }
 
     private async void OnSortClicked(object sender, EventArgs e)

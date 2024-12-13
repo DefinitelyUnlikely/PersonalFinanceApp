@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Finance.Data.Interfaces;
 using Finance.Models;
 using Finance.Utilities;
 
@@ -8,11 +9,15 @@ namespace Finance.ViewModels;
 
 public partial class SortViewModel : ObservableObject
 {
-    private readonly TransactionViewModel transactionViewModel;
 
-    private List<Models.Transaction> Transactions;
+    public readonly IUserRepository userRepo;
+    public readonly ITransactionRepository transactionRepo;
+    public readonly IAccountRepository accountRepo;
 
-    private List<Dictionary<string, List<Models.Transaction>>> dictionaries;
+    [ObservableProperty]
+    ObservableCollection<Transaction> transactions = [];
+
+    private List<Dictionary<string, List<Transaction>>> dictionaries = [];
 
     [ObservableProperty]
     ObservableCollection<DisplayItem> displayList = [];
@@ -24,23 +29,45 @@ public partial class SortViewModel : ObservableObject
     // For some reason, 'Transactions' is empty when the constructor runs. Both the copy and list in the VM.
     // if you've gotten here from one of the accountViews. I would prefer not having to do
     // another database query to get the transactions yet again.
-    public SortViewModel(TransactionViewModel transactionViewModel)
+    public SortViewModel(ITransactionRepository tr, IUserRepository ur, IAccountRepository ar)
     {
-        this.transactionViewModel = transactionViewModel;
-        Transactions = new List<Transaction>(transactionViewModel.Transactions);
+        userRepo = ur;
+        transactionRepo = tr;
+        accountRepo = ar;
+    }
 
-        foreach (Transaction transaction in transactionViewModel.Transactions)
+    public async Task LoadItems(string type)
+    {
+
+        if (type.Equals("user"))
         {
-            Console.WriteLine(transaction.Name);
+            if (userRepo.CurrentUser is null)
+            {
+                throw new ArgumentException("User argument selected, but user is currently NULL.\n");
+            }
+
+            var transactionsAsync = await transactionRepo.GetUserTransactionsAsync(userRepo.CurrentUser.Id);
+            Transactions = new ObservableCollection<Transaction>(transactionsAsync);
+            dictionaries = DateKey.CreateTransactionDicts(transactionsAsync);
         }
-        dictionaries = DateKey.CreateTransactionDicts(Transactions);
+        else if (type.Equals("account"))
+        {
+            if (accountRepo.CurrentAccount is null)
+            {
+                throw new ArgumentException("Account argument selected, but account is currently NULL.\n");
+            }
+
+            var transactionsAsync = await transactionRepo.GetAccountTransactionsAsync(accountRepo.CurrentAccount.Id);
+            Transactions = new ObservableCollection<Transaction>(transactionsAsync);
+            dictionaries = DateKey.CreateTransactionDicts(transactionsAsync);
+        }
 
         Year();
     }
 
 
     [RelayCommand]
-    void Year()
+    public void Year()
     {
         foreach (KeyValuePair<string, List<Transaction>> kvp in dictionaries[0])
         {
@@ -52,7 +79,7 @@ public partial class SortViewModel : ObservableObject
     }
 
     [RelayCommand]
-    void Month()
+    public void Month()
     {
         foreach (KeyValuePair<string, List<Transaction>> kvp in dictionaries[1])
         {
@@ -65,7 +92,7 @@ public partial class SortViewModel : ObservableObject
 
 
     [RelayCommand]
-    void Week()
+    public void Week()
     {
         foreach (KeyValuePair<string, List<Transaction>> kvp in dictionaries[2])
         {
@@ -78,7 +105,7 @@ public partial class SortViewModel : ObservableObject
 
 
     [RelayCommand]
-    void Day()
+    public void Day()
     {
         foreach (KeyValuePair<string, List<Transaction>> kvp in dictionaries[3])
         {
