@@ -110,11 +110,10 @@ public class AccountRepository : IAccountRepository
 
         if (userRepo.CurrentUser is null)
         {
-            throw new Exception("User is null, please login before using this method." + " AccountRepository.cs\\GetUserAccountAsync\n");
+            throw new Exception("User is null, please login before using this method." + " AccountRepository.cs\\GetUserAccountsAsync\n");
         }
         try
         {
-
             List<Account> accounts = [];
 
             await using var connection = (NpgsqlConnection)await database.GetConnectionAsync();
@@ -136,7 +135,7 @@ public class AccountRepository : IAccountRepository
                     );
 
                 accounts.Add(accObj);
-                accountCache.Add(accObj.Id, accObj);
+                accountCache.TryAdd(accObj.Id, accObj);
             }
 
             return accounts;
