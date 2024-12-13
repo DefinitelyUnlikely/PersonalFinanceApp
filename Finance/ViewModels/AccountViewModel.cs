@@ -61,17 +61,11 @@ public partial class AccountViewModel : ObservableObject
     }
 
     [RelayCommand]
-    async Task AccountDetails()
+    async Task AccountDetails(Account account)
     {
-        if (SelectedAccount is null)
-        {
-            await Shell.Current.DisplayAlert("Account error", "Current account is NULL", "OK");
-            return;
-        }
-
+        SelectedAccount = account;
         accountRepo.SetAccount(SelectedAccount.Id);
         await Shell.Current.GoToAsync($"{nameof(TransactionView)}");
-
     }
 
     [RelayCommand]
