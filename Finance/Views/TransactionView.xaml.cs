@@ -8,13 +8,40 @@ namespace Finance.Views;
 public partial class TransactionView : ContentPage
 {
 
-    private readonly IUserRepository userRepo;
+    public readonly IUserRepository userRepo;
+    public readonly IAccountRepository accountRepo;
+    public readonly TransactionViewModel transactionViewModel;
 
-    public TransactionView(IUserRepository ur, TransactionViewModel vm)
+
+    public TransactionView(IUserRepository ur, IAccountRepository ar, TransactionViewModel vm)
     {
         InitializeComponent();
         userRepo = ur;
-        BindingContext = vm;
+        accountRepo = ar;
+        transactionViewModel = vm;
+        BindingContext = transactionViewModel;
+    }
+
+    protected override async void OnNavigatedTo(NavigatedToEventArgs args)
+    {
+        base.OnNavigatedTo(args);
+
+        if (userRepo.CurrentUser is null)
+        {
+            throw new InvalidNavigationException("TransactionView.xaml.cs: User should not be null.\n");
+        }
+
+        transactionViewModel.DisplayName = userRepo.CurrentUser.DisplayName;
+        transactionViewModel.UserName = userRepo.CurrentUser.UserName;
+
+        if (accountRepo.CurrentAccount is null)
+        {
+            await transactionViewModel.LoadItems("user");
+            return;
+        }
+
+        await transactionViewModel.LoadItems("account");
+
     }
 
     private async void OnSortClicked(object sender, EventArgs e)
@@ -29,10 +56,28 @@ public partial class TransactionView : ContentPage
         }
     }
 
+    private async void OnFilterClicked(object sender, EventArgs e)
+    {
+        try
+        {
+            await Shell.Current.GoToAsync(nameof(FilterView));
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlert("Navigation Error", ex.Message, "OK");
+        }
+    }
+
     private async void OnIncomeClicked(object sender, EventArgs e)
     {
         try
         {
+            if (accountRepo.CurrentAccount is null)
+            {
+                await DisplayAlert("Navigation Error", "You may not add transactions unless you have selected an account.", "OK");
+                return;
+            }
+
             await Shell.Current.GoToAsync(nameof(IncomeView));
         }
         catch (Exception ex)
@@ -45,6 +90,12 @@ public partial class TransactionView : ContentPage
     {
         try
         {
+            if (accountRepo.CurrentAccount is null)
+            {
+                await DisplayAlert("Navigation Error", "You may not add transactions unless you have selected an account.", "OK");
+                return;
+            }
+
             await Shell.Current.GoToAsync(nameof(ExpenseView));
         }
         catch (Exception ex)
@@ -75,9 +126,7 @@ public partial class TransactionView : ContentPage
     {
         // Cannot ask if the user wants to log out, as a DisplayAlert will freeze the 
         // application if it is not awaited. And we cannot put this method async as it is an override.
-        userRepo.ResetUser();
-        Shell.Current.GoToAsync($"///{nameof(MainView)}");
-
+        Shell.Current.GoToAsync($"/{nameof(AccountView)}");
         return true;
     }
 

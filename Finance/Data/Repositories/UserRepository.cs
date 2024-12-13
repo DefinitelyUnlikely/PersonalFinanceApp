@@ -13,7 +13,7 @@ public class UserRepository : IUserRepository
     private readonly IFinanceDatabase database;
 
     private User? currentUser;
-    public User? CurrentUser { get => currentUser; }
+    public User? CurrentUser { get => currentUser; } // Keep the id instead? Easier when updating.
 
     public Dictionary<string, User> userCache = [];
 
@@ -56,10 +56,8 @@ public class UserRepository : IUserRepository
         }
         catch (Exception e)
         {
-            await Shell.Current.DisplayAlert("Internal User Error", e.Message, "OK");
+            throw new Exception("Couldn't add user: " + e.Message + " UserRepository.cs\\AddUserAsync \n");
         }
-
-        return false;
 
     }
 
@@ -101,7 +99,7 @@ public class UserRepository : IUserRepository
         }
         catch (Exception e)
         {
-            throw new Exception("Couldn't GET user. Exception: " + e.Message);
+            throw new Exception("Couldn't GET user. Exception: " + e.Message + " UserRepository.cs\\GetUserAsync \n");
         }
 
 
@@ -117,13 +115,17 @@ public class UserRepository : IUserRepository
             // As I cannot parameterize column names, claude.ai gave me the idea that one 
             // can instead check that the incoming column name is in an allowed list of names
             // to highten security somewhat.
-            List<string> allowedColumns = ["id", "email", "user_name", "display_name", "salt", "password"];
+            List<string> allowedColumns = ["email", "display_name", "salt", "password"];
 
+            // One can do several columns in one update, but I could not come up with a 
+            // way to make that approach work for an unknown amount of columns to update.
+            // So we are using a forloop instead. 
             foreach (KeyValuePair<string, string> entry in columnsValues)
             {
 
                 if (!allowedColumns.Contains(entry.Key))
                 {
+                    await sqlTransaction.RollbackAsync();
                     return false;
                 }
 
@@ -136,14 +138,14 @@ public class UserRepository : IUserRepository
                 await command.ExecuteNonQueryAsync();
             }
 
-            sqlTransaction.Commit();
+            await sqlTransaction.CommitAsync();
             return true;
 
         }
         catch (Exception e)
         {
             await sqlTransaction.RollbackAsync();
-            throw new Exception("Update failed, transaction rolled back: " + e.Message);
+            throw new Exception("Update failed, transaction rolled back: " + e.Message + " UserRepository.cs\\UpdateUserAsync \n");
         }
 
 
@@ -162,10 +164,9 @@ public class UserRepository : IUserRepository
         }
         catch (Exception e)
         {
-            await Shell.Current.DisplayAlert("Internal User Error", e.Message, "OK");
+            throw new Exception("Internal User Error: " + e.Message);
         }
 
-        return false;
     }
 
     public async Task<bool> UserExistsAsync(string name)
@@ -176,8 +177,16 @@ public class UserRepository : IUserRepository
 
         command.Parameters.AddWithValue("@name", name.ToUpper());
 
-        var count = await command.ExecuteScalarAsync();
-        return Convert.ToInt32(count) > 0;
+        try
+        {
+            var count = await command.ExecuteScalarAsync();
+            return Convert.ToInt32(count) > 0;
+        }
+        catch (Exception e)
+        {
+            throw new Exception("Internal User Error: " + e.Message + " UserRepository.cs\\UserExistsAsync \n");
+        }
+
     }
 
 }

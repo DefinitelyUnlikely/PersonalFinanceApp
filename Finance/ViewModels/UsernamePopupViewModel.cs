@@ -13,17 +13,17 @@ public partial class UsernamePopupViewModel : ObservableObject
     private readonly IUserRepository userRepo;
     private readonly IPasswordUtilities passwordUtilities;
 
+    [ObservableProperty]
+    string newUsername = string.Empty;
+    [ObservableProperty]
+    string password = string.Empty;
+
     public UsernamePopupViewModel(IPopupService ps, IUserRepository ur, IPasswordUtilities pu)
     {
         userRepo = ur;
         popupService = ps;
         passwordUtilities = pu;
     }
-
-    [ObservableProperty]
-    string newUsername = string.Empty;
-    [ObservableProperty]
-    string password = string.Empty;
 
     [RelayCommand]
     async Task ChangeUsername()
@@ -33,7 +33,7 @@ public partial class UsernamePopupViewModel : ObservableObject
 
         if (user is null)
         {
-            await Shell.Current.DisplayAlert("Internal User Error", "CurrentUser is null", "OK");
+            await Shell.Current.DisplayAlert("Internal User Error", "CurrentUser is null\n", "OK");
             return;
         }
 
@@ -41,7 +41,7 @@ public partial class UsernamePopupViewModel : ObservableObject
         {
             NewUsername = string.Empty;
             Password = string.Empty;
-            await Shell.Current.DisplayAlert("Entry error", "Please enter all fields", "OK");
+            await Shell.Current.DisplayAlert("Entry error", "Please enter all fields\n", "OK");
             return;
         }
 
@@ -49,7 +49,7 @@ public partial class UsernamePopupViewModel : ObservableObject
         {
             Password = string.Empty;
             Password = string.Empty;
-            await Shell.Current.DisplayAlert("Password error", "Wrong Password", "OK");
+            await Shell.Current.DisplayAlert("Password error", "Wrong Password\n", "OK");
             return;
         }
 
@@ -57,16 +57,16 @@ public partial class UsernamePopupViewModel : ObservableObject
         {
             if (!await userRepo.UpdateUserAsync(user.Id, new() { { "display_name", NewUsername } }))
             {
-                await Shell.Current.DisplayAlert("Update error", "Failed to update password, changes rolled back", "OK");
+                await Shell.Current.DisplayAlert("Update error", "Failed to update password, changes rolled back\n", "OK");
                 return;
             }
-            await Shell.Current.DisplayAlert("Username changed", "Username changed, You will need to log in again", "OK");
+            await Shell.Current.DisplayAlert("Username changed", "Username changed, You will need to log in again\n", "OK");
             userRepo.SetUser(null!);
             await popupService.ClosePopupAsync();
         }
         catch (Exception e)
         {
-            await Shell.Current.DisplayAlert("Update Error", "Query could not complete: " + e.Message, "OK");
+            await Shell.Current.DisplayAlert("Update Error", "Query could not complete: " + e.Message + "\n", "OK");
         }
     }
 }

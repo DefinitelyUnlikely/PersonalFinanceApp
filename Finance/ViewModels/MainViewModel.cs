@@ -43,42 +43,39 @@ public partial class MainViewModel : ObservableObject
     {
         if (Username is "" || Password is "")
         {
-            await Shell.Current.DisplayAlert("Login Error", "Please enter both username and password", "OK");
+            await Shell.Current.DisplayAlert("Login Error", "Please enter both username and password\n", "OK");
             Password = string.Empty;
             return;
         }
 
-        if (!await userRepo.UserExistsAsync(Username))
+        if (!await userRepo.UserExistsAsync(Username) || !await passwordUtilities.VerifyPassword(Username, Password))
         {
-            await Shell.Current.DisplayAlert("Login Error", "That username does not exist", "OK");
+            await Shell.Current.DisplayAlert("Login Error", "Wrong username or password\n", "OK");
             Password = string.Empty;
             return;
         }
-
-        if (!await passwordUtilities.VerifyPassword(Username, Password))
-        {
-            await Shell.Current.DisplayAlert("Login Error", "Wrong password.", "OK");
-            Password = string.Empty;
-            return;
-        }
-
-
-        // Console.WriteLine($"{MethodBase.GetCurrentMethod()!.DeclaringType!.Name} - Username is {Username}");
 
         try
         {
             User? user = await userRepo.GetUserAsync(Username);
-            if (user is not null)
+
+            // User should not be null as we check if they exist prior to getting the whole object
+            // But this check makes sure the user cannot be null in case I've missed something.
+            if (user is null)
             {
-                userRepo.SetUser(user);
+                await Shell.Current.DisplayAlert("Login error", "User is null\n", "OK");
+                return;
             }
-            await Shell.Current.GoToAsync(nameof(TransactionView));
+
+            userRepo.SetUser(user);
+            await Shell.Current.GoToAsync(nameof(AccountView));
             Username = string.Empty;
             Password = string.Empty;
+
         }
         catch (Exception e)
         {
-            await Shell.Current.DisplayAlert("Nav error", e.Message, "OK");
+            await Shell.Current.DisplayAlert("Nav error", e.Message + "\n", "OK");
         }
 
     }

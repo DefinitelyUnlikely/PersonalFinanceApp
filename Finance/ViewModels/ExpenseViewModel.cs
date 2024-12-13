@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Finance.Data.Interfaces;
+using Finance.Data.Repositories;
 using Finance.Views;
 
 namespace Finance.ViewModels;
@@ -9,13 +10,15 @@ public partial class ExpenseViewModel : ObservableObject
 {
 
     private readonly IUserRepository userRepo;
+    private readonly IAccountRepository accountRepo;
     private readonly ITransactionRepository transactionRepo;
 
     private readonly TransactionViewModel transactionViewModel;
 
-    public ExpenseViewModel(IUserRepository ur, ITransactionRepository tr, TransactionViewModel vm)
+    public ExpenseViewModel(IUserRepository ur, IAccountRepository ar, ITransactionRepository tr, TransactionViewModel vm)
     {
         userRepo = ur;
+        accountRepo = ar;
         transactionRepo = tr;
         transactionViewModel = vm;
     }
@@ -40,12 +43,12 @@ public partial class ExpenseViewModel : ObservableObject
                 throw new Exception("Input required");
             }
 
-            if (userRepo.CurrentUser is null)
+            if (accountRepo.CurrentAccount is null)
             {
-                throw new Exception("Something went wrong, CurrentUser is null.");
+                throw new Exception("Something went wrong, Current Account is null.");
             }
 
-            await transactionViewModel.AddTransaction(new(userRepo.CurrentUser.Id, TransactionName, -Amount, TransactionDate));
+            await transactionViewModel.AddTransaction(new(accountRepo.CurrentAccount.Id, TransactionName, -Amount, TransactionDate));
 
         }
         catch (Exception ex)

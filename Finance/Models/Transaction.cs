@@ -5,7 +5,7 @@ public class Transaction
 
     public Guid Id { get; set; }
 
-    public int UserId { get; set; }
+    public Guid AccountId { get; set; }
 
     public string Name { get; set; }
 
@@ -15,10 +15,10 @@ public class Transaction
     public DateTime Created { get; set; }
 
     // For new transactions.
-    public Transaction(int userId, string name, double amount, DateTime date)
+    public Transaction(Guid accId, string name, double amount, DateTime date)
     {
         Id = Guid.NewGuid();
-        UserId = userId;
+        AccountId = accId;
         Name = name;
         Amount = amount;
         Date = date;
@@ -27,10 +27,10 @@ public class Transaction
     }
 
     // For creating transactions already in the database
-    public Transaction(Guid guid, int userId, string name, double amount, DateTime date, DateTime created)
+    public Transaction(Guid guid, Guid accId, string name, double amount, DateTime date, DateTime created)
     {
         Id = guid;
-        UserId = userId;
+        AccountId = accId;
         Name = name;
         Amount = amount;
         Date = date;

@@ -9,13 +9,15 @@ public partial class IncomeViewModel : ObservableObject
 {
 
     private readonly IUserRepository userRepo;
+    private readonly IAccountRepository accountRepo;
     private readonly ITransactionRepository transactionRepo;
 
     private readonly TransactionViewModel transactionViewModel;
 
-    public IncomeViewModel(IUserRepository ur, ITransactionRepository tr, TransactionViewModel vm)
+    public IncomeViewModel(IUserRepository ur, IAccountRepository ar, ITransactionRepository tr, TransactionViewModel vm)
     {
         userRepo = ur;
+        accountRepo = ar;
         transactionRepo = tr;
         transactionViewModel = vm;
     }
@@ -37,15 +39,15 @@ public partial class IncomeViewModel : ObservableObject
             // I'm allowing (atm) 0 sum transactions, so I only null check the name.
             if (TransactionName is null)
             {
-                throw new Exception("Input required");
+                throw new Exception("Input required\n");
             }
 
-            if (userRepo.CurrentUser is null)
+            if (accountRepo.CurrentAccount is null)
             {
-                throw new Exception("Something went wrong, CurrentUser is null.");
+                throw new Exception("Something went wrong, Current Account is null.\n");
             }
 
-            await transactionViewModel.AddTransaction(new(userRepo.CurrentUser.Id, TransactionName, Amount, TransactionDate));
+            await transactionViewModel.AddTransaction(new(accountRepo.CurrentAccount.Id, TransactionName, Amount, TransactionDate));
 
         }
         catch (Exception ex)

@@ -8,13 +8,12 @@
 
         <ContentPage.MenuBarItems>
 
-                <MenuBarItem Text="User Settings">
+                <MenuBarItem Text="Account Settings">
+
                         <MenuFlyoutItem Text="{Binding DisplayName}"/>
                         <MenuFlyoutSeparator/>
-                        <MenuFlyoutItem Text="Change Username"
-                                        Command="{Binding ChangeUsernameCommand}"/>
-                        <MenuFlyoutItem Text="Change Password"
-                                        Command="{Binding ChangePasswordCommand}"/>
+                        <MenuFlyoutItem Text="Change Accountname"
+                                        Command="{Binding ChangeAccountNameCommand}"/>
                         <MenuFlyoutSeparator/>
                         <MenuFlyoutItem Text="Logout"
                                         Clicked="OnLogoutPressed"/>
@@ -62,11 +61,14 @@
                                                         </VisualStateManager.VisualStateGroups>
                                                         <HorizontalStackLayout HorizontalOptions="Center">
                                                                 <Label Text="{Binding Name}"
-                                                                       Margin="10,0,0,0"/>
+                                                                       Margin="10,0,0,0"
+                                                                       VerticalOptions="Center"/>
                                                                 <Label Text="{Binding Amount, StringFormat='{0:C}'}"
-                                                                       Margin="10,0,0,0"/>
+                                                                       Margin="10,0,0,0"
+                                                                       VerticalOptions="Center"/>
                                                                 <Label Text="{Binding Date, StringFormat='{0:d}'}"
-                                                                       Margin="10,0,0,0"/>
+                                                                       Margin="10,0,0,0"
+                                                                       VerticalOptions="Center"/>
 
                                                                 <ImageButton Source="trash.png"
                                                                              HeightRequest="30"
@@ -100,8 +102,16 @@
 
                 <Button Text="Sort"
                         Grid.Row="3"
-                        Grid.ColumnSpan="4"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="2"
                         Margin="1,1,1,1"
                         Clicked="OnSortClicked"/>
+
+                <Button Text="Filter"
+                        Grid.Row="3"
+                        Grid.Column="2"
+                        Grid.ColumnSpan="2"
+                        Margin="1,1,1,1"
+                        Clicked="OnFilterClicked"/>
         </Grid>
 </ContentPage>

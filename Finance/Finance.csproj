@@ -70,6 +70,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <None Include="Models\Account.cs" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<PackageReference Include="CommunityToolkit.Maui" Version="9.1.1" />
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
 		<PackageReference Include="Isopoh.Cryptography.Argon2" Version="2.0.0" />
@@ -80,6 +84,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Compile Update="Views\FIlterView.xaml.cs">
+	    <DependentUpon>FilterView.xaml</DependentUpon>
+	  </Compile>
 	  <Compile Update="Views\UsernamePopup.xaml.cs">
 	    <DependentUpon>UsernamePopup.xaml</DependentUpon>
 	  </Compile>

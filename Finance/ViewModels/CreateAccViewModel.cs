@@ -57,7 +57,7 @@ public partial class CreateAccViewModel : ObservableObject
         if (!Password.Equals(RePassword))
         {
 
-            await Shell.Current.DisplayAlert("Password", "Passwords much match", "OK");
+            await Shell.Current.DisplayAlert("Password", "Passwords much match\n", "OK");
             Password = string.Empty;
             RePassword = string.Empty;
             return;
@@ -66,7 +66,7 @@ public partial class CreateAccViewModel : ObservableObject
 
         if (!Password.IsValidPassword())
         {
-            await Shell.Current.DisplayAlert("Password", "Passwords must be at least 8 characters", "OK");
+            await Shell.Current.DisplayAlert("Password", "Passwords must be at least 8 characters\n", "OK");
             Password = string.Empty;
             RePassword = string.Empty;
             return;
@@ -74,7 +74,7 @@ public partial class CreateAccViewModel : ObservableObject
 
         if (await userRepo.UserExistsAsync(Name))
         {
-            await Shell.Current.DisplayAlert("Username", "Username already exists", "OK");
+            await Shell.Current.DisplayAlert("Username", "Username already exists\n", "OK");
             Name = string.Empty;
             Password = string.Empty;
             RePassword = string.Empty;
@@ -85,11 +85,11 @@ public partial class CreateAccViewModel : ObservableObject
 
         if (!await userRepo.AddUserAsync(Email, Name, salt, hash))
         {
-            await Shell.Current.DisplayAlert("Failure", $"Oops - User {Name} has not been created", "OK");
+            await Shell.Current.DisplayAlert("Failure", $"Oops - User {Name} has not been created\n", "OK");
             return;
         }
 
-        await Shell.Current.DisplayAlert("Success", $"User {Name} has been created", "OK");
+        await Shell.Current.DisplayAlert("Success", $"User {Name} has been created\n", "OK");
 
         Email = string.Empty;
         Name = string.Empty;
@@ -102,7 +102,7 @@ public partial class CreateAccViewModel : ObservableObject
         }
         catch (Exception ex)
         {
-            await Shell.Current.DisplayAlert("Navigation Error", ex.Message, "OK");
+            await Shell.Current.DisplayAlert("Navigation Error", ex.Message + "\n", "OK");
         }
 
     }
