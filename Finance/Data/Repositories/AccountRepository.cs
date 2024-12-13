@@ -36,7 +36,7 @@ public class AccountRepository : IAccountRepository
 
             command.Parameters.AddWithValue("@id", account.Id);
             command.Parameters.AddWithValue("@userId", account.UserId);
-            command.Parameters.AddWithValue("@name", account.Name);
+            command.Parameters.AddWithValue("@name", account.DisplayName);
 
             return await command.ExecuteNonQueryAsync() != -1;
         }
