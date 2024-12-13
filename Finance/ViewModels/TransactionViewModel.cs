@@ -47,6 +47,7 @@ namespace Finance.ViewModels
             }
 
             LoadItems("account");
+
         }
 
         private async void LoadItems(string type)
@@ -62,8 +63,9 @@ namespace Finance.ViewModels
                 var transactionsAsync = await transactionRepo.GetUserTransactionsAsync(userRepo.CurrentUser.Id);
                 LoadBalance(transactionsAsync);
                 Transactions = new ObservableCollection<Transaction>(transactionsAsync);
+                Console.WriteLine("Does this thing after user happen?");
             }
-            else if (type.Equals("Account"))
+            else if (type.Equals("account"))
             {
                 if (accountRepo.CurrentAccount is null)
                 {
@@ -73,8 +75,8 @@ namespace Finance.ViewModels
                 var transactionsAsync = await transactionRepo.GetAccountTransactionsAsync(accountRepo.CurrentAccount.Id);
                 LoadBalance(transactionsAsync);
                 Transactions = new ObservableCollection<Transaction>(transactionsAsync);
+                Console.WriteLine("Does this thing after account happen?");
             }
-
 
         }
 

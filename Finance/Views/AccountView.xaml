@@ -51,7 +51,7 @@
                                    Margin="10,0,0,0"
                                    VerticalOptions="Center"/>
 
-                            <Button Text="Details"
+                            <Button Text="Show Transactions"
                                     Command="{Binding Source={RelativeSource AncestorType={x:Type vm:AccountViewModel}}, Path=AccountDetailsCommand}"
                                     CommandParameter="{Binding .}"/>
                         </HorizontalStackLayout>
