@@ -26,29 +26,8 @@ public partial class AccountPopupViewModel : ObservableObject
     }
 
     [RelayCommand]
-    async Task CreateNewAccount()
+    async Task CreateNewAccount(string name)
     {
-        if (userRepo.CurrentUser is null)
-        {
-            throw new Exception("User is NULL");
-        }
-
-        if (NewAccountName is null)
-        {
-            NewAccountName = string.Empty; // Just in case
-            await Shell.Current.DisplayAlert("Account Creation", "Please enter an account name\n", "OK");
-        }
-
-        try
-        {
-            Account newAccount = new(userRepo.CurrentUser.Id, NewAccountName);
-            await accountRepo.AddAccountAsync(newAccount);
-            accountViewModel.Accounts.Add(newAccount);
-            await popupService.ClosePopupAsync();
-        }
-        catch (Exception e)
-        {
-            await Shell.Current.DisplayAlert("Creation Error", "Create Account Error: " + e.Message + "\n", "OK");
-        }
+        await accountViewModel.CreateNewAccount(name);
     }
 }

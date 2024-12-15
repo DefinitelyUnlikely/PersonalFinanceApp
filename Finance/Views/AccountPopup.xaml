@@ -11,10 +11,12 @@
             HorizontalOptions="Center"/>
         <Entry Placeholder="Enter name..."
                Text="{Binding NewAccountName}"
-               ReturnCommand="{Binding CreateNewAccountCommand}"/>
+               ReturnCommand="{Binding CreateNewAccountCommand}"
+               ReturnCommandParameter="{Binding .}"/>
 
         <Button Text="Create Account"
-                Command="{Binding CreateNewAccountCommand}"/>
+                Command="{Binding CreateNewAccountCommand}"
+                CommandParameter="{Binding NewAccountName}"/>
 
     </VerticalStackLayout>
 </toolkit:Popup>
