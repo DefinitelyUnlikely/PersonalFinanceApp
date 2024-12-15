@@ -48,7 +48,7 @@ public partial class AccountPopupViewModel : ObservableObject
         }
         catch (Exception e)
         {
-            throw new Exception("Create Account Error: " + e.Message + "\n");
+            await Shell.Current.DisplayAlert("Creation Error", "Create Account Error: " + e.Message + "\n", "OK");
         }
     }
 }
