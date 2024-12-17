@@ -12,7 +12,7 @@
         <Entry Placeholder="Enter name..."
                Text="{Binding NewAccountName}"
                ReturnCommand="{Binding CreateNewAccountCommand}"
-               ReturnCommandParameter="{Binding .}"/>
+               ReturnCommandParameter="{Binding NewAccountName}"/>
 
         <Button Text="Create Account"
                 Command="{Binding CreateNewAccountCommand}"

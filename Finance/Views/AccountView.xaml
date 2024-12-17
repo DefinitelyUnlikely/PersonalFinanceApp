@@ -21,44 +21,49 @@
         </MenuBarItem>
     </ContentPage.MenuBarItems>
 
-    <VerticalStackLayout>
+
+    <Grid RowDefinitions="50, *, 50">
         <Button Text="Create New Account"
                 Command="{Binding NewAccountPopupCommand}"/>
+
+        <ScrollView Grid.Row="1">
+            <CollectionView x:Name="AccountsCollection"
+                            Margin="0,10,0,10"
+                            ItemsSource="{Binding Accounts}"
+                            SelectedItem="{Binding SelectedAccount}"
+                            SelectionMode="None">
+
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="model:Account">
+                        <Frame>
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup Name="CommonStates">
+                                    <VisualState Name="Normal"/>
+                                    <VisualState Name="Selected">
+                                        <VisualState.Setters>
+                                            <Setter Property="BackgroundColor"
+                                                    Value="Orange"/>
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                            <HorizontalStackLayout HorizontalOptions="Center">
+                                <Label Text="{Binding DisplayName}"
+                                       Margin="10,0,0,0"
+                                       VerticalOptions="Center"/>
+
+                                <Button Text="Show Transactions"
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type vm:AccountViewModel}}, Path=AccountDetailsCommand}"
+                                        CommandParameter="{Binding .}"/>
+                            </HorizontalStackLayout>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </ScrollView>
         <Button Text="Show all transactions"
-                Command="{Binding ShowAllTransactionsCommand}"/>
+                Command="{Binding ShowAllTransactionsCommand}"
+                Grid.Row="2"/>
 
-        <CollectionView Margin="0,10,0,10"
-                        ItemsSource="{Binding Accounts}"
-                        SelectedItem="{Binding SelectedAccount}"
-                        SelectionMode="None">
-
-            <CollectionView.ItemTemplate>
-                <DataTemplate x:DataType="model:Account">
-                    <Frame>
-                        <VisualStateManager.VisualStateGroups>
-                            <VisualStateGroup Name="CommonStates">
-                                <VisualState Name="Normal"/>
-                                <VisualState Name="Selected">
-                                    <VisualState.Setters>
-                                        <Setter Property="BackgroundColor"
-                                                Value="Orange"/>
-                                    </VisualState.Setters>
-                                </VisualState>
-                            </VisualStateGroup>
-                        </VisualStateManager.VisualStateGroups>
-                        <HorizontalStackLayout HorizontalOptions="Center">
-                            <Label Text="{Binding DisplayName}"
-                                   Margin="10,0,0,0"
-                                   VerticalOptions="Center"/>
-
-                            <Button Text="Show Transactions"
-                                    Command="{Binding Source={RelativeSource AncestorType={x:Type vm:AccountViewModel}}, Path=AccountDetailsCommand}"
-                                    CommandParameter="{Binding .}"/>
-                        </HorizontalStackLayout>
-                    </Frame>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
-
-    </VerticalStackLayout>
+    </Grid>
 </ContentPage>

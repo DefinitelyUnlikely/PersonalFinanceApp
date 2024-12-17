@@ -89,6 +89,46 @@ public partial class AccountViewModel : ObservableObject
     }
 
     [RelayCommand]
+    public async Task CreateNewAccount(string newAccountName)
+    {
+        if (userRepo.CurrentUser is null)
+        {
+            throw new Exception("User is NULL");
+        }
+
+        if (newAccountName is null)
+        {
+            newAccountName = string.Empty; // Just in case
+            await Shell.Current.DisplayAlert("Account Creation", "Please enter an account name\n", "OK");
+        }
+
+        try
+        {
+            Account newAccount = new(userRepo.CurrentUser.Id, newAccountName);
+            await accountRepo.AddAccountAsync(newAccount);
+
+            MainThread.BeginInvokeOnMainThread(() =>
+                {
+                    Accounts.Add(newAccount);
+                    // Force refresh
+                    var collectionView = Shell.Current.CurrentPage.FindByName<CollectionView>("AccountsCollection");
+                    if (collectionView != null)
+                    {
+                        collectionView.ItemsSource = null;
+                        collectionView.ItemsSource = Accounts;
+                    }
+                });
+
+            await popupService.ClosePopupAsync();
+        }
+        catch (Exception e)
+        {
+            await Shell.Current.DisplayAlert("Creation Error", "Create Account Error: " + e.Message + "\n", "OK");
+            await popupService.ClosePopupAsync();
+        }
+    }
+
+    [RelayCommand]
     public async Task ChangeUsername()
     {
         try
@@ -117,33 +157,6 @@ public partial class AccountViewModel : ObservableObject
             await Shell.Current.DisplayAlert("Error", e.Message + "\n", "OK");
         }
 
-    }
-
-    [RelayCommand]
-    public async Task CreateNewAccount(string newAccountName)
-    {
-        if (userRepo.CurrentUser is null)
-        {
-            throw new Exception("User is NULL");
-        }
-
-        if (newAccountName is null)
-        {
-            newAccountName = string.Empty; // Just in case
-            await Shell.Current.DisplayAlert("Account Creation", "Please enter an account name\n", "OK");
-        }
-
-        try
-        {
-            Account newAccount = new(userRepo.CurrentUser.Id, newAccountName);
-            await accountRepo.AddAccountAsync(newAccount);
-            Accounts.Add(newAccount);
-            await popupService.ClosePopupAsync();
-        }
-        catch (Exception e)
-        {
-            await Shell.Current.DisplayAlert("Creation Error", "Create Account Error: " + e.Message + "\n", "OK");
-        }
     }
 
 }
