@@ -158,5 +158,4 @@ public partial class AccountViewModel : ObservableObject
         }
 
     }
-
 }
