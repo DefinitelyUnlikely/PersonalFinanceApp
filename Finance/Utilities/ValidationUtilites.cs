@@ -11,7 +11,10 @@ public static class ValidationUtilities
     public static bool IsValidEmail(this string email)
     {
         if (string.IsNullOrWhiteSpace(email))
+        {
             return false;
+        }
+
 
         try
         {
