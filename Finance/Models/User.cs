@@ -15,16 +15,6 @@ public class User
     public string PasswordHash { get; set; }
 
 
-    // For creating completely new user objects.
-    public User(string email, string name, string salt, string passwordHash)
-    {
-        Email = email;
-        DisplayName = name;
-        UserName = name.ToUpper();
-        Salt = salt;
-        PasswordHash = passwordHash;
-
-    }
 
     // for creating user objects from the database.
     public User(int id, string email, string displayName, string username, string salt, string password)

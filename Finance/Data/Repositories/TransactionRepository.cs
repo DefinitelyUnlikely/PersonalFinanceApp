@@ -110,7 +110,7 @@ public class TransactionRepository : ITransactionRepository
         }
         catch (Exception e)
         {
-            throw new Exception("Transaction Error: " + e.Message + " TransactionRepository.cs \n");
+            throw new Exception("Transaction Error: " + e.Message + " TransactionRepository.cs\\ExecuteOperationAsync \n");
         }
     }
 
