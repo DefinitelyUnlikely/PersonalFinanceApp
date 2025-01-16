@@ -75,7 +75,7 @@ public class PostgresDatabase : IFinanceDatabase
         catch (Exception e)
         {
             await sqlTransaction.RollbackAsync();
-            await Shell.Current.DisplayAlert("Database Error", "Something went wrong with the creation of the tables: " + e.Message, "OK");
+            throw new Exception("Database Error: Something went wrong with the creation of the tables: " + e.Message);
         }
 
     }
