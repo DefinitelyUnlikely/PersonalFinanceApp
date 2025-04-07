@@ -10,6 +10,3 @@ Stated goals from the instructor was:
 - a user/account system. Implementing proper hashing of passwords were not a requirement, but recommended.
 - The ability to add/remove transactions to the account you're currently logged in as.
 - See ones current balance and be able to group transactions by year, month, week or day - and also see the balance for the given grouping. (i.e. if grouped by year, see the balance for 2025, 2024, 2023 etc).
-
-
-### Thoughts on my solutios
